@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "case_id": "gdn-recurrent-bf16-small",
+  "op_id": "OP-06",
+  "kernel_id": "K-06",
+  "numerical_profile": "qwen3_6_35b_a3b_fp8-v1",
+  "seed": 31,
+  "parameters": {
+    "batch": 2,
+    "seq_len": 65,
+    "heads": 2,
+    "key_head_dim": 4,
+    "value_head_dim": 3
+  },
+  "outputs": {
+    "out": {"atol": 0.0, "rtol": 0.0},
+    "state_out": {"atol": 0.0, "rtol": 0.0}
+  }
+}

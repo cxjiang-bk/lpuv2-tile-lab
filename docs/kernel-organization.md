@@ -7,7 +7,7 @@ GDN的Conv、门控和三角求解，MoE的TopK、分桶和专家计算，均作
 | OP | Kernel | 计算功能 | 内部步骤 / 路径 |
 | --- | --- | --- | --- |
 | OP-01 | K-01 | Token Embedding | Token ID检查；Embedding行Gather；输出组织；路径：gather |
-| OP-08 | K-08 | Vision Patch Embedding | processor Patch组织；Patch投影及bias；1152维输出；路径：patch_projection |
+| OP-08 | K-08 | Vision Patch Embedding | 像素[B,C,T,H,W]；显式im2col与矩阵乘及bias；Merge Token顺序与grid_thw；路径：pixel_im2col_matmul |
 | OP-11 | K-11 | 视觉位置嵌入 | 由网格生成插值索引和FP32权重；四邻居Gather；位置插值；BF16转换后与hidden相加；路径：bilinear_position |
 | OP-03 | K-03 | LayerNorm | 均值与方差归约；归一化；weight/bias仿射；BF16输出；路径：layernorm |
 | OP-09 | K-09 | Vision Attention | QKV投影；完整axial RoPE；分段非因果QK、Softmax和PV；输出投影；路径：packed_noncausal |

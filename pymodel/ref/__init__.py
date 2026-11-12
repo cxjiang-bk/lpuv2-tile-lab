@@ -1,1 +1,1 @@
-"""Independent mathematical references; no PTO or backend dispatch."""
+"""Independent PyTorch references; no imports from execution backends."""

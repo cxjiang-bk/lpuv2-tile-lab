@@ -233,7 +233,11 @@
         2304,
         1152
       ],
-      "output_add_cast": "patch hidden dtype"
+      "output_add_cast": "patch hidden dtype",
+      "indices_dtype": "int64",
+      "weights_dtype": "float32",
+      "row_order": "spatial-merge block order, repeated per temporal slice",
+      "source": "https://github.com/huggingface/transformers/blob/f90e93c4f83974f634860e246cdfd2c68666d605/src/transformers/vision_utils.py#L191-L297"
     },
     "axial_rope": {
       "axes": [

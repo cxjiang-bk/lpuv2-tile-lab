@@ -1,5 +1,7 @@
-# pymodel/isa
+# Tile 执行适配
 
-`torch_codegen.py`为固定PyPTO版本补充CPU执行所需的基础语义，范围与调用例子见[步骤4记录](../../docs/golden-stage3-step4-numerics.md)。PTO目录见`data/pto_isa_catalog.json`；原生后端及LPU映射在后续接入。
+[hw_pypto.py](hw_pypto.py) 编译 A 的 HW PyPTO `@pl.jit` 程序，经 PTOAS 生成 C++，在 simpler a2a3sim 执行。后端为 `hw_pto_cpp_sim`，保存 PTO/C++/ELF、源码和版本 SHA；失败直接报错。安装见 [A组说明](../../docs/pypto-a1.md)。
 
-`specialize.py`支持同一程序内公共函数的不同形状调用；Attention使用方式及新增基础操作见[步骤6记录](../../docs/golden-stage3-step6-attention.md)。
+B 使用 [torch_codegen.py](torch_codegen.py) 生成 CPU Torch 程序，[specialize.py](specialize.py)支持公共函数的多形状调用；适配范围见[数值记录](../../docs/golden-stage3-step4-numerics.md)和[Attention记录](../../docs/golden-stage3-step6-attention.md)。后端为 `pypto_torch_codegen` / `pypto_torch_codegen_adapted`。
+
+两条路径分别由 `data/upstream.lock.json` 的 `pypto`、`pypto_torch_codegen` 锁定。独立 reference 位于 `pymodel/ref/`，用于结果比较。

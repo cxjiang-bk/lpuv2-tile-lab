@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op13-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    }
+  },
+  "parameters": {
+    "input_shapes": {
+      "text_embedding": [
+        2,
+        4,
+        32
+      ],
+      "visual_features": [
+        3,
+        32
+      ],
+      "placeholder_rows": [
+        3
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-13",
+  "kernel_id": "K-13"
+}

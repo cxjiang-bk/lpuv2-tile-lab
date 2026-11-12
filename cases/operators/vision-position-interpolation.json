@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "case_id": "vision-position-interpolation-small",
+  "op_id": "OP-11",
+  "kernel_id": null,
+  "numerical_profile": "qwen3_6_35b_a3b_fp8-v1",
+  "seed": 17,
+  "parameters": {
+    "grids": [[2, 4, 6], [1, 2, 8]],
+    "table_side": 48,
+    "spatial_merge_size": 2
+  },
+  "outputs": {
+    "interp_indices": {"logical_indices": true},
+    "interp_weights": {"atol": 0.0, "rtol": 0.0}
+  }
+}

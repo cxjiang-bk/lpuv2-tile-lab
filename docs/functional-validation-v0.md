@@ -6,7 +6,7 @@ Profile ID：`pto-functional-v0`。2026-11-10已确认，适用于当前Python T
 
 ## 1. 执行与输入
 
-使用官方PyPTO main为版本来源，在Python层进行能力建模、仿真和测试。每次运行保存实际commit、Python/Torch版本、随机种子、输入和权重的生成方式及profile ID。
+使用hw-native-sys PyPTO language/Tile API构造程序，并在 PTO C++ 模拟器执行功能测试，具体发行版本见 `data/upstream.lock.json`。每次运行保存实际版本或commit、Python/Torch版本、随机种子、输入和权重的生成方式及profile ID；原生编译/仿真与Python语义执行分别记录。
 
 单算子使用随机输入和随机权重，先跑小尺寸，再覆盖模型相关真实维度、逻辑shape、dtype、有效区域、offset、索引和状态。真实checkpoint权重在集成阶段接入；片上物理容量在后续存储与架构映射阶段评估。
 

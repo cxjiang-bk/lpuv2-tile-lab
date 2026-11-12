@@ -1,0 +1,2668 @@
+{
+  "schema_version": 2,
+  "status": "draft_for_review",
+  "scope": "A-owned OP-03/04/06/08/09/10/11/12/13; functional selection before architecture mapping",
+  "specification": "docs/lpuv2-a-instruction-candidates.md",
+  "upstream_lock": "data/upstream.lock.json",
+  "candidates": [
+    {
+      "id": "A-ISA-01",
+      "name": "memory_and_valid_regions",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-04",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12",
+        "K-13"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "LOAD",
+        "STORE",
+        "COPY",
+        "FILL"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-01",
+        "PM-02",
+        "PM-03"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-02",
+      "name": "views_layout_and_windows",
+      "operator_ids": [
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "kernel_ids": [
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-11",
+        "K-12",
+        "K-13"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "EXTRACT",
+        "INSERT",
+        "TRANSPOSE"
+      ],
+      "fusion_operations": [
+        "IMG2COL_3D"
+      ],
+      "programming_model_ids": [
+        "PM-01",
+        "PM-02",
+        "PM-03"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-03",
+      "name": "arithmetic_compare_select",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-04",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "ADD",
+        "SUB",
+        "MUL",
+        "DIV",
+        "ABS",
+        "MIN_MAX",
+        "CMP",
+        "SELECT"
+      ],
+      "fusion_operations": [
+        "TRIANGULAR_MASK"
+      ],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-04",
+      "name": "fp32_reduction_broadcast",
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "REDUCE_SUM",
+        "REDUCE_MAX",
+        "BROADCAST"
+      ],
+      "fusion_operations": [
+        "PREFIX_SUM"
+      ],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-05",
+      "name": "bf16_matrix_fp32_accumulation",
+      "operator_ids": [
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "kernel_ids": [
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-12"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "MMA_BF16"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-06",
+      "name": "e4m3fn_block_scaled_dot",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "kernel_ids": [
+        "K-06"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "fp8_validation_scope": "E4M3FN numerical semantics in native PTO C++ simulation via BF16 exact value carriers; direct A5 FP8 instructions remain unvalidated",
+      "supporting_case_operator_ids": [
+        "OP-06"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "MMA_FP8",
+        "MUL",
+        "ADD",
+        "BROADCAST",
+        "CVT"
+      ],
+      "fusion_operations": [
+        "SCALED_MMA_FP8"
+      ],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-07",
+      "name": "k128_dynamic_quantization",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "kernel_ids": [
+        "K-06"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "fp8_validation_scope": "E4M3FN numerical semantics in native PTO C++ simulation via BF16 exact value carriers; direct A5 FP8 instructions remain unvalidated",
+      "supporting_case_operator_ids": [
+        "OP-06"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "ABS",
+        "REDUCE_MAX",
+        "DIV",
+        "CMP",
+        "SELECT",
+        "MIN_MAX",
+        "CVT"
+      ],
+      "fusion_operations": [
+        "DYN_QUANT_K128"
+      ],
+      "programming_model_ids": [
+        "PM-04"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-08",
+      "name": "dtype_and_rounding",
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "fp8_validation_scope": "E4M3FN numerical semantics in native PTO C++ simulation via BF16 exact value carriers; direct A5 FP8 instructions remain unvalidated",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "CVT"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-01",
+        "PM-04"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-09",
+      "name": "nonlinear_functions",
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-06",
+        "K-09",
+        "K-10",
+        "K-12"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "EXP",
+        "LOG",
+        "RSQRT",
+        "ADD",
+        "MUL",
+        "DIV",
+        "SELECT"
+      ],
+      "fusion_operations": [
+        "NORM",
+        "GELU"
+      ],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-10",
+      "name": "vision_softmax",
+      "operator_ids": [
+        "OP-09"
+      ],
+      "kernel_ids": [
+        "K-09"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-09"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "REDUCE_MAX",
+        "SUB",
+        "EXP",
+        "REDUCE_SUM",
+        "DIV",
+        "CVT"
+      ],
+      "fusion_operations": [
+        "SOFTMAX"
+      ],
+      "programming_model_ids": [],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-11",
+      "name": "half_split_rope",
+      "operator_ids": [
+        "OP-09"
+      ],
+      "kernel_ids": [
+        "K-09"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-09"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "MUL",
+        "ADD",
+        "BROADCAST",
+        "CVT"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-02"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-12",
+      "name": "position_index_gather",
+      "operator_ids": [
+        "OP-11",
+        "OP-08"
+      ],
+      "kernel_ids": [
+        "K-11",
+        "K-08"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-11",
+        "OP-08"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "IOTA",
+        "INDEX_ALU",
+        "FLOOR",
+        "CVT",
+        "GATHER_ROW",
+        "MUL",
+        "REDUCE_SUM"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-02",
+        "PM-04"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-13",
+      "name": "unique_row_scatter",
+      "operator_ids": [
+        "OP-13"
+      ],
+      "kernel_ids": [
+        "K-13"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-13"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "COPY",
+        "SCATTER_ROW"
+      ],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-03"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-14",
+      "name": "causal_depthwise_conv",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "kernel_ids": [
+        "K-06"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-06"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "LOAD",
+        "MUL",
+        "ADD",
+        "CVT",
+        "EXP",
+        "DIV"
+      ],
+      "fusion_operations": [
+        "CAUSAL_DWCONV1D"
+      ],
+      "programming_model_ids": [
+        "PM-02",
+        "PM-05"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-15",
+      "name": "ordered_delta_state_update",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "kernel_ids": [
+        "K-06"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-06"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [
+        "EXP",
+        "MUL",
+        "REDUCE_SUM",
+        "SUB",
+        "ADD",
+        "BROADCAST",
+        "CVT"
+      ],
+      "fusion_operations": [
+        "FP32_GEMV_OUTER",
+        "DELTA_STATE_UPDATE",
+        "PREFIX_SUM",
+        "TRIANGULAR_MASK",
+        "TRIANGULAR_SOLVE"
+      ],
+      "programming_model_ids": [
+        "PM-03",
+        "PM-05"
+      ],
+      "lpu_instruction_validation": "not_run"
+    },
+    {
+      "id": "A-ISA-16",
+      "name": "dependency_alias_lifetime",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "kernel_ids": [
+        "K-03",
+        "K-04",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12",
+        "K-13"
+      ],
+      "requirement": "functional_semantics",
+      "lpuv2_encoding": "not_assigned",
+      "supporting_case_operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "evidence_level": "operator_case_agreement; not instruction conformance",
+      "basic_operations": [],
+      "fusion_operations": [],
+      "programming_model_ids": [
+        "PM-01",
+        "PM-02",
+        "PM-03",
+        "PM-04",
+        "PM-05",
+        "PM-06"
+      ],
+      "lpu_instruction_validation": "not_run"
+    }
+  ],
+  "additional_chunk_candidates": {
+    "status": "native_small_core_and_operator_cases_passed",
+    "operations": [
+      "prefix_sum",
+      "triangular_mask",
+      "triangular_solve"
+    ],
+    "details": [
+      "PREFIX_SUM",
+      "TRIANGULAR_MASK",
+      "TRIANGULAR_SOLVE"
+    ],
+    "source_ref": "gdn_chunk",
+    "evidence": "data/native-validation-summary.json",
+    "instruction_conformance": "not_run",
+    "scope": "small valid chunks; full 64-Token chunks and model dimensions not_validated"
+  },
+  "native_evidence": "data/native-validation-summary.json",
+  "native_execution_profiles": {
+    "BF16": "hw_pto_cpp_sim: generated PTO C++ arithmetic on simpler a2a3sim",
+    "FP8": "bf16_carrier: native E4M3FN decode/quantization, exact BF16 value carriers, FP32 K128 block-scaled accumulation",
+    "direct_FP8": "not_validated",
+    "hardware_precision_validated": false
+  },
+  "revision": "0.6",
+  "counting_rule": "29 basic semantic entries, 12 fusion/specialization entries (including IMG2COL_3D and 3 chunk entries), 6 programming-model requirements; not an opcode count",
+  "source_index": {
+    "ln": {
+      "path": "kernels/pypto/common.py",
+      "symbol": "layer_norm",
+      "operator_ids": [
+        "OP-03"
+      ],
+      "source_sha256": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "residual": {
+      "path": "kernels/pypto/common.py",
+      "symbol": "residual_add",
+      "operator_ids": [
+        "OP-04"
+      ],
+      "source_sha256": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "gdn": {
+      "path": "kernels/pypto/gdn.py",
+      "symbol": "gdn",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_sha256": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "fp8_quant": {
+      "path": "kernels/pypto/fp8.py",
+      "symbol": "quantize_e4m3_bf16",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_sha256": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+      "role": "native_pto_cpp_functional_kernel",
+      "note": "Contains BF16-carrier adaptation; exponent/mantissa/signbit code is not itself a mandatory LPU feature"
+    },
+    "fp8_scaled": {
+      "path": "kernels/pypto/fp8.py",
+      "symbol": "fp8_linear_bf16",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_sha256": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+      "role": "native_pto_cpp_functional_kernel",
+      "note": "Contains BF16-carrier adaptation; exponent/mantissa/signbit code is not itself a mandatory LPU feature"
+    },
+    "patch": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "patch_embedding",
+      "operator_ids": [
+        "OP-08"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "attention": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "vision_attention",
+      "operator_ids": [
+        "OP-09"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "ffn": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "dense_ffn",
+      "operator_ids": [
+        "OP-10"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "position": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "position_embedding",
+      "operator_ids": [
+        "OP-11"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "merger": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "spatial_merger",
+      "operator_ids": [
+        "OP-12"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "scatter": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "visual_feature_scatter",
+      "operator_ids": [
+        "OP-13"
+      ],
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+      "role": "native_pto_cpp_functional_kernel"
+    },
+    "gdn_chunk": {
+      "path": "kernels/pypto/gdn.py",
+      "symbol": "gdn_chunk",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_sha256": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+      "role": "native_pto_cpp_internal_K06_chunk_stage"
+    },
+    "im2col": {
+      "path": "kernels/pypto/vision_ops.py",
+      "symbol": "im2col",
+      "operator_ids": [
+        "OP-08"
+      ],
+      "role": "native_pto_cpp_standalone_K08_window_semantics_check",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+    }
+  },
+  "evidence_policy": {
+    "operator_case_agreement": "Supporting native PyPTO kernel cases match independent reference for the recorded inputs/profile",
+    "instruction_conformance": "Not established: no LPUv2 per-instruction functional model or tests yet",
+    "pto_reference": "Pinned API/source correspondence only; does not assert every dtype/shape/backend was executed",
+    "direct_fp8": "FP8 value semantics validated via native BF16 carriers; direct FP8 instruction path separately validated",
+    "implementation_artifacts": "Current backend tiling/padding, explicit packing and BF16-carrier codec do not prescribe LPU buffer capacities, encoding or mandatory hardware algorithms"
+  },
+  "basic_instruction_candidates": [
+    {
+      "name": "LOAD",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-01"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "inputs": [
+        "MemRef<T>",
+        "logical_offset",
+        "valid_shape",
+        "pad_value"
+      ],
+      "output": "Tile<T>",
+      "semantics": "Read the valid logical tensor window using shape/stride; define padding without out-of-range reads",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "FP8 payload storage",
+        "index storage",
+        "Mask storage"
+      ],
+      "source_refs": [
+        "gdn",
+        "position",
+        "residual",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TLOAD",
+          "path": "third_party/pto-isa/docs/isa/TLOAD.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "offset and strided windows",
+        "K/N/M tails",
+        "FP8 physical byte loads separately from carrier loads"
+      ]
+    },
+    {
+      "name": "STORE",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-01"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "inputs": [
+        "Tile<T>",
+        "MemRef<T>",
+        "logical_offset",
+        "valid_shape"
+      ],
+      "output": "Updated memory window",
+      "semantics": "Write only the valid destination region; preserve all other elements",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "index storage"
+      ],
+      "source_refs": [
+        "residual",
+        "gdn",
+        "position",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TSTORE",
+          "path": "third_party/pto-isa/docs/isa/TSTORE.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "nonzero offset",
+        "unselected rows/columns unchanged"
+      ]
+    },
+    {
+      "name": "COPY",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-01"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-13",
+        "OP-08"
+      ],
+      "inputs": [
+        "Tile<T> or MemRef<T>"
+      ],
+      "output": "Independent destination with same values/dtype",
+      "semantics": "Exact data copy; alias binding alone does not provide this behavior",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "index storage"
+      ],
+      "source_refs": [
+        "scatter",
+        "gdn",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TLOAD",
+          "path": "third_party/pto-isa/docs/isa/TLOAD.md"
+        },
+        {
+          "name": "TSTORE",
+          "path": "third_party/pto-isa/docs/isa/TSTORE.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "exact values",
+        "destination independence",
+        "source unchanged"
+      ],
+      "standalone_opcode": "optional; may lower to load/store"
+    },
+    {
+      "name": "EXTRACT",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-02"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-09",
+        "OP-11",
+        "OP-08"
+      ],
+      "inputs": [
+        "source Tile<T>",
+        "logical window offset",
+        "shape/valid"
+      ],
+      "output": "Independent copied sub-Tile<T>",
+      "semantics": "Copy a valid source window; source unchanged; preserve dtype and bits; independent destination storage",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "FP8 payload storage",
+        "integer/index storage"
+      ],
+      "source_refs": [
+        "gdn",
+        "gdn_chunk",
+        "fp8_quant",
+        "fp8_scaled",
+        "attention",
+        "position",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TEXTRACT",
+          "path": "third_party/pto-isa/docs/isa/TEXTRACT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_window_cases_only; not named PTO instruction conformance",
+      "lpu_instruction_validation": "not_run",
+      "native_lowering_attribution": "not established for a specific TEXTRACT/TINSERT instruction",
+      "standalone_opcode": "optional; architecture mapping may use an offset COPY, legal load/store composition or a proven-equivalent Tile subview",
+      "window_contract": [
+        "offset is in logical element coordinates",
+        "shape/valid and strides determine the element mapping",
+        "window must fit permitted source/destination valid bounds",
+        "same dtype and bit-exact transfer",
+        "source and destination storage must be disjoint in this baseline; overlapping transfer is invalid"
+      ],
+      "acceptance_to_add": [
+        "nonzero row/column offsets",
+        "noncontiguous physical strides and tail valid extents",
+        "bit-exact BF16/FP32/FP8/index movement",
+        "invalid/out-of-bounds/overlapping windows rejected",
+        "destination independent and source unchanged"
+      ]
+    },
+    {
+      "name": "INSERT",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-02"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-09",
+        "OP-11",
+        "OP-08"
+      ],
+      "inputs": [
+        "destination Tile<T>",
+        "source Tile<T>",
+        "logical destination offset",
+        "valid region"
+      ],
+      "output": "Destination Tile<T> updated only within the selected window",
+      "semantics": "Copy the valid source region into a destination window; source unchanged; preserve all destination elements outside the window",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "FP8 payload storage",
+        "integer/index storage"
+      ],
+      "source_refs": [
+        "gdn",
+        "gdn_chunk",
+        "fp8_quant",
+        "fp8_scaled",
+        "attention",
+        "position",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TINSERT",
+          "path": "third_party/pto-isa/docs/isa/TINSERT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_window_cases_only; not named PTO instruction conformance",
+      "lpu_instruction_validation": "not_run",
+      "native_lowering_attribution": "not established for a specific TEXTRACT/TINSERT instruction",
+      "standalone_opcode": "optional; architecture mapping may use an offset COPY, legal load/store composition or a proven-equivalent Tile subview",
+      "window_contract": [
+        "offset is in logical element coordinates",
+        "shape/valid and strides determine the element mapping",
+        "window must fit permitted source/destination valid bounds",
+        "same dtype and bit-exact transfer",
+        "source and destination storage must be disjoint in this baseline; overlapping transfer is invalid"
+      ],
+      "acceptance_to_add": [
+        "nonzero row/column offsets",
+        "noncontiguous physical strides and tail valid extents",
+        "bit-exact BF16/FP32/FP8/index movement",
+        "invalid/out-of-bounds/overlapping windows rejected",
+        "destination outside window unchanged; source unchanged"
+      ]
+    },
+    {
+      "name": "FILL",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-01"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-09"
+      ],
+      "inputs": [
+        "Scalar<T>",
+        "shape",
+        "valid_shape"
+      ],
+      "output": "Tile<T>",
+      "semantics": "Fill with the specified value, including zero or a reduction neutral element",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "integer"
+      ],
+      "source_refs": [
+        "gdn",
+        "fp8_scaled",
+        "attention",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TEXPANDS",
+          "path": "third_party/pto-isa/docs/isa/TEXPANDS.md"
+        },
+        {
+          "name": "TFILLPAD",
+          "path": "third_party/pto-isa/docs/isa/TFILLPAD.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "typed zero and -inf",
+        "padding does not enter reductions incorrectly"
+      ],
+      "standalone_opcode": "optional; compiler or load padding may provide the function"
+    },
+    {
+      "name": "TRANSPOSE",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-02"
+      ],
+      "operator_ids": [
+        "OP-09",
+        "OP-06"
+      ],
+      "inputs": [
+        "Tile<T>",
+        "axis/layout mapping"
+      ],
+      "output": "Logically permuted Tile<T>",
+      "semantics": "Preserve elements under the specified axis permutation; may be absorbed by layout/addressing when valid",
+      "dtypes": [
+        "BF16",
+        "FP32"
+      ],
+      "source_refs": [
+        "attention",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TTRANS",
+          "path": "third_party/pto-isa/docs/isa/TTRANS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "head/sequence permutation",
+        "partial tiles",
+        "layout compatibility with matrix consumer"
+      ]
+    },
+    {
+      "name": "ADD",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "broadcast_axes"
+      ],
+      "output": "Tile of same logical result shape",
+      "semantics": "a + b; preserve source cast boundaries; scalar left/right forms can be composed using FILL",
+      "dtypes": [
+        "BF16",
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "residual",
+        "gdn",
+        "patch",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TADD",
+          "path": "third_party/pto-isa/docs/isa/TADD.md"
+        },
+        {
+          "name": "TADDS",
+          "path": "third_party/pto-isa/docs/isa/TADDS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Tile/Tile and scalar forms",
+        "row/column broadcast offsets",
+        "BF16 rounding boundaries",
+        "valid region only",
+        "exact index/address arithmetic, including range and overflow; FP32 coordinate carriers in the prototype do not prescribe LPU index dtype"
+      ]
+    },
+    {
+      "name": "SUB",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-08"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "broadcast_axes"
+      ],
+      "output": "Tile of same logical result shape",
+      "semantics": "a - b; preserve source cast boundaries; scalar left/right forms can be composed using FILL",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TSUB",
+          "path": "third_party/pto-isa/docs/isa/TSUB.md"
+        },
+        {
+          "name": "TSUBS",
+          "path": "third_party/pto-isa/docs/isa/TSUBS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Tile/Tile and scalar forms",
+        "row/column broadcast offsets",
+        "BF16 rounding boundaries",
+        "valid region only",
+        "exact index/address arithmetic, including range and overflow; FP32 coordinate carriers in the prototype do not prescribe LPU index dtype"
+      ]
+    },
+    {
+      "name": "MUL",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-08"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "broadcast_axes"
+      ],
+      "output": "Tile of same logical result shape",
+      "semantics": "a * b; preserve source cast boundaries; scalar left/right forms can be composed using FILL",
+      "dtypes": [
+        "BF16",
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TMUL",
+          "path": "third_party/pto-isa/docs/isa/TMUL.md"
+        },
+        {
+          "name": "TMULS",
+          "path": "third_party/pto-isa/docs/isa/TMULS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Tile/Tile and scalar forms",
+        "row/column broadcast offsets",
+        "BF16 rounding boundaries",
+        "valid region only",
+        "exact index/address arithmetic, including range and overflow; FP32 coordinate carriers in the prototype do not prescribe LPU index dtype"
+      ]
+    },
+    {
+      "name": "DIV",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-08"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "broadcast_axes"
+      ],
+      "output": "Tile of same logical result shape",
+      "semantics": "a / b; preserve source cast boundaries; scalar left/right forms can be composed using FILL",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "fp8_quant",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TDIV",
+          "path": "third_party/pto-isa/docs/isa/TDIV.md"
+        },
+        {
+          "name": "TDIVS",
+          "path": "third_party/pto-isa/docs/isa/TDIVS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Tile/Tile and scalar forms",
+        "row/column broadcast offsets",
+        "BF16 rounding boundaries",
+        "reciprocal implementation must meet the numerical contract"
+      ]
+    },
+    {
+      "name": "ABS",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-11"
+      ],
+      "inputs": [
+        "Tile<FP32>"
+      ],
+      "output": "Tile<FP32>",
+      "semantics": "Elementwise absolute value",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "fp8_quant",
+        "position"
+      ],
+      "pto_references": [
+        {
+          "name": "TABS",
+          "path": "third_party/pto-isa/docs/isa/TABS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "zero and signed inputs",
+        "quantization range"
+      ]
+    },
+    {
+      "name": "MIN_MAX",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-11"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "mode=min|max"
+      ],
+      "output": "Tile<T>",
+      "semantics": "Elementwise min/max, including scalar clamp bounds",
+      "dtypes": [
+        "FP32",
+        "integer indices"
+      ],
+      "source_refs": [
+        "fp8_quant",
+        "position"
+      ],
+      "pto_references": [
+        {
+          "name": "TMIN",
+          "path": "third_party/pto-isa/docs/isa/TMIN.md"
+        },
+        {
+          "name": "TMAX",
+          "path": "third_party/pto-isa/docs/isa/TMAX.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "-448/+448 clamp",
+        "position-table edge clamp"
+      ],
+      "display_name": "MIN/MAX"
+    },
+    {
+      "name": "CMP",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile/Scalar a",
+        "Tile/Scalar b",
+        "relation"
+      ],
+      "output": "Mask",
+      "semantics": "Produce logical comparison results; include ==, <, >= and >",
+      "dtypes": [
+        "FP32",
+        "integer"
+      ],
+      "source_refs": [
+        "gdn",
+        "fp8_quant",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TCMP",
+          "path": "third_party/pto-isa/docs/isa/TCMP.md"
+        },
+        {
+          "name": "TCMPS",
+          "path": "third_party/pto-isa/docs/isa/TCMPS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "zero group",
+        "Softplus threshold",
+        "mask shape/broadcast; physical packing deferred"
+      ]
+    },
+    {
+      "name": "SELECT",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-03",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-12"
+      ],
+      "inputs": [
+        "Mask",
+        "Tile/Scalar true_value",
+        "Tile/Scalar false_value"
+      ],
+      "output": "Tile<T>",
+      "semantics": "Select each logical element from the appropriate input, preserving operand offsets",
+      "dtypes": [
+        "BF16",
+        "FP32"
+      ],
+      "source_refs": [
+        "gdn",
+        "fp8_quant",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TSEL",
+          "path": "third_party/pto-isa/docs/isa/TSEL.md"
+        },
+        {
+          "name": "TSELS",
+          "path": "third_party/pto-isa/docs/isa/TSELS.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "single/multiple Token masks",
+        "branch result and input immutability"
+      ]
+    },
+    {
+      "name": "REDUCE_SUM",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-04"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-09",
+        "OP-11",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile<FP32>",
+        "logical_axis",
+        "valid_shape"
+      ],
+      "output": "FP32 reduced Tile",
+      "semantics": "Sum along a nonempty valid logical axis; combine partial sums across tiles",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "attention",
+        "position",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TROWSUM",
+          "path": "third_party/pto-isa/docs/isa/TROWSUM.md"
+        },
+        {
+          "name": "TCOLSUM",
+          "path": "third_party/pto-isa/docs/isa/TCOLSUM.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "row and column reductions",
+        "partial-tile accumulation",
+        "FP32 State tolerance"
+      ]
+    },
+    {
+      "name": "REDUCE_MAX",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-04",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-09"
+      ],
+      "inputs": [
+        "Tile<FP32>",
+        "logical_axis",
+        "valid_shape"
+      ],
+      "output": "FP32 reduced Tile",
+      "semantics": "Maximum over the valid nonempty logical axis; amax uses ABS first",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "fp8_quant",
+        "attention"
+      ],
+      "pto_references": [
+        {
+          "name": "TROWMAX",
+          "path": "third_party/pto-isa/docs/isa/TROWMAX.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "exclude invalid entries",
+        "all-zero quantization group",
+        "Softmax neutral -inf"
+      ]
+    },
+    {
+      "name": "BROADCAST",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-04"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile/Scalar source",
+        "source_window",
+        "target_shape",
+        "axes"
+      ],
+      "output": "Broadcast value or operand-access mode",
+      "semantics": "Reuse scalar, row or column values over target axes while preserving Token/head and source offset",
+      "dtypes": [
+        "BF16",
+        "FP32",
+        "Mask"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "patch",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TROWEXPAND",
+          "path": "third_party/pto-isa/docs/isa/TROWEXPAND.md"
+        },
+        {
+          "name": "TCOLEXPAND",
+          "path": "third_party/pto-isa/docs/isa/TCOLEXPAND.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "different g/beta per Token/head",
+        "nonzero source offset",
+        "scalar/row/column patterns"
+      ],
+      "standalone_opcode": "optional; arithmetic access mode or compiler view may implement broadcasting"
+    },
+    {
+      "name": "MMA_BF16",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-05"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "inputs": [
+        "A[M,K]:BF16",
+        "B[K,N]:BF16",
+        "acc_in[M,N]:FP32"
+      ],
+      "output": "acc_out[M,N]:FP32",
+      "semantics": "acc_out = acc_in + A@B over valid M/N/K; separate final output conversion; represent split-K partial sums",
+      "dtypes": [
+        "BF16 inputs",
+        "FP32 accumulation"
+      ],
+      "source_refs": [
+        "gdn",
+        "patch",
+        "attention",
+        "ffn",
+        "merger"
+      ],
+      "pto_references": [
+        {
+          "name": "TMATMUL",
+          "path": "third_party/pto-isa/docs/isa/TMATMUL.md"
+        },
+        {
+          "name": "TMATMUL_ACC",
+          "path": "third_party/pto-isa/docs/isa/TMATMUL_ACC.md"
+        },
+        {
+          "name": "TGEMV",
+          "path": "third_party/pto-isa/docs/isa/TGEMV.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "M=1 Decode and multirow Prefill",
+        "K/N tails and split-K",
+        "BF16 cast before Attention scaling or next Linear as required"
+      ]
+    },
+    {
+      "name": "MMA_FP8",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-06"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "inputs": [
+        "A[M,K]:E4M3FN",
+        "B[K,N]:E4M3FN",
+        "acc_in[M,N]:FP32"
+      ],
+      "output": "acc_out[M,N]:FP32",
+      "semantics": "FP8 value dot product with FP32 accumulation; do not merge differently scaled K-groups before applying their scales",
+      "dtypes": [
+        "E4M3FN inputs",
+        "FP32 accumulation"
+      ],
+      "source_refs": [
+        "fp8_scaled"
+      ],
+      "pto_references": [
+        {
+          "name": "TMATMUL",
+          "path": "third_party/pto-isa/docs/isa/TMATMUL.md"
+        },
+        {
+          "name": "TMATMUL_ACC",
+          "path": "third_party/pto-isa/docs/isa/TMATMUL_ACC.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "native FP8 instruction conformance",
+        "group-specific scales",
+        "K/N tails"
+      ],
+      "evidence_note": "Value semantics supported by bf16_carrier; direct A5 FP8 instruction remains unvalidated"
+    },
+    {
+      "name": "CVT",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-08",
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile<src_dtype>",
+        "dst_dtype",
+        "rounding/range policy"
+      ],
+      "output": "Tile<dst_dtype> with same valid logical elements",
+      "semantics": "Convert numeric type at the source-defined boundary; FP8 narrowing uses clamped finite input and nearest ties-to-even with signed zero",
+      "dtypes": [
+        "BF16->FP32",
+        "FP32->BF16",
+        "FP32->E4M3FN",
+        "integer/FP32 index conversions"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "fp8_quant",
+        "patch",
+        "attention",
+        "ffn",
+        "position",
+        "merger",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TCVT",
+          "path": "third_party/pto-isa/docs/isa/TCVT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "positive/negative adjacent FP8 midpoints and -0",
+        "index range before narrowing",
+        "standalone dtype/rounding conformance"
+      ],
+      "evidence_note": "FP8 encoded values validated by carrier arithmetic; hardware FP8 TCVT not established"
+    },
+    {
+      "name": "EXP",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-09"
+      ],
+      "operator_ids": [
+        "OP-06",
+        "OP-09",
+        "OP-10",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile<FP32>"
+      ],
+      "output": "Tile<FP32>",
+      "semantics": "exp(x)",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "gdn",
+        "attention",
+        "ffn",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TEXP",
+          "path": "third_party/pto-isa/docs/isa/TEXP.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Softmax/gate range",
+        "continuous FP32 State error"
+      ]
+    },
+    {
+      "name": "LOG",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-09"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "inputs": [
+        "Tile<FP32>"
+      ],
+      "output": "Tile<FP32>",
+      "semantics": "log(x), x>0",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "gdn"
+      ],
+      "pto_references": [
+        {
+          "name": "TLOG",
+          "path": "third_party/pto-isa/docs/isa/TLOG.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "Softplus positive argument",
+        "source threshold branch"
+      ]
+    },
+    {
+      "name": "RSQRT",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-09"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-12"
+      ],
+      "inputs": [
+        "Tile<FP32>"
+      ],
+      "output": "Tile<FP32>",
+      "semantics": "1/sqrt(x), x>0; eps added by caller",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "ln",
+        "gdn",
+        "merger",
+        "gdn_chunk"
+      ],
+      "pto_references": [
+        {
+          "name": "TRSQRT",
+          "path": "third_party/pto-isa/docs/isa/TRSQRT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "small norm plus eps",
+        "FP32 output and State error"
+      ]
+    },
+    {
+      "name": "FLOOR",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-12"
+      ],
+      "operator_ids": [
+        "OP-11",
+        "OP-08"
+      ],
+      "inputs": [
+        "Tile<FP32>"
+      ],
+      "output": "Integral-valued Tile<FP32> or equivalent conversion composition",
+      "semantics": "Floor nonnegative interpolation/window coordinates before index conversion; exact integer division/remainder or scalar address generation may replace this combination",
+      "dtypes": [
+        "FP32"
+      ],
+      "source_refs": [
+        "position",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TCVT",
+          "path": "third_party/pto-isa/docs/isa/TCVT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "nonnegative integral coordinates and neighbors",
+        "index conversion order and range"
+      ]
+    },
+    {
+      "name": "IOTA",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-12",
+        "A-ISA-15"
+      ],
+      "operator_ids": [
+        "OP-11",
+        "OP-06",
+        "OP-08"
+      ],
+      "inputs": [
+        "start",
+        "step",
+        "count"
+      ],
+      "output": "IndexTile",
+      "semantics": "Generate exact logical serial indices; may be a load/precompute rather than a dedicated opcode",
+      "dtypes": [
+        "integer indices"
+      ],
+      "source_refs": [
+        "position",
+        "gdn_chunk",
+        "im2col"
+      ],
+      "pto_references": [
+        {
+          "name": "TCI",
+          "path": "third_party/pto-isa/docs/isa/TCI.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "start/stride and tails",
+        "bounds before narrowing"
+      ],
+      "standalone_opcode": "optional; scalar control/compiler/precomputed data may provide indices"
+    },
+    {
+      "name": "INDEX_ALU",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-12"
+      ],
+      "operator_ids": [
+        "OP-11",
+        "OP-08"
+      ],
+      "inputs": [
+        "IndexTile/Scalar operands",
+        "integer operation"
+      ],
+      "output": "IndexTile",
+      "semantics": "Exact integer add/sub/mul and nonnegative floor-div/rem for pixel windows, grid and merge ordering; division/rem may be composed or precomputed",
+      "dtypes": [
+        "logical integer indices; physical width deferred"
+      ],
+      "source_refs": [
+        "position",
+        "im2col",
+        "patch"
+      ],
+      "pto_references": [
+        {
+          "name": "TADD",
+          "path": "third_party/pto-isa/docs/isa/TADD.md"
+        },
+        {
+          "name": "TSUB",
+          "path": "third_party/pto-isa/docs/isa/TSUB.md"
+        },
+        {
+          "name": "TMUL",
+          "path": "third_party/pto-isa/docs/isa/TMUL.md"
+        },
+        {
+          "name": "TCVT",
+          "path": "third_party/pto-isa/docs/isa/TCVT.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "large-index exactness beyond current small cases",
+        "division/rem equivalence and range checks"
+      ],
+      "evidence_note": "Current kernel uses FP32/floor composition for coordinates; arbitrary-range integer division is not validated"
+    },
+    {
+      "name": "GATHER_ROW",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-12"
+      ],
+      "operator_ids": [
+        "OP-11",
+        "OP-08"
+      ],
+      "inputs": [
+        "MemRef table[TableRows,H]:BF16",
+        "IndexTile[R]"
+      ],
+      "output": "dst[R,H]:BF16",
+      "semantics": "Read table[idx[r],:] in index order; scalar pixels are rows with H=1; also reorder Conv3D output rows into spatial merge groups. Keep index/position associations.",
+      "dtypes": [
+        "BF16 table",
+        "integer indices"
+      ],
+      "source_refs": [
+        "position",
+        "im2col",
+        "patch"
+      ],
+      "pto_references": [
+        {
+          "name": "MGATHER",
+          "path": "third_party/pto-isa/docs/isa/MGATHER.md"
+        },
+        {
+          "name": "TGATHER",
+          "path": "third_party/pto-isa/docs/isa/TGATHER.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "logical memory-row addressing vs tile-local gather",
+        "repeated read indices",
+        "index/weight association",
+        "scalar pixel windows across C/T/H/W and batch",
+        "overlapping Conv3D windows and non-square strides",
+        "merge-order row permutation preserves batch/time"
+      ],
+      "lowering_choices": [
+        "indexed LOAD/row loop",
+        "MGATHER-like memory operation",
+        "TGATHER only when the relevant source is already in a Tile"
+      ]
+    },
+    {
+      "name": "SCATTER_ROW",
+      "selection": "base_function_candidate",
+      "requirement_groups": [
+        "A-ISA-13"
+      ],
+      "operator_ids": [
+        "OP-13"
+      ],
+      "inputs": [
+        "MemRef/Tile destination[Rows,H]:BF16",
+        "IndexTile[R]",
+        "src[R,H]:BF16"
+      ],
+      "output": "Updated selected rows",
+      "semantics": "Unique valid indices overwrite full rows; preserve all unselected destination elements; OP-13 copies text to output first",
+      "dtypes": [
+        "BF16 data",
+        "integer indices"
+      ],
+      "source_refs": [
+        "scatter"
+      ],
+      "pto_references": [
+        {
+          "name": "MSCATTER",
+          "path": "third_party/pto-isa/docs/isa/MSCATTER.md"
+        },
+        {
+          "name": "TSCATTER",
+          "path": "third_party/pto-isa/docs/isa/TSCATTER.md"
+        }
+      ],
+      "evidence_level": "supporting_operator_cases_only",
+      "lpu_instruction_validation": "not_run",
+      "acceptance_to_add": [
+        "unsorted unique destination rows",
+        "exact preservation of unselected rows",
+        "reject invalid/duplicate indices at current interface"
+      ],
+      "lowering_choices": [
+        "indexed STORE/row loop",
+        "MSCATTER-like memory operation",
+        "TSCATTER when updating an in-tile destination"
+      ],
+      "atomic_requirement": "none from A-group; MoE accumulation belongs to B-group consolidation"
+    }
+  ],
+  "fusion_candidates": [
+    {
+      "name": "DYN_QUANT_K128",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-07"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "composed_from": [
+        "ABS",
+        "REDUCE_MAX",
+        "DIV",
+        "CMP",
+        "SELECT",
+        "MIN_MAX",
+        "CVT"
+      ],
+      "semantics": "BF16 activation -> E4M3FN payload and FP32 scale per Token/K128",
+      "contracts": [
+        "two associated outputs",
+        "zero group scale=1",
+        "RNE, signed zero and zero-padded K tail"
+      ],
+      "comparison_axes": [
+        "amax/reduction cost",
+        "quantization-to-matrix dataflow"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "SCALED_MMA_FP8",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-06"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "composed_from": [
+        "MMA_FP8",
+        "MUL",
+        "ADD",
+        "BROADCAST",
+        "CVT"
+      ],
+      "semantics": "acc32 += (dot32 * sx[m,g]) * fp32(sw[nblock,g]); BF16 final output",
+      "contracts": [
+        "K128 activation scale",
+        "BF16 checkpoint scale per N128/K128 weight block",
+        "FP32 group accumulation"
+      ],
+      "comparison_axes": [
+        "scale operand format",
+        "accumulator residence",
+        "not automatically TMATMUL_MX-compatible"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "NORM",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-09"
+      ],
+      "operator_ids": [
+        "OP-03",
+        "OP-06",
+        "OP-12"
+      ],
+      "composed_from": [
+        "REDUCE_SUM",
+        "SUB",
+        "MUL",
+        "ADD",
+        "DIV",
+        "RSQRT",
+        "BROADCAST",
+        "CVT"
+      ],
+      "semantics": "LayerNorm, Q/K L2Norm and gated RMSNorm with distinct axes/affine/cast contracts",
+      "contracts": [
+        "centered variance for LayerNorm",
+        "caller-specified eps",
+        "BF16 normalized and weighted boundaries in gated Norm"
+      ],
+      "comparison_axes": [
+        "reduction reuse",
+        "broadcast traffic",
+        "cast preservation"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "SOFTMAX",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-10"
+      ],
+      "operator_ids": [
+        "OP-09"
+      ],
+      "composed_from": [
+        "REDUCE_MAX",
+        "SUB",
+        "EXP",
+        "REDUCE_SUM",
+        "DIV",
+        "CVT"
+      ],
+      "semantics": "FP32 stable Softmax within one attention segment -> BF16 probability",
+      "contracts": [
+        "no crossing image/video segment boundaries",
+        "valid lengths",
+        "FP32 reduction and BF16 probability"
+      ],
+      "comparison_axes": [
+        "full-row vs online block fusion",
+        "temporary score traffic"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "GELU",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-09"
+      ],
+      "operator_ids": [
+        "OP-10",
+        "OP-12"
+      ],
+      "composed_from": [
+        "ADD",
+        "MUL",
+        "DIV",
+        "EXP",
+        "ABS",
+        "CMP",
+        "SELECT",
+        "CVT"
+      ],
+      "semantics": "Separate source GELU(tanh) and GELU(erf); current kernel composes exp/arithmetic/polynomial approximations",
+      "contracts": [
+        "BF16 boundary before/after activation",
+        "distinct tanh/erf reference"
+      ],
+      "comparison_axes": [
+        "SFU accuracy and instruction count",
+        "polynomial versus dedicated unit"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "CAUSAL_DWCONV1D",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-14"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "composed_from": [
+        "LOAD",
+        "MUL",
+        "ADD",
+        "CVT",
+        "EXP",
+        "DIV"
+      ],
+      "semantics": "History-window tap accumulation in FP32 -> BF16 Conv output -> SiLU -> BF16",
+      "contracts": [
+        "raw pre-Conv qkv history",
+        "tap order",
+        "same consumed prefix as State"
+      ],
+      "comparison_axes": [
+        "history read/write cost",
+        "short-kernel specialization"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "FP32_GEMV_OUTER",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-15"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "composed_from": [
+        "MUL",
+        "REDUCE_SUM",
+        "BROADCAST"
+      ],
+      "semantics": "State^T @ key and key outer delta; FP32 throughout",
+      "contracts": [
+        "no narrowing of State/key to BF16",
+        "separate GEMV and outer-product alternatives",
+        "chunk pairwise and State-matrix products also use FP32 MUL+REDUCE_SUM; evaluate wider FP32 matrix capability during mapping"
+      ],
+      "comparison_axes": [
+        "vector composition vs FP32 matrix capability",
+        "State traffic"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "DELTA_STATE_UPDATE",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-15"
+      ],
+      "operator_ids": [
+        "OP-06"
+      ],
+      "composed_from": [
+        "EXP",
+        "MUL",
+        "REDUCE_SUM",
+        "SUB",
+        "ADD",
+        "BROADCAST",
+        "CVT"
+      ],
+      "semantics": "Decay -> prediction -> beta-weighted delta -> outer update -> readout",
+      "contracts": [
+        "Token/head-specific g/beta",
+        "Token-order dependency",
+        "return FP32 State and BF16 output without modifying input State"
+      ],
+      "comparison_axes": [
+        "fusion granularity",
+        "State residence",
+        "commit/alias rules"
+      ],
+      "standalone_instruction_validation": "not_run"
+    },
+    {
+      "name": "PREFIX_SUM",
+      "requirement_groups": [
+        "A-ISA-04",
+        "A-ISA-15"
+      ],
+      "composed_from": [
+        "ADD",
+        "LOAD",
+        "STORE"
+      ],
+      "semantics": "Inclusive FP32 sum along the valid Token axis, reset at every chunk",
+      "contracts": [
+        "FP32 inputs and outputs",
+        "per-chunk reset",
+        "valid tail only"
+      ],
+      "comparison_axes": [
+        "scan specialization vs ADD/window composition",
+        "temporary storage and dependency depth"
+      ],
+      "selection": "optional_fusion_or_specialization",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_refs": [
+        "gdn_chunk"
+      ],
+      "evidence_level": "supporting_native_core_and_operator_cases_only; not instruction conformance",
+      "standalone_instruction_validation": "not_run",
+      "validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
+    },
+    {
+      "name": "TRIANGULAR_MASK",
+      "requirement_groups": [
+        "A-ISA-03",
+        "A-ISA-15"
+      ],
+      "composed_from": [
+        "IOTA",
+        "SUB",
+        "CMP",
+        "SELECT",
+        "FILL"
+      ],
+      "semantics": "Keep j <= i, including the diagonal; use -inf before EXP for invalid log-decay entries",
+      "contracts": [
+        "causal orientation and diagonal explicit",
+        "only valid rows/columns",
+        "current HW PyPTO path compares FP32 local positions; this does not replace exact LPU index semantics"
+      ],
+      "comparison_axes": [
+        "TTRI-like generation vs compare/select",
+        "mask reuse"
+      ],
+      "pto_references": [
+        {
+          "name": "TTRI",
+          "path": "third_party/pto-isa/docs/isa/TTRI.md"
+        }
+      ],
+      "selection": "optional_fusion_or_specialization",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_refs": [
+        "gdn_chunk"
+      ],
+      "evidence_level": "supporting_native_core_and_operator_cases_only; not instruction conformance",
+      "standalone_instruction_validation": "not_run",
+      "validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
+    },
+    {
+      "name": "TRIANGULAR_SOLVE",
+      "requirement_groups": [
+        "A-ISA-15"
+      ],
+      "composed_from": [
+        "MUL",
+        "REDUCE_SUM",
+        "SUB",
+        "LOAD",
+        "STORE"
+      ],
+      "semantics": "Solve (I + strict_lower(A)) X = RHS in FP32 by forward substitution",
+      "contracts": [
+        "unit diagonal; stored diagonal/upper ignored",
+        "two independent RHS widths K and V",
+        "row dependencies and read-only inputs",
+        "FP32 arithmetic; no BF16 narrowing"
+      ],
+      "comparison_axes": [
+        "forward-substitution vector composition vs specialized solve",
+        "coefficient reuse and row dependency"
+      ],
+      "selection": "optional_fusion_or_specialization",
+      "operator_ids": [
+        "OP-06"
+      ],
+      "source_refs": [
+        "gdn_chunk"
+      ],
+      "evidence_level": "supporting_native_core_and_operator_cases_only; not instruction conformance",
+      "standalone_instruction_validation": "not_run",
+      "validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
+    },
+    {
+      "name": "IMG2COL_3D",
+      "selection": "optional_fusion_or_specialization",
+      "requirement_groups": [
+        "A-ISA-02",
+        "A-ISA-12"
+      ],
+      "operator_ids": [
+        "OP-08"
+      ],
+      "composed_from": [
+        "IOTA",
+        "FLOOR",
+        "CVT",
+        "ADD",
+        "SUB",
+        "MUL",
+        "GATHER_ROW"
+      ],
+      "semantics": "Pixels[B,C,T,H,W] -> windows[B*Ot*Oh*Ow,C*Kt*Kh*Kw] in C,Kt,Kh,Kw order; window transformation only, followed by separate MMA and bias",
+      "contracts": [
+        "kernel/stride/padding/dilation and valid extents",
+        "time/channel order and per-media isolation",
+        "input cast before window multiply; overlapping windows are repeated reads"
+      ],
+      "comparison_axes": [
+        "indexed window-load instruction count",
+        "full window materialization vs on-demand operand feed",
+        "temporary storage and matrix input layout"
+      ],
+      "pto_references": [
+        {
+          "name": "TIMG2COL",
+          "path": "third_party/pto-isa/docs/isa/TIMG2COL.md"
+        }
+      ],
+      "pto_mapping_note": "PTO TIMG2COL is a possible native lowering with layout/temporal constraints; the current kernel validates the composed im2col semantics, not a standalone TIMG2COL instruction.",
+      "standalone_instruction_validation": "not_run",
+      "current_implementation": "Explicit im2col function composing coordinates and device gather; its result feeds pl.matmul and FP32 bias. No coarse Conv invocation.",
+      "dedicated_instruction_validated": false
+    }
+  ],
+  "programming_model_requirements": [
+    {
+      "id": "PM-01",
+      "name": "tile_type_valid_shape_layout",
+      "semantics": "Typed Tile values have logical shape, valid extent and layout; memory capacity and physical allocation are separate",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "architectural_mapping": "deferred"
+    },
+    {
+      "id": "PM-02",
+      "name": "view_slice_and_materialization",
+      "semantics": "Slice views alias source storage and preserve offset/stride; EXTRACT copy semantics produce independent storage; declare window shape/valid/layout mapping",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "architectural_mapping": "deferred"
+    },
+    {
+      "id": "PM-03",
+      "name": "writes_accumulators_and_aliases",
+      "semantics": "INSERT updates only its window; preserve the rest of destination and read-only State/history inputs; COPY/EXTRACT are distinct from alias binding; overlapping source/destination transfer is invalid in this baseline",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "architectural_mapping": "deferred"
+    },
+    {
+      "id": "PM-04",
+      "name": "associated_multiple_outputs",
+      "semantics": "Keep quantization payload/scale, position index/weight and GDN output/State/history separately typed and associated",
+      "operator_ids": [
+        "OP-06",
+        "OP-11"
+      ],
+      "architectural_mapping": "deferred"
+    },
+    {
+      "id": "PM-05",
+      "name": "dependencies_completion_and_lifetime",
+      "semantics": "Producer completion before reads, last-use completion before reuse, ordered Token/chunk State commits; State and Conv history describe the same consumed prefix",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "architectural_mapping": "deferred"
+    },
+    {
+      "id": "PM-06",
+      "name": "scalar_control_and_function_scope",
+      "semantics": "Shape/metadata specialization and unrolling are allowed; runtime control placement is deferred; function names shadow rather than overwrite caller bindings",
+      "operator_ids": [
+        "OP-03",
+        "OP-04",
+        "OP-06",
+        "OP-08",
+        "OP-09",
+        "OP-10",
+        "OP-11",
+        "OP-12",
+        "OP-13"
+      ],
+      "architectural_mapping": "deferred"
+    }
+  ],
+  "simulation_only_artifacts": [
+    "INT32 widening of raw checkpoint FP8 bytes",
+    "native exponent/mantissa/sign-bit codec for exact E4M3FN values",
+    "BF16 FP8-value carrier storage",
+    "current backend physical Tile padding and temporary GM layout",
+    "Ascend memory spaces and synchronization identifiers"
+  ],
+  "deferred_model_paths": {
+    "vision_cos_sin_generation": "Current OP-09 takes cos/sin inputs; table-load or a generator kernel can be evaluated at integration",
+    "B_group": "TopK, expert routing/accumulation, KV and MTP requirements are consolidated from B-owned kernels separately",
+    "GDN_model_dimensions_and_full_64_token_chunk": "not_validated; native cases currently use small valid chunks"
+  },
+  "architecture_fields_to_define": [
+    "execution unit",
+    "physical source/destination buffer/register class",
+    "layout restrictions",
+    "capacity and tile bounds",
+    "issue/completion and synchronization",
+    "encoding and operand fields"
+  ]
+}

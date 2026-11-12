@@ -42,7 +42,7 @@ MTP 权重中，输入 fc、两路前置 Norm 和输出 Norm 为 BF16，Attentio
 | 对象 | 基础 profile 的保存 / 输出精度 | 说明 |
 | --- | --- | --- |
 | 文本 hidden、残差分支、Norm 输出、Attention / FFN 投影输出 | BF16 | Decoder 层间边界与子算子输出保持源码 dtype；FP32 临时计算完成后按第 2 部分回转 |
-| Vision hidden、视觉特征及多模态融合输出 | BF16 | Patch 输入先转投影权重 dtype；位置相加、Scatter 保持目标 hidden dtype |
+| Vision hidden、视觉特征及多模态融合输出 | BF16 | 像素输入先在 Conv3D 内转投影权重 dtype；位置相加、Scatter 保持目标 hidden dtype |
 | LM Head 输出 logits | BF16 | 基础 profile 下按投影输出 dtype 返回；模型 forward 没有统一转 FP32 |
 | Full Attention 的 K/V cache | BF16 | 保持 K/V 投影路径的 dtype；K 在 QK Norm、RoPE 后写入，V 为投影结果 |
 | GDN Conv 历史 | BF16 | 保存投影后的 qkv 历史，遵循 cache 实现的实际 dtype；与 recurrent State 分别管理 |
@@ -108,9 +108,9 @@ y_bf16 = BF16(u_bf16 * SiLU(FP32(z_bf16)))
 | MoE Router | BF16 输入 × BF16 Router 权重 → BF16 logits → FP32 Softmax / Top-8 权重重归一化 → 路由权重转 logits dtype BF16；索引为 int64 |
 | MoE Gate / Up → Down | FP8 Gate/Up 投影各输出 BF16 → `SiLU(gate) * up`，保留各步 BF16 输出 → Down 输入动态量化为 FP8 → Down 输出 BF16 |
 | MoE 专家结果合并 | 专家输出 × 路由权重 → 转输出 buffer dtype BF16 后 `index_add`；shared 分支的 BF16 标量门控与输出按源码相乘后合并 |
-| Vision Patch / 位置 | 图像 Patch 转投影权重 dtype BF16 → 投影得到 BF16 hidden；位置插值结果转 hidden dtype BF16 后相加 |
+| Vision Patch / 位置 | BF16/FP32 像素张量在 Conv3D 内转投影权重 dtype BF16 → 卷积得到 BF16 hidden；位置插值结果转 hidden dtype BF16 后相加 |
 | Vision axial RoPE | Q/K、cos/sin 显式转 FP32 → 旋转计算 → 分别转回 Q/K 原 dtype BF16 |
 | Vision MLP / Merger | BF16 Linear → GELU → BF16 Linear；保留激活输出 dtype，block 使用 GELU(tanh)，Merger 使用 GELU exact |
 | BF16 投影、Residual、Embedding / Scatter | 按源码保持 BF16 输出边界；底层 GEMM / 归约内部累加精度随实际后端记录 |
 
-Attention 的数学 reference 使用固定 eager 路径，GDN 使用固定 Torch recurrent / chunk fallback。具体 FP8 kernel 版本、运行环境、比较输出与误差记录遵循 [验证约定](validation.md)；CPU 反量化到 BF16 的排错路径单独登记。功能验证v0的数值标准已确认；golden、kernel与模型的实际验证进度按对应条目和运行结果登记。
+Attention 的数学 reference 使用固定 eager 路径，GDN 使用固定 Torch recurrent / chunk fallback。具体 FP8 kernel 版本、运行环境、比较输出与误差记录遵循 [验证约定](validation.md)；CPU 反量化到 BF16 的排错路径单独登记。当前已完成来源、元数据核对及[A组首批算子reference](reference-a.md)。功能验证v0的数值标准已确认；golden、kernel与模型的实际验证进度按对应条目和运行结果登记，完整模型与目标FP8后端容差随对应实现验证。

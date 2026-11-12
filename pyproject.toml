@@ -11,9 +11,10 @@ dependencies = ["torch>=2.6"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.15"]
+tile = ["pypto @ git+https://github.com/hw-native-sys/pypto.git@1e1236c187b4d4b971a9f8a4e196aeae349e60df"]
 
 [tool.setuptools.packages.find]
-include = ["pymodel*"]
+include = ["pymodel*", "kernels*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

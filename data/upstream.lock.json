@@ -5,16 +5,49 @@
     "commit": "90a3796597a5fabc2ce5066e73f785c2e85822f7",
     "path": "third_party/pto-isa"
   },
-  "pypto": {
-    "url": "https://github.com/hw-native-sys/pypto.git",
-    "commit": "7302cd7ffeb552b3bec7c0e5bd92f164ba9fbd4b",
-    "source_branch": "main",
-    "path": "artifacts/upstream/pypto"
-  },
   "model_reference": {
     "model_id": "Qwen/Qwen3.6-35B-A3B-FP8",
     "model_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
     "baseline": "configs/models/qwen3_6_35b_a3b_fp8/baseline.json",
     "numerics": "configs/models/qwen3_6_35b_a3b_fp8/numerics.json"
+  },
+  "pypto": {
+    "url": "https://github.com/hw-native-sys/pypto.git",
+    "version": "0.1.0",
+    "source_ref": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+    "commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+    "frontend": "pypto.language; @pl.jit, Tensor and explicit Tile operations",
+    "execution": "PTO IR -> PTOAS -> C++ -> simpler a2a3sim",
+    "native_status": "passed_recorded_scope; 155 tests, including 39 native PTO C++ kernel tests",
+    "runtime": {
+      "url": "https://github.com/hw-native-sys/simpler.git",
+      "commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+      "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f"
+    },
+    "ptoas": {
+      "version": "v0.72",
+      "wheel_sha256_x86_64": "2cc47b1d4c8ace884fb12f7691e0c368132fefef401060c920bed2a5210e3db7"
+    },
+    "simulation": {
+      "platform": "a2a3sim",
+      "backend": "hw_pto_cpp_sim",
+      "compiler": "GCC 15.3",
+      "hardware_precision_validated": false
+    },
+    "tested_environment": {
+      "python": "3.13",
+      "torch": "2.10.0"
+    },
+    "patches": []
+  },
+  "pypto_torch_codegen": {
+    "url": "https://github.com/hw-native-sys/pypto.git",
+    "commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+    "source_branch": "integration-pinned",
+    "path": "external toolchain; see pypto",
+    "backend": "pypto_torch_codegen_adapted",
+    "scope": "B-route CPU Torch generation; independent of the native PTO C++ toolchain",
+    "original_b_route_commit": "7302cd7ffeb552b3bec7c0e5bd92f164ba9fbd4b",
+    "integration_status": "143 B-route reference/Tile/MTP tests passed with the native toolchain frontend commit"
   }
 }

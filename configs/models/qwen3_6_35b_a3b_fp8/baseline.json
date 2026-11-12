@@ -13,8 +13,9 @@
     "checkpoint_metadata": "checkpoint_metadata.json",
     "numerical_contract": "numerics.json",
     "weights_location": "external; not stored in this repository",
-    "input_boundary": "token IDs or processor-produced visual patches plus position/grid metadata",
-    "processor_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2"
+    "input_boundary": "token IDs or BF16/FP32 pixel tensors [B,C,T,H,W]; OP-08 performs Conv3D and merge token ordering; preprocessing rules defined separately",
+    "processor_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+    "upstream_input_boundary": "token IDs or processor-produced visual patches plus position/grid metadata"
   },
   "reference": {
     "repository": "https://github.com/huggingface/transformers",
@@ -227,6 +228,11 @@
       "url": "https://raw.githubusercontent.com/huggingface/transformers/f90e93c4f83974f634860e246cdfd2c68666d605/src/transformers/modeling_rope_utils.py",
       "sha256": "ddec71d6c9343af437f656812177fe5c98f6057fd5240c5cbf208520c2872745",
       "bytes": 64783
+    },
+    "vision_utils.py": {
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/f90e93c4f83974f634860e246cdfd2c68666d605/src/transformers/vision_utils.py",
+      "sha256": "bcecd5a92b3266b9926272a549d2b1a0f1fe7646c698c0fa19bd96f976085356",
+      "bytes": 19192
     }
   },
   "validation": {

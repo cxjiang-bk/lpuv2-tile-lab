@@ -2,26 +2,28 @@
 
 A主责GDN与视觉分支，B主责Full Attention、MoE、输入输出及MTP。当前按一个OP对应一个逻辑kernel登记：A为9条OP/9个kernel，B为7条OP/7个kernel。工作量按复合算子的计算、状态与验证复杂度评估，编号数不直接代表工作量。
 
-A由jcx认领，使用 `operator_dev_jcx` 分支；B的具体认领与分支记录在任务或PR中。下表记录主线进度，分支上的实现通过相应检查、合入后再更新主线登记。
+A由jcx认领，使用 `operator_dev_jcx`；B由Starset-Zheng认领，使用 `operator_dev_zhengtk`。下表记录合入后的功能验证路径。
+
+A的接口见[reference说明](reference-a.md)，原生仿真范围见[实现说明](pypto-a1.md)；B的范围见[实现汇总](golden-stage3-step9-summary.md)。完整模型验证独立登记。
 
 | 主责 | OP | 算子 | 当前状态 |
 | --- | --- | --- | --- |
-| B | OP-01 | Token Embedding | Python Tile已验证 |
-| A | OP-08 | Vision Patch Embedding | planned |
-| A | OP-11 | 视觉位置嵌入 | planned |
-| A | OP-03 | LayerNorm | planned |
-| A | OP-09 | Vision Attention | planned |
-| A | OP-04 | Residual Add | planned |
-| A | OP-10 | Dense FFN（GELU MLP） | planned |
-| A | OP-12 | Spatial Merger / Projector | planned |
-| A | OP-13 | Visual Feature Scatter | planned |
-| B | OP-02 | RMSNorm | Python Tile已验证 |
-| A | OP-06 | Gated DeltaNet 线性注意力 | planned |
-| B | OP-05 | Full Attention | Python Tile已验证 |
-| B | OP-07 | MoE FFN | Python Tile已验证 |
-| B | OP-14 | LM Head | Python Tile已验证 |
-| B | OP-15 | Feature Concat | Python Tile已验证 |
-| B | OP-16 | MTP 输入投影 | Python Tile已验证 |
+| B | OP-01 | Token Embedding | Python Tile功能验证通过 |
+| A | OP-08 | Vision Patch Embedding | 原生PTO C++功能仿真通过 |
+| A | OP-11 | 视觉位置嵌入 | 原生PTO C++功能仿真通过 |
+| A | OP-03 | LayerNorm | 原生PTO C++功能仿真通过 |
+| A | OP-09 | Vision Attention | 原生PTO C++功能仿真通过 |
+| A | OP-04 | Residual Add | 原生PTO C++功能仿真通过 |
+| A | OP-10 | Dense FFN（GELU MLP） | 原生PTO C++功能仿真通过 |
+| A | OP-12 | Spatial Merger / Projector | 原生PTO C++功能仿真通过 |
+| A | OP-13 | Visual Feature Scatter | 原生PTO C++功能仿真通过 |
+| B | OP-02 | RMSNorm | Python Tile功能验证通过 |
+| A | OP-06 | Gated DeltaNet 线性注意力 | 原生PTO C++功能仿真通过 |
+| B | OP-05 | Full Attention | Python Tile功能验证通过 |
+| B | OP-07 | MoE FFN | Python Tile功能验证通过 |
+| B | OP-14 | LM Head | Python Tile功能验证通过 |
+| B | OP-15 | Feature Concat | Python Tile功能验证通过 |
+| B | OP-16 | MTP 输入投影 | Python Tile功能验证通过 |
 
 ## 公共接口与集成
 
@@ -69,19 +71,20 @@ RMSNorm由B、LayerNorm/Residual由A维护；GEMM与量化接口由B牵头，参
 
 ## 当前阶段怎样验证和登记
 
-当前使用官方PyPTO main为来源，在Python层开展Tile能力建模和功能测试。两人记录每次运行实际使用的commit、Python/Torch版本、随机种子、数值profile及执行方式。单算子先使用随机输入和权重，按小尺寸、模型相关真实维度、定向边界推进；真实权重在集成阶段接入。
+当前使用hw-native-sys PyPTO language/Tile API，构造基础计算与 Tile 数据流，并在 PTO C++ 模拟器验证功能；具体发行版本记录在 `data/upstream.lock.json`。两人记录每次运行实际使用的commit、Python/Torch版本、随机种子、数值profile及执行方式。单算子先使用随机输入和权重，按小尺寸、模型相关真实维度、定向边界推进；真实权重在集成阶段接入。
 
 独立golden表达完整模型计算，Tile程序展开基础操作、分块、有效区域和状态顺序。两者使用同一输入，分别执行自己的计算主体；所需补充能力附独立语义测试和kernel组合用例。
 
 | 执行结果 | 记录方式 |
 | --- | --- |
 | Reference与固定模型来源核对 | 标明 `pytorch_reference_check` 及覆盖范围 |
-| 独立Python Tile语义程序 | 可用 `python_tile_semantic` 标明实际路径，保存程序、case和逐输出结果 |
-| PyPTO生成的Torch程序 | 可用 `pypto_torch_codegen` 标明生成路径，保存相应版本与IR/程序 |
+| HW PyPTO 原生 C++ 功能仿真 | 使用 `hw_pto_cpp_sim`，保存 PTO/PTOAS 生成的 C++、共享库、case 和逐输出结果 |
 | 实际PTO CPU/NPU | 记录实际后端、构建/运行信息和结果，更新对应PTO验证状态 |
 | LPU功能模型 | 按架构映射后的程序和约束独立验证 |
 
 `backend`字段用于记录实际路径，完成依据还包括程序、版本和结果。现有登记表的PTO验证字段保留其后端含义；Python功能结果先在PR和运行记录中明确登记，新增结构化状态时同步修改登记说明。具体比较与产物格式见 [验证约定](validation.md)。
+
+A 组使用真实 HW PyPTO/PTOAS/C++ 仿真 执行，9 个完整算子已有小尺寸原生通过结果。GDN 的量化、FP8解码和分块乘法在 PTO C++ 模拟器内执行，以BF16精确承载FP8数值；A5直接FP8路径另行验证。安装、公共入口、用例与候选需求见 [A 组说明](pypto-a1.md)；字段说明见 [登记表说明](../data/README.md)。这些变更位于 A 开发分支，公共 FP8 Linear 与量化部分在合入前由使用方交叉评审。
 
 MoE按已确认的专家分桶策略组织路由记录：保留原Token、路由权重及FP8数据与scale的关联，按原Token合并结果。具体规则见 [功能标准第5节](functional-validation-v0.md#5-moe分桶与合并)；字段布局随B的Dispatch/Combine实现共同细化。
 

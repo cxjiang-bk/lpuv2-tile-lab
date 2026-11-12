@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-11-12",
+  "passed": true,
+  "parents": {
+    "A": "a1f997a1783f788d986eb2264c8d23eea1a41471",
+    "B": "6dcadff5472bb9aa55e392a77361dfbf8e137740"
+  },
+  "test_run": {
+    "command": "source scripts/hw-env.sh; python -m pytest tests -q --basetemp=artifacts/integration-final",
+    "passed": 298,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 266.76,
+    "log": "artifacts/integration-final.log",
+    "artifact_root": "artifacts/integration-final"
+  },
+  "test_groups": {
+    "framework": 34,
+    "A_reference": 82,
+    "A_native_pto_cpp_sim": 39,
+    "B_reference": 110,
+    "B_tile_cpu_codegen": 31,
+    "B_minimal_mtp_cpu_codegen": 2
+  },
+  "pypto_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+  "native_toolchain": "data/upstream.lock.json#pypto",
+  "torch_codegen_toolchain": "data/upstream.lock.json#pypto_torch_codegen",
+  "source_sha256": {
+    "kernels/pto/attention/full_attention.py": "b70d204c8591d2f0a9bc3df65e10949a63a49ae5fecbdf78c3d3efe49dae3143",
+    "kernels/pto/common/activations.py": "d6aab213e3bfdc4f71be911963fbde502f651edb2d52e0518498562544542485",
+    "kernels/pto/common/embedding.py": "91b518509521ada58e9f527262bc0eae48d151f6bed579c588f3c4c21ec11ec7",
+    "kernels/pto/common/linear.py": "cbcb61119c6ab2ef34751204b2d30823f18ffc83be86102c54d49b893b6981a2",
+    "kernels/pto/common/quantization.py": "e28e589a17fc3ce3d0df7020d0317210dfe54427b957831fdbced80c5e185472",
+    "kernels/pto/common/rmsnorm.py": "10ed04e98cde6423ac0cd845d3c39bf1513cadf6d03c77a585c1278773b9f648",
+    "kernels/pto/common/softmax.py": "6bc5e69ede35e8d22ec14550f9a3d5a67b58f5356fec61f60b30ef0e957fa1af",
+    "kernels/pto/common/tile_add.py": "43ec4300650efc0f53d9df477995d4e54632e3a4b050de7cea3da64bb57d18c9",
+    "kernels/pto/moe/moe.py": "c07c8ba4a7ba4c930dddaf4d75856fac3c906d8d928b05264f7561180d259c4a",
+    "kernels/pto/mtp/input.py": "22f548b10c02bb5170b7c4fe023299b568961f58d43a3fd8355182156ab6f193",
+    "kernels/pto/output/lm_head.py": "52b6595d388e33a2473af52a3e711313fd77ff9ccfb5a2ce512aa633dcb1b4da",
+    "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+    "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+    "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+    "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+    "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+    "pymodel/models/qwen36/mtp_tile.py": "bca4a13552bece71d3d4dde3905c610cd34467546cdbdacf2fa2b05ce0eca48b"
+  },
+  "integration_changes": [
+    "Resolve documentation and operator/kernel registry conflicts by ownership",
+    "Keep native and CPU-codegen execution evidence separate",
+    "Validate B programs with the current locked PyPTO frontend; retain original B commit provenance"
+  ],
+  "numerical_profile": "pto-functional-v0",
+  "numerical_thresholds_changed": false,
+  "scope": "Synthetic operator inputs/weights, A native PTO C++ simulation, B CPU-generated Tile programs and minimal MTP; no full-model, real-checkpoint or hardware performance validation."
+}
