@@ -16,7 +16,7 @@ A 组9个完整算子的计算主体统一使用 [hw-native-sys/pypto](https://g
 | OP-12 / K-12 | `pymodel.ops.vision.kernels.spatial_merger` | 同上 | LayerNorm、Merge 分组、GELU(erf)、投影 |
 | OP-13 / K-13 | `pymodel.ops.vision.kernels.visual_feature_scatter` | 同上 | 视觉特征覆盖指定文本行，保留其余行 |
 
-factory 直接以算子命名。`@pl.jit` 返回可编译入口；有独立计算意义的阶段使用 inline/incore 函数。源码按模型计算顺序展开，使用 `pl.load/store`、归约、显式行/列广播、矩阵乘和转换。Tile 的物理对齐与逻辑 valid region 分开，尾块只读写有效元素。
+factory 直接以算子命名，只进行形状特化；返回的 `@pl.jit` 主体按模型计算顺序直接展开，以 `pl.at` 标出编译阶段。im2col、像素投影、位置插值、Attention和GDN主干均在对应入口中顺序阅读；共享FP8原语和独立验证的GDN recurrent/chunk数学算法单独保留。计算使用 `pl.load/store`、归约、显式行/列广播、矩阵乘和转换。Tile 的物理对齐与逻辑 valid region 分开，尾块只读写有效元素。
 
 ## 固定执行链
 
@@ -75,4 +75,4 @@ Vision 的像素入口与窗口顺序见 [像素 Conv3D](vision-pixel-conv3d.md)
 
 ## 本次验证结果
 
-2026-11-12 统一回归 **151项通过**：116项 reference/框架与35项原生 kernel 检查。9个完整 OP 的基本用例、GDN recurrent/chunk 核心和完整路径、状态交接、Conv3D/im2col、公共窗口及重复执行均通过。逐输出误差与源码 SHA 见 [原生验证汇总](../data/native-validation-summary.json)。本轮使用固定随机输入和权重；真实 checkpoint、完整模型、性能及直接 FP8 硬件指令分别验收。
+2026-11-12 顺序展开 kernel 后，统一回归 **155项通过**：116项 reference/框架与39项原生 kernel 检查。9个完整 OP 的基本用例、GDN recurrent/chunk 核心和完整路径、状态交接、Conv3D/im2col、公共窗口及重复执行均通过。新增4项位置网格与 Attention 分段边界检查，位置索引和插值权重精确一致。逐输出误差与源码 SHA 见 [原生验证汇总](../data/native-validation-summary.json)。结果使用固定随机输入和权重；真实 checkpoint、完整模型、性能及直接 FP8 硬件指令分别验收。

@@ -15,7 +15,7 @@ out = reorder(raster, order=[B,Ot,block_h,block_w,intra_h,intra_w])
 grid_thw[b] = [Ot,Oh,Ow]
 ```
 
-计算主体在 [vision_ops.py](../kernels/pypto/vision_ops.py)。`image_windows` 在设备端生成三维窗口坐标，以 `pl.tile.mgather(..., coalesce="elem")` 读取像素。FP32 carrier 保持原始 BF16/FP32 像素值，窗口取出后才转 BF16。主机仅传入原始像素，权重 flatten 只改变连续存储的形状。
+计算主体在 [vision_ops.py](../kernels/pypto/vision_ops.py)。`patch_embedding` 的第二个计算阶段在设备端生成三维窗口坐标，以 `pl.tile.mgather(..., coalesce="elem")` 读取像素。FP32 carrier 保持原始 BF16/FP32 像素值，窗口取出后才转 BF16。主机仅传入原始像素，权重 flatten 只改变连续存储的形状。
 
 窗口地址按每行 K128 计算，原始像素转换按1024元素分块；矩阵乘按 `M16/N128/K128` 分块，FP32 accumulator 跨 K 块累加，最后加 bias 并转 BF16。Token 重排只搬运有效列，支持 hidden 尾块。
 

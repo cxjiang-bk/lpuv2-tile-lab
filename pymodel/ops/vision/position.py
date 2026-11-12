@@ -40,7 +40,7 @@ def position_embedding(grid_thw: torch.Tensor, x: torch.Tensor, position_table: 
     weights = torch.empty((x.shape[0], 4), dtype=torch.float32)
     out = torch.full(x.shape, float("nan"), dtype=x.dtype)
     with torch.inference_mode():
-        executable.execute(x.contiguous(), position_table.contiguous(), indices, weights, out)
+        executable.execute(grid_thw.to(torch.int32).contiguous(), x.contiguous(), position_table.contiguous(), indices, weights, out)
     if artifact_dir is not None:
         executable.save(artifact_dir)
     # 只转换索引存储位宽，坐标、索引和插值计算全部在 kernel 中完成。

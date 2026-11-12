@@ -37,7 +37,7 @@ def layer_norm(rows: int, cols: int, *, tile_rows: int, tile_cols: int,
                row_offset: int, valid_rows: int, eps: float):
     # 完整特征行参与归约；物理宽度对齐，valid 保留逻辑 D=cols。
     physical_cols = (cols + 31) // 32 * 32
-    # 归约结果 [M,1] 的物理列至少32字节；valid 行数仍按调用窗口取值。
+    # 列主序归约结果[M,1]至少分配8个FP32物理行，满足32B；valid仍按窗口取值。
     physical_rows = (tile_rows + 7) // 8 * 8
     row_blocks = (valid_rows + tile_rows - 1) // tile_rows
     inv_cols = 1.0 / cols

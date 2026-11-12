@@ -18,7 +18,7 @@
     "commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
     "frontend": "pypto.language; @pl.jit, Tensor and explicit Tile operations",
     "execution": "PTO IR -> PTOAS -> C++ -> simpler a2a3sim",
-    "native_status": "passed_recorded_scope; 151 tests, including 35 native PTO C++ kernel tests",
+    "native_status": "passed_recorded_scope; 155 tests, including 39 native PTO C++ kernel tests",
     "runtime": {
       "url": "https://github.com/hw-native-sys/simpler.git",
       "commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",

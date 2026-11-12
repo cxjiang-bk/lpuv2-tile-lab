@@ -104,6 +104,10 @@ def vision_attention(x, qkv_weight, qkv_bias, proj_weight, proj_bias, *, cos, si
         raise ValueError("Vision hidden width must be divisible by heads")
     rows, hidden = x.shape
     head_dim = hidden // num_heads
+    if cu_seqlens.ndim != 1 or cu_seqlens.dtype not in (torch.int32, torch.int64) or cu_seqlens.device.type != "cpu":
+        raise ValueError("Packed segment boundaries must be a CPU INT32/INT64 vector")
+    if rows > torch.iinfo(torch.int32).max:
+        raise ValueError("Packed segment offsets must fit the native INT32 metadata")
     boundaries = tuple(int(v) for v in cu_seqlens.tolist())
     if (len(boundaries) < 2 or boundaries[0] != 0 or boundaries[-1] != rows
             or any(a >= b for a, b in zip(boundaries, boundaries[1:])) or head_dim % 2):
@@ -120,7 +124,7 @@ def vision_attention(x, qkv_weight, qkv_bias, proj_weight, proj_bias, *, cos, si
     program = TensorProgram.compile(tile_kernels.vision_attention(rows, hidden, num_heads, boundaries))
     out = torch.full_like(x, float("nan"))
     program.execute(x, qkv_weight, qkv_bias.reshape(1, 3 * hidden), proj_weight,
-                    proj_bias.reshape(1, hidden), cos, sin, out)
+                    proj_bias.reshape(1, hidden), cos, sin, cu_seqlens.to(torch.int32).reshape(1, -1).contiguous(), out)
     if artifact_dir is not None:
         program.save(artifact_dir)
     return {"out": out}

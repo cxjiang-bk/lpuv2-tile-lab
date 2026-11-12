@@ -651,7 +651,7 @@
       "operator_ids": [
         "OP-03"
       ],
-      "source_sha256": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+      "source_sha256": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
       "role": "native_pto_cpp_functional_kernel"
     },
     "residual": {
@@ -660,7 +660,7 @@
       "operator_ids": [
         "OP-04"
       ],
-      "source_sha256": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+      "source_sha256": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
       "role": "native_pto_cpp_functional_kernel"
     },
     "gdn": {
@@ -669,7 +669,7 @@
       "operator_ids": [
         "OP-06"
       ],
-      "source_sha256": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+      "source_sha256": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
       "role": "native_pto_cpp_functional_kernel"
     },
     "fp8_quant": {
@@ -678,7 +678,7 @@
       "operator_ids": [
         "OP-06"
       ],
-      "source_sha256": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+      "source_sha256": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
       "role": "native_pto_cpp_functional_kernel",
       "note": "Contains BF16-carrier adaptation; exponent/mantissa/signbit code is not itself a mandatory LPU feature"
     },
@@ -688,7 +688,7 @@
       "operator_ids": [
         "OP-06"
       ],
-      "source_sha256": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+      "source_sha256": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
       "role": "native_pto_cpp_functional_kernel",
       "note": "Contains BF16-carrier adaptation; exponent/mantissa/signbit code is not itself a mandatory LPU feature"
     },
@@ -698,7 +698,7 @@
       "operator_ids": [
         "OP-08"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "attention": {
@@ -707,7 +707,7 @@
       "operator_ids": [
         "OP-09"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "ffn": {
@@ -716,7 +716,7 @@
       "operator_ids": [
         "OP-10"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "position": {
@@ -725,7 +725,7 @@
       "operator_ids": [
         "OP-11"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "merger": {
@@ -734,7 +734,7 @@
       "operator_ids": [
         "OP-12"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "scatter": {
@@ -743,7 +743,7 @@
       "operator_ids": [
         "OP-13"
       ],
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
       "role": "native_pto_cpp_functional_kernel"
     },
     "gdn_chunk": {
@@ -752,17 +752,17 @@
       "operator_ids": [
         "OP-06"
       ],
-      "source_sha256": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+      "source_sha256": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
       "role": "native_pto_cpp_internal_K06_chunk_stage"
     },
     "im2col": {
       "path": "kernels/pypto/vision_ops.py",
-      "symbol": "image_windows",
+      "symbol": "im2col",
       "operator_ids": [
         "OP-08"
       ],
-      "role": "native_pto_cpp_internal_K08_composed_im2col_stage",
-      "source_sha256": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+      "role": "native_pto_cpp_standalone_K08_window_semantics_check",
+      "source_sha256": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
     }
   },
   "evidence_policy": {

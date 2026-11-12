@@ -10,8 +10,9 @@ import pypto.language as pl
 
 
 @lru_cache(maxsize=64)
-def image_windows(image_shape: tuple[int, ...], kernel_size: tuple[int, int, int], stride: tuple[int, int, int], input_dtype: str):
-    """Native im2col stages; only bounded coordinate Tiles are materialized."""
+def im2col(image_shape: tuple[int, ...], kernel_size: tuple[int, int, int],
+           stride: tuple[int, int, int], *, input_dtype: str = "bfloat16"):
+    """像素NCTHW -> 窗口矩阵；坐标、Gather与BF16边界按执行顺序展开。"""
     batch, channels, time, height, width = image_shape
     kt, kh, kw = kernel_size
     st, sh, sw = stride
@@ -19,60 +20,44 @@ def image_windows(image_shape: tuple[int, ...], kernel_size: tuple[int, int, int
     rows, patch_width = batch * ot * oh * ow, channels * kt * kh * kw
     image_size = batch * channels * time * height * width
 
-    @pl.jit.incore
-    def widen(pixels: pl.Tensor, image: pl.Out[pl.Tensor]):
-        for begin in pl.range(0, image_size, 1024):
-            valid = pl.min(1024, image_size - begin)
-            values = pl.load(pixels, [0, begin], [1, 1024], valid_shape=[1, valid])
-            if input_dtype == "float32":
-                image = pl.store(values, [0, begin], image)
-            else:
-                image = pl.store(pl.cast(values, pl.FP32), [0, begin], image)
-        return image
-
-    @pl.jit.incore
-    def extract(image: pl.Tensor, columns: pl.Out[pl.Tensor]):
-        for row in pl.range(rows):
-            b = row // (ot * oh * ow)
-            t = (row // (oh * ow)) % ot
-            h = (row // ow) % oh
-            w = row % ow
-            for begin in pl.range(0, patch_width, 128):
-                valid = pl.min(128, patch_width - begin)
-                index = pl.add(pl.cast(pl.tile.ci(0, [1, 128]), pl.FP32), pl.cast(pl.cast(begin, pl.INT32), pl.FP32))
-                c = pl.cast(pl.cast(pl.div(index, kt * kh * kw), pl.INT32, mode="floor"), pl.FP32)
-                dt = pl.sub(pl.cast(pl.cast(pl.div(index, kh * kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(c, kt))
-                dh = pl.sub(pl.cast(pl.cast(pl.div(index, kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(pl.add(pl.mul(c, kt), dt), kh))
-                dw = pl.sub(index, pl.mul(pl.add(pl.mul(pl.add(pl.mul(c, kt), dt), kh), dh), kw))
-                # NCTHW 窗口地址；重叠窗口直接重复 Gather，不由 host 切 Patch。
-                address = pl.add(c, pl.cast(pl.cast(b * channels, pl.INT32), pl.FP32))
-                address = pl.add(pl.add(pl.mul(address, time), pl.cast(pl.cast(t * st, pl.INT32), pl.FP32)), dt)
-                address = pl.add(pl.add(pl.mul(address, height), pl.cast(pl.cast(h * sh, pl.INT32), pl.FP32)), dh)
-                address = pl.add(pl.add(pl.mul(address, width), pl.cast(pl.cast(w * sw, pl.INT32), pl.FP32)), dw)
-                indices = pl.set_validshape(pl.cast(address, pl.INT32), 1, valid)
-                windows = pl.tile.mgather(image, indices, coalesce="elem")
-                columns = pl.store(pl.cast(windows, pl.BF16), [row, begin], columns)
-        return columns
-
-    @pl.jit.inline(auto_scope=False)
-    def windows(pixels: pl.Tensor, columns: pl.Out[pl.Tensor]):
-        flat = pl.reshape(pixels, [1, image_size])
-        image = pl.create_tensor([1, image_size], dtype=pl.FP32)
-        image = widen(flat, image)
-        columns = extract(image, columns)
-        return columns
-
-    return windows
-
-
-@lru_cache(maxsize=64)
-def im2col(image_shape: tuple[int, ...], kernel_size: tuple[int, int, int],
-           stride: tuple[int, int, int], *, input_dtype: str = "bfloat16"):
-    windows = image_windows(image_shape, kernel_size, stride, input_dtype)
-
     @pl.jit
     def kernel(pixels: pl.Tensor, columns: pl.Out[pl.Tensor]):
-        columns = windows(pixels, columns)
+        flat_pixels = pl.reshape(pixels, [1, image_size])
+        image = pl.create_tensor([1, image_size], dtype=pl.FP32)
+        # 1. 精确扩宽像素到FP32暂存，供元素Gather读取。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for pixel_begin in pl.range(0, image_size, 1024):
+                pixel_count = pl.min(1024, image_size - pixel_begin)
+                pixel_values = pl.load(flat_pixels, [0, pixel_begin], [1, 1024], valid_shape=[1, pixel_count])
+                if input_dtype == "float32":
+                    image = pl.store(pixel_values, [0, pixel_begin], image)
+                else:
+                    image = pl.store(pl.cast(pixel_values, pl.FP32), [0, pixel_begin], image)
+
+        # 2. columns[row,k] = BF16(pixels[b,c,t*st+dt,h*sh+dh,w*sw+dw])。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for patch_row in pl.range(rows):
+                batch_index = patch_row // (ot * oh * ow)
+                output_t = (patch_row // (oh * ow)) % ot
+                output_h = (patch_row // ow) % oh
+                output_w = patch_row % ow
+                for window_begin in pl.range(0, patch_width, 128):
+                    window_count = pl.min(128, patch_width - window_begin)
+                    window_index = pl.add(pl.cast(pl.tile.ci(0, [1, 128]), pl.FP32), pl.cast(pl.cast(window_begin, pl.INT32), pl.FP32))
+                    channel = pl.cast(pl.cast(pl.div(window_index, kt * kh * kw), pl.INT32, mode="floor"), pl.FP32)
+                    kernel_t = pl.sub(pl.cast(pl.cast(pl.div(window_index, kh * kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(channel, kt))
+                    channel_time = pl.add(pl.mul(channel, kt), kernel_t)
+                    kernel_h = pl.sub(pl.cast(pl.cast(pl.div(window_index, kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(channel_time, kh))
+                    channel_time_height = pl.add(pl.mul(channel_time, kh), kernel_h)
+                    kernel_w = pl.sub(window_index, pl.mul(channel_time_height, kw))
+                    # NCTHW 窗口地址；重叠窗口直接重复 Gather，不由 host 切 Patch。
+                    pixel_index = pl.add(channel, pl.cast(pl.cast(batch_index * channels, pl.INT32), pl.FP32))
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, time), pl.cast(pl.cast(output_t * st, pl.INT32), pl.FP32)), kernel_t)
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, height), pl.cast(pl.cast(output_h * sh, pl.INT32), pl.FP32)), kernel_h)
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, width), pl.cast(pl.cast(output_w * sw, pl.INT32), pl.FP32)), kernel_w)
+                    pixel_indices = pl.set_validshape(pl.cast(pixel_index, pl.INT32), 1, window_count)
+                    window_values = pl.tile.mgather(image, pixel_indices, coalesce="elem")
+                    columns = pl.store(pl.cast(window_values, pl.BF16), [patch_row, window_begin], columns)
         return columns
 
     return kernel
@@ -81,145 +66,100 @@ def im2col(image_shape: tuple[int, ...], kernel_size: tuple[int, int, int],
 @lru_cache(maxsize=64)
 def patch_embedding(image_shape: tuple[int, ...], hidden: int, kernel_size: tuple[int, int, int], *,
                     stride: tuple[int, int, int], spatial_merge_size: int = 2, input_dtype: str = "bfloat16"):
+    """OP-08：像素窗口 -> FP32累加的Linear+bias -> BF16 -> Merge Token重排。"""
     batch, channels, time, height, width = image_shape
     kt, kh, kw = kernel_size
     st, sh, sw = stride
     ot, oh, ow = (time - kt) // st + 1, (height - kh) // sh + 1, (width - kw) // sw + 1
     rows, patch_width = batch * ot * oh * ow, channels * kt * kh * kw
+    image_size = batch * channels * time * height * width
     m = spatial_merge_size
-    windows = image_windows(image_shape, kernel_size, stride, input_dtype)
-
-    @pl.jit.incore
-    def project(columns: pl.Tensor, weight: pl.Tensor, bias: pl.Tensor, raster: pl.Out[pl.Tensor]):
-        for row in pl.range(0, rows, 16):
-            for feature in pl.range(0, hidden, 128):
-                mr = pl.min(16, rows - row)
-                nr = pl.min(128, hidden - feature)
-                kr = pl.min(128, patch_width)
-                a0 = pl.load(columns, [row, 0], [16, 128], valid_shape=[mr, kr], target_memory=pl.Mem.Mat)
-                b0 = pl.load(weight, [feature, 0], [128, 128], valid_shape=[nr, kr], target_memory=pl.Mem.Mat)
-                initial = pl.matmul(pl.move(a0, target_memory=pl.Mem.Left), pl.move(pl.tile.transpose_view(b0), target_memory=pl.Mem.Right))
-                for kbegin, (acc,) in pl.range(128, (patch_width + 127) // 128 * 128, 128, init_values=(initial,)):
-                    kval = pl.min(128, patch_width - kbegin)
-                    a = pl.load(columns, [row, kbegin], [16, 128], valid_shape=[mr, kval], target_memory=pl.Mem.Mat)
-                    b = pl.load(weight, [feature, kbegin], [128, 128], valid_shape=[nr, kval], target_memory=pl.Mem.Mat)
-                    updated = pl.matmul_acc(acc, pl.move(a, target_memory=pl.Mem.Left), pl.move(pl.tile.transpose_view(b), target_memory=pl.Mem.Right))
-                    total = pl.yield_(updated)
-                # FP32 部分和跨 K 块累加，bias 后才舍入 BF16。
-                dot = pl.set_validshape(total, mr, nr)
-                bt = pl.cast(pl.load(bias, [0, feature], [1, 128], valid_shape=[1, nr]), pl.FP32)
-                raster = pl.store(pl.cast(pl.col_expand_add(dot, bt), pl.BF16), [row, feature], raster)
-        return raster
-
-    @pl.jit.incore
-    def reorder(raster: pl.Tensor, out: pl.Out[pl.Tensor], grid_thw: pl.Out[pl.Tensor]):
-        for serial in pl.range(rows):
-            frame = serial // (oh * ow)
-            local = serial % (oh * ow)
-            group = local // (m * m)
-            inside = local % (m * m)
-            row = (group // (ow // m)) * m + inside // m
-            col = (group % (ow // m)) * m + inside % m
-            source = frame * oh * ow + row * ow + col
-            for feature in pl.range(0, hidden, 128):
-                values = pl.load(raster, [source, feature], [1, 128], valid_shape=[1, pl.min(128, hidden - feature)])
-                out = pl.store(values, [serial, feature], out)
-        for b in pl.range(batch):
-            pl.write(grid_thw, [b, 0], pl.const(ot, pl.INT64))
-            pl.write(grid_thw, [b, 1], pl.const(oh, pl.INT64))
-            pl.write(grid_thw, [b, 2], pl.const(ow, pl.INT64))
-        return out, grid_thw
 
     @pl.jit
     def kernel(pixels: pl.Tensor, weight: pl.Tensor, bias: pl.Tensor,
                out: pl.Out[pl.Tensor], grid_thw: pl.Out[pl.Tensor]):
+        flat_pixels = pl.reshape(pixels, [1, image_size])
+        image = pl.create_tensor([1, image_size], dtype=pl.FP32)
         columns = pl.create_tensor([rows, patch_width], dtype=pl.BF16)
         raster = pl.create_tensor([rows, hidden], dtype=pl.BF16)
-        columns = windows(pixels, columns)
-        raster = project(columns, weight, bias, raster)
-        out, grid_thw = reorder(raster, out, grid_thw)
+        # 1. 原始像素 -> FP32暂存；host不预先切Patch。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for pixel_begin in pl.range(0, image_size, 1024):
+                pixel_count = pl.min(1024, image_size - pixel_begin)
+                pixel_values = pl.load(flat_pixels, [0, pixel_begin], [1, 1024], valid_shape=[1, pixel_count])
+                if input_dtype == "float32":
+                    image = pl.store(pixel_values, [0, pixel_begin], image)
+                else:
+                    image = pl.store(pl.cast(pixel_values, pl.FP32), [0, pixel_begin], image)
+
+        # 2. im2col：每行是一个输出窗口，列顺序为C,Kt,Kh,Kw。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for patch_row in pl.range(rows):
+                batch_index = patch_row // (ot * oh * ow)
+                output_t = (patch_row // (oh * ow)) % ot
+                output_h = (patch_row // ow) % oh
+                output_w = patch_row % ow
+                for window_begin in pl.range(0, patch_width, 128):
+                    window_count = pl.min(128, patch_width - window_begin)
+                    window_index = pl.add(pl.cast(pl.tile.ci(0, [1, 128]), pl.FP32), pl.cast(pl.cast(window_begin, pl.INT32), pl.FP32))
+                    channel = pl.cast(pl.cast(pl.div(window_index, kt * kh * kw), pl.INT32, mode="floor"), pl.FP32)
+                    kernel_t = pl.sub(pl.cast(pl.cast(pl.div(window_index, kh * kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(channel, kt))
+                    channel_time = pl.add(pl.mul(channel, kt), kernel_t)
+                    kernel_h = pl.sub(pl.cast(pl.cast(pl.div(window_index, kw), pl.INT32, mode="floor"), pl.FP32), pl.mul(channel_time, kh))
+                    channel_time_height = pl.add(pl.mul(channel_time, kh), kernel_h)
+                    kernel_w = pl.sub(window_index, pl.mul(channel_time_height, kw))
+                    # NCTHW 窗口地址；重叠窗口直接重复 Gather，不由 host 切 Patch。
+                    pixel_index = pl.add(channel, pl.cast(pl.cast(batch_index * channels, pl.INT32), pl.FP32))
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, time), pl.cast(pl.cast(output_t * st, pl.INT32), pl.FP32)), kernel_t)
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, height), pl.cast(pl.cast(output_h * sh, pl.INT32), pl.FP32)), kernel_h)
+                    pixel_index = pl.add(pl.add(pl.mul(pixel_index, width), pl.cast(pl.cast(output_w * sw, pl.INT32), pl.FP32)), kernel_w)
+                    pixel_indices = pl.set_validshape(pl.cast(pixel_index, pl.INT32), 1, window_count)
+                    window_values = pl.tile.mgather(image, pixel_indices, coalesce="elem")
+                    columns = pl.store(pl.cast(window_values, pl.BF16), [patch_row, window_begin], columns)
+
+        # 3. raster = BF16(sum_K(columns @ weight.T) + FP32(bias))。
+        #    分K累加器始终保持FP32，最终bias后才转换。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for row_begin in pl.range(0, rows, 16):
+                for feature_begin in pl.range(0, hidden, 128):
+                    valid_rows = pl.min(16, rows - row_begin)
+                    valid_features = pl.min(128, hidden - feature_begin)
+                    valid_k0 = pl.min(128, patch_width)
+                    lhs_first = pl.load(columns, [row_begin, 0], [16, 128], valid_shape=[valid_rows, valid_k0], target_memory=pl.Mem.Mat)
+                    rhs_first = pl.load(weight, [feature_begin, 0], [128, 128], valid_shape=[valid_features, valid_k0], target_memory=pl.Mem.Mat)
+                    first_accumulator = pl.matmul(pl.move(lhs_first, target_memory=pl.Mem.Left),
+                        pl.move(pl.tile.transpose_view(rhs_first), target_memory=pl.Mem.Right))
+                    for k_begin, (partial_sum,) in pl.range(128, (patch_width + 127) // 128 * 128, 128, init_values=(first_accumulator,)):
+                        valid_k = pl.min(128, patch_width - k_begin)
+                        lhs = pl.load(columns, [row_begin, k_begin], [16, 128], valid_shape=[valid_rows, valid_k], target_memory=pl.Mem.Mat)
+                        rhs = pl.load(weight, [feature_begin, k_begin], [128, 128], valid_shape=[valid_features, valid_k],
+                            target_memory=pl.Mem.Mat)
+                        accumulated = pl.matmul_acc(partial_sum, pl.move(lhs, target_memory=pl.Mem.Left),
+                            pl.move(pl.tile.transpose_view(rhs), target_memory=pl.Mem.Right))
+                        accumulator = pl.yield_(accumulated)
+                    # FP32 部分和跨 K 块累加，bias 后才舍入 BF16。
+                    dot32 = pl.set_validshape(accumulator, valid_rows, valid_features)
+                    bias32 = pl.cast(pl.load(bias, [0, feature_begin], [1, 128], valid_shape=[1, valid_features]), pl.FP32)
+                    raster = pl.store(pl.cast(pl.col_expand_add(dot32, bias32), pl.BF16), [row_begin, feature_begin], raster)
+
+        # 4. 将空间栅格顺序改为Merge组顺序：B,Ot,block_h,block_w,intra_h,intra_w。
+        with pl.at(level=pl.Level.CORE_GROUP):
+            for token_index in pl.range(rows):
+                frame_index = token_index // (oh * ow)
+                spatial_index = token_index % (oh * ow)
+                merge_group = spatial_index // (m * m)
+                merge_lane = spatial_index % (m * m)
+                source_h = (merge_group // (ow // m)) * m + merge_lane // m
+                source_w = (merge_group % (ow // m)) * m + merge_lane % m
+                source_row = frame_index * oh * ow + source_h * ow + source_w
+                for col_begin in pl.range(0, hidden, 128):
+                    reordered_values = pl.load(raster, [source_row, col_begin], [1, 128], valid_shape=[1, pl.min(128, hidden - col_begin)])
+                    out = pl.store(reordered_values, [token_index, col_begin], out)
+            for media_index in pl.range(batch):
+                pl.write(grid_thw, [media_index, 0], pl.const(ot, pl.INT64))
+                pl.write(grid_thw, [media_index, 1], pl.const(oh, pl.INT64))
+                pl.write(grid_thw, [media_index, 2], pl.const(ow, pl.INT64))
         return out, grid_thw
-
-    return kernel
-
-
-@lru_cache(maxsize=64)
-def position_interpolation(grids: tuple[tuple[int, int, int], ...], hidden: int, *,
-                           table_side: int, merge_size: int, start: int = 0):
-    """One media's interpolation; remaining media are specialized as inline stages."""
-    t, h, w = grids[0]
-    count, end = t * h * w, start + t * h * w
-    physical_count = (count + 7) // 8 * 8
-    row_divisor, col_divisor = max(h - 1, 1), max(w - 1, 1)
-    remaining = len(grids) > 1
-    if remaining:
-        rest = position_interpolation(grids[1:], hidden, table_side=table_side, merge_size=merge_size, start=end)
-
-    @pl.jit.inline(auto_scope=False)
-    def kernel(x: pl.Tensor, table: pl.Tensor, indices: pl.Out[pl.Tensor],
-               weights: pl.Out[pl.Tensor], out: pl.Out[pl.Tensor]):
-        # OP-11：按连续 m*m Merge 组还原二维空间位置，各时间片复用位置表。
-        serial = pl.reshape(pl.set_validshape(pl.cast(pl.tile.ci(0, [1, physical_count]), pl.FP32), 1, count), [physical_count, 1])
-        local = pl.sub(serial, pl.mul(pl.cast(pl.cast(pl.div(serial, h * w), pl.INT32, mode="floor"), pl.FP32), h * w))
-        group = pl.cast(pl.cast(pl.div(local, merge_size * merge_size), pl.INT32, mode="floor"), pl.FP32)
-        inside = pl.sub(local, pl.mul(group, merge_size * merge_size))
-        block_row = pl.cast(pl.cast(pl.div(group, w // merge_size), pl.INT32, mode="floor"), pl.FP32)
-        row = pl.add(pl.mul(block_row, merge_size), pl.cast(pl.cast(pl.div(inside, merge_size), pl.INT32, mode="floor"), pl.FP32))
-        block_col = pl.sub(group, pl.mul(block_row, w // merge_size))
-        col = pl.add(pl.mul(block_col, merge_size), pl.sub(inside, pl.mul(pl.cast(pl.cast(pl.div(inside, merge_size), pl.INT32, mode="floor"), pl.FP32), merge_size)))
-        row_pos = pl.div(pl.mul(row, table_side - 1), row_divisor)
-        col_pos = pl.div(pl.mul(col, table_side - 1), col_divisor)
-        iy0 = pl.cast(row_pos, pl.INT32, mode="floor")
-        ix0 = pl.cast(col_pos, pl.INT32, mode="floor")
-        iy1 = pl.minimum(pl.add(iy0, 1), table_side - 1)
-        ix1 = pl.minimum(pl.add(ix0, 1), table_side - 1)
-        i00 = pl.add(pl.mul(iy0, table_side), ix0)
-        i01 = pl.add(pl.mul(iy0, table_side), ix1)
-        i10 = pl.add(pl.mul(iy1, table_side), ix0)
-        i11 = pl.add(pl.mul(iy1, table_side), ix1)
-        # align_corners=True；四邻点权重按 y0x0,y0x1,y1x0,y1x1 排列。
-        dy = pl.sub(row_pos, pl.cast(iy0, pl.FP32))
-        dx = pl.sub(col_pos, pl.cast(ix0, pl.FP32))
-        wy0 = pl.maximum(pl.add(pl.mul(pl.abs(dy), -1.0), 1.0), 0.0)
-        wy1 = pl.maximum(pl.add(pl.mul(pl.abs(pl.sub(dy, 1.0)), -1.0), 1.0), 0.0)
-        wx0 = pl.maximum(pl.add(pl.mul(pl.abs(dx), -1.0), 1.0), 0.0)
-        wx1 = pl.maximum(pl.add(pl.mul(pl.abs(pl.sub(dx, 1.0)), -1.0), 1.0), 0.0)
-        # 四次按行 MGATHER，直接从 GM 读取 BF16 位置表，不物化整表。
-        n00 = pl.cast(pl.tile.mgather(table, pl.reshape(i00, [1, physical_count]), coalesce="row"), pl.FP32)
-        n01 = pl.cast(pl.tile.mgather(table, pl.reshape(i01, [1, physical_count]), coalesce="row"), pl.FP32)
-        n10 = pl.cast(pl.tile.mgather(table, pl.reshape(i10, [1, physical_count]), coalesce="row"), pl.FP32)
-        n11 = pl.cast(pl.tile.mgather(table, pl.reshape(i11, [1, physical_count]), coalesce="row"), pl.FP32)
-        position = pl.row_expand_mul(n00, pl.mul(wy0, wx0))
-        position = pl.add(position, pl.row_expand_mul(n01, pl.mul(wy0, wx1)))
-        position = pl.add(position, pl.row_expand_mul(n10, pl.mul(wy1, wx0)))
-        position = pl.add(position, pl.row_expand_mul(n11, pl.mul(wy1, wx1)))
-        # 先舍入位置向量，再与 BF16 hidden 相加；索引和权重分别返回。
-        x_tile = pl.cast(pl.load(x, [start, 0], [physical_count, hidden], valid_shape=[count, hidden]), pl.FP32)
-        position_rounded = pl.cast(pl.cast(position, pl.BF16), pl.FP32)
-        output_tile = pl.cast(pl.add(x_tile, position_rounded), pl.BF16)
-        out = pl.store(output_tile, [start, 0], out)
-        # 先在32B对齐的行主序 Tile 中组织4列元数据，再一次写回窄 GM 行。
-        # 逐列 TSTORE 会使列主序源与行主序目标的步长约定不一致。
-        index_rows = pl.tile.full([physical_count, 8], dtype=pl.INT32, value=0)
-        weight_rows = pl.tile.full([physical_count, 8], dtype=pl.FP32, value=0.0)
-        w00 = pl.mul(wy0, wx0)
-        w01 = pl.mul(wy0, wx1)
-        w10 = pl.mul(wy1, wx0)
-        w11 = pl.mul(wy1, wx1)
-        for token in pl.range(count):
-            pl.tile.write(index_rows, [token, 0], pl.read(i00, [token, 0]))
-            pl.tile.write(index_rows, [token, 1], pl.read(i01, [token, 0]))
-            pl.tile.write(index_rows, [token, 2], pl.read(i10, [token, 0]))
-            pl.tile.write(index_rows, [token, 3], pl.read(i11, [token, 0]))
-            pl.tile.write(weight_rows, [token, 0], pl.read(w00, [token, 0]))
-            pl.tile.write(weight_rows, [token, 1], pl.read(w01, [token, 0]))
-            pl.tile.write(weight_rows, [token, 2], pl.read(w10, [token, 0]))
-            pl.tile.write(weight_rows, [token, 3], pl.read(w11, [token, 0]))
-        indices = pl.store(pl.set_validshape(index_rows, count, 4), [start, 0], indices)
-        weights = pl.store(pl.set_validshape(weight_rows, count, 4), [start, 0], weights)
-        if remaining:
-            indices, weights, out = rest(x, table, indices, weights, out)
-        return indices, weights, out
 
     return kernel
 
@@ -227,13 +167,88 @@ def position_interpolation(grids: tuple[tuple[int, int, int], ...], hidden: int,
 @lru_cache(maxsize=64)
 def position_embedding(grids: tuple[tuple[int, int, int], ...], hidden: int, *, table_side: int,
                        merge_size: int, tile_cols: int):
-    interpolate = position_interpolation(grids, hidden, table_side=table_side, merge_size=merge_size)
+    """OP-11：网格 -> Token坐标 -> 四邻点/权重 -> 位置插值 -> BF16位置相加。"""
+    media_count = len(grids)
+    physical_count = (max(t * h * w for t, h, w in grids) + 7) // 8 * 8
 
     @pl.jit
-    def kernel(x: pl.Tensor, table: pl.Tensor, indices: pl.Out[pl.Tensor],
+    def kernel(grid: pl.Tensor, x: pl.Tensor, table: pl.Tensor, indices: pl.Out[pl.Tensor],
                weights: pl.Out[pl.Tensor], out: pl.Out[pl.Tensor]):
         with pl.at(level=pl.Level.CORE_GROUP):
-            indices, weights, out = interpolate(x, table, indices, weights, out)
+            offset_zero = pl.const(0, pl.INDEX)
+            for media, (start,) in pl.range(media_count, init_values=(offset_zero,)):
+                time = pl.read(grid, [media, 0])
+                height = pl.read(grid, [media, 1])
+                width = pl.read(grid, [media, 2])
+                count = time * height * width
+                valid_count = pl.cast(count, pl.INDEX)
+                frame_size = pl.cast(height * width, pl.FP32)
+                merge_columns = pl.cast(pl.cast(width // merge_size, pl.INT32), pl.FP32)
+                row_divisor = pl.cast(pl.cast(pl.max(height - 1, 1), pl.INT32), pl.FP32)
+                col_divisor = pl.cast(pl.cast(pl.max(width - 1, 1), pl.INT32), pl.FP32)
+                # 1. IOTA产生媒体内Token编号；padding lane复用最后有效编号，Gather始终合法。
+                serial = pl.reshape(pl.cast(pl.tile.ci(0, [1, physical_count]), pl.FP32), [physical_count, 1])
+                serial = pl.minimum(serial, pl.cast(pl.cast(count - 1, pl.INT32), pl.FP32))
+                local = pl.sub(serial, pl.mul(pl.cast(pl.cast(pl.div(serial, frame_size), pl.INT32, mode="floor"), pl.FP32), frame_size))
+                group = pl.cast(pl.cast(pl.div(local, merge_size * merge_size), pl.INT32, mode="floor"), pl.FP32)
+                inside = pl.sub(local, pl.mul(group, merge_size * merge_size))
+                block_row = pl.cast(pl.cast(pl.div(group, merge_columns), pl.INT32, mode="floor"), pl.FP32)
+                inside_row = pl.cast(pl.cast(pl.div(inside, merge_size), pl.INT32, mode="floor"), pl.FP32)
+                inside_col = pl.sub(inside, pl.mul(inside_row, merge_size))
+                row = pl.add(pl.mul(block_row, merge_size), inside_row)
+                block_col = pl.sub(group, pl.mul(block_row, merge_columns))
+                col = pl.add(pl.mul(block_col, merge_size), inside_col)
+                # 2. align_corners=True：将空间坐标映射到learned position table的二维位置。
+                row_pos = pl.div(pl.mul(row, table_side - 1), row_divisor)
+                col_pos = pl.div(pl.mul(col, table_side - 1), col_divisor)
+                iy0 = pl.cast(row_pos, pl.INT32, mode="floor")
+                ix0 = pl.cast(col_pos, pl.INT32, mode="floor")
+                iy1 = pl.minimum(pl.add(iy0, 1), table_side - 1)
+                ix1 = pl.minimum(pl.add(ix0, 1), table_side - 1)
+                i00 = pl.add(pl.mul(iy0, table_side), ix0)
+                i01 = pl.add(pl.mul(iy0, table_side), ix1)
+                i10 = pl.add(pl.mul(iy1, table_side), ix0)
+                i11 = pl.add(pl.mul(iy1, table_side), ix1)
+                # 3. 四邻点的双线性权重，顺序为y0x0,y0x1,y1x0,y1x1。
+                dy = pl.sub(row_pos, pl.cast(iy0, pl.FP32))
+                dx = pl.sub(col_pos, pl.cast(ix0, pl.FP32))
+                wy0 = pl.maximum(pl.add(pl.mul(pl.abs(dy), -1.0), 1.0), 0.0)
+                wy1 = pl.maximum(pl.add(pl.mul(pl.abs(pl.sub(dy, 1.0)), -1.0), 1.0), 0.0)
+                wx0 = pl.maximum(pl.add(pl.mul(pl.abs(dx), -1.0), 1.0), 0.0)
+                wx1 = pl.maximum(pl.add(pl.mul(pl.abs(pl.sub(dx, 1.0)), -1.0), 1.0), 0.0)
+                w00 = pl.mul(wy0, wx0)
+                w01 = pl.mul(wy0, wx1)
+                w10 = pl.mul(wy1, wx0)
+                w11 = pl.mul(wy1, wx1)
+                # 4. 按四个索引读取表行，FP32加权；位置向量先转BF16再与hidden相加。
+                n00 = pl.cast(pl.tile.mgather(table, pl.reshape(i00, [1, physical_count]), coalesce="row"), pl.FP32)
+                n01 = pl.cast(pl.tile.mgather(table, pl.reshape(i01, [1, physical_count]), coalesce="row"), pl.FP32)
+                n10 = pl.cast(pl.tile.mgather(table, pl.reshape(i10, [1, physical_count]), coalesce="row"), pl.FP32)
+                n11 = pl.cast(pl.tile.mgather(table, pl.reshape(i11, [1, physical_count]), coalesce="row"), pl.FP32)
+                position = pl.row_expand_mul(n00, w00)
+                position = pl.add(position, pl.row_expand_mul(n01, w01))
+                position = pl.add(position, pl.row_expand_mul(n10, w10))
+                position = pl.add(position, pl.row_expand_mul(n11, w11))
+                position = pl.set_validshape(position, valid_count, hidden)
+                position_rounded = pl.cast(pl.cast(position, pl.BF16), pl.FP32)
+                x_tile = pl.cast(pl.load(x, [start, 0], [physical_count, hidden], valid_shape=[valid_count, hidden]), pl.FP32)
+                output_tile = pl.cast(pl.add(x_tile, position_rounded), pl.BF16)
+                out = pl.store(output_tile, [start, 0], out)
+                # 5. 行主序打包四列元数据；只写回当前媒体有效Token。
+                index_rows = pl.tile.full([physical_count, 8], dtype=pl.INT32, value=0)
+                weight_rows = pl.tile.full([physical_count, 8], dtype=pl.FP32, value=0.0)
+                for token in pl.range(valid_count):
+                    pl.tile.write(index_rows, [token, 0], pl.read(i00, [token, 0]))
+                    pl.tile.write(index_rows, [token, 1], pl.read(i01, [token, 0]))
+                    pl.tile.write(index_rows, [token, 2], pl.read(i10, [token, 0]))
+                    pl.tile.write(index_rows, [token, 3], pl.read(i11, [token, 0]))
+                    pl.tile.write(weight_rows, [token, 0], pl.read(w00, [token, 0]))
+                    pl.tile.write(weight_rows, [token, 1], pl.read(w01, [token, 0]))
+                    pl.tile.write(weight_rows, [token, 2], pl.read(w10, [token, 0]))
+                    pl.tile.write(weight_rows, [token, 3], pl.read(w11, [token, 0]))
+                indices = pl.store(pl.set_validshape(index_rows, valid_count, 4), [start, 0], indices)
+                weights = pl.store(pl.set_validshape(weight_rows, valid_count, 4), [start, 0], weights)
+                _packed_end = pl.yield_(start + valid_count)
         return indices, weights, out
 
     return kernel
@@ -307,112 +322,85 @@ def spatial_merger(rows: int, hidden: int, intermediate: int, output_width: int,
 
 
 @lru_cache(maxsize=64)
-def attention_segments(boundaries: tuple[int, ...], rows: int, head_dim: int):
-    """One packed segment: padded physical Tile geometry, exact logical extents."""
-    begin, end = boundaries[:2]
-    length = end - begin
-    token_tile = (length + 15) // 16 * 16
+def vision_attention(rows: int, hidden: int, heads: int, boundaries: tuple[int, ...]):
+    """OP-09：QKV -> half-split RoPE -> 分段QK/Softmax/PV -> 输出投影。"""
+    head_dim, half = hidden // heads, hidden // heads // 2
+    segment_count = len(boundaries) - 1
+    token_tile = (max(b - a for a, b in zip(boundaries, boundaries[1:])) + 15) // 16 * 16
     feature_tile = (head_dim + 15) // 16 * 16
-    remaining = len(boundaries) > 2
-    if remaining:
-        rest = attention_segments(boundaries[1:], rows, head_dim)
-
-    @pl.jit.inline(auto_scope=False)
-    def kernel(q: pl.Tensor[[rows, head_dim], pl.BF16], k: pl.Tensor[[rows, head_dim], pl.BF16],
-               v: pl.Tensor[[rows, head_dim], pl.BF16], context: pl.Out[pl.Tensor[[rows, head_dim], pl.BF16]]):
-        # Q/K 的物理 Tile 均补齐 Cube 的 16 元素块，有效区域只含当前片段。
-        q_mat = pl.load(q, [begin, 0], [token_tile, feature_tile],
-                        valid_shape=[length, head_dim], target_memory=pl.Mem.Mat, clamp=True)
-        k_mat = pl.load(k, [begin, 0], [token_tile, feature_tile],
-                        valid_shape=[length, head_dim], target_memory=pl.Mem.Mat, clamp=True)
-        q_left = pl.move(q_mat, target_memory=pl.Mem.Left)
-        k_right = pl.move(pl.tile.transpose_view(k_mat), target_memory=pl.Mem.Right)
-        score_acc = pl.set_validshape(pl.matmul(q_left, k_right), length, length)
-        scores = pl.cast(score_acc, pl.BF16)
-        # QK 与缩放各自保留 BF16 舍入，再执行 FP32 Softmax。
-        scaled = pl.mul(pl.cast(scores, pl.FP32), head_dim ** -0.5)
-        scores32 = pl.cast(pl.cast(scaled, pl.BF16), pl.FP32)
-        reduce_tmp = pl.create_tile([token_tile, token_tile], dtype=pl.FP32, target_memory=pl.Mem.Vec)
-        maximum = pl.row_max(scores32, reduce_tmp)
-        exponent = pl.exp(pl.row_expand_sub(scores32, maximum))
-        denominator = pl.row_sum(exponent, reduce_tmp)
-        probabilities = pl.cast(pl.row_expand_div(exponent, denominator), pl.BF16)
-        probabilities = pl.set_validshape(pl.fillpad(probabilities, pad_value=pl.PadValue.zero), length, length)
-        # P@V 的两个 K 轴共用 token_tile，尾部有效长度始终为 length。
-        p_left = pl.move(pl.move(probabilities, target_memory=pl.Mem.Mat), target_memory=pl.Mem.Left)
-        v_mat = pl.load(v, [begin, 0], [token_tile, feature_tile],
-                        valid_shape=[length, head_dim], target_memory=pl.Mem.Mat, clamp=True)
-        v_right = pl.move(v_mat, target_memory=pl.Mem.Right)
-        attended = pl.set_validshape(pl.matmul(p_left, v_right), length, head_dim)
-        context = pl.store(pl.cast(attended, pl.BF16), [begin, 0], context)
-        if remaining:
-            context = rest(q, k, v, context)
-        return context
-
-    return kernel
-
-
-@lru_cache(maxsize=64)
-def attention_output_projection(rows: int, hidden: int):
     physical_rows = (rows + 15) // 16 * 16
     physical_hidden = (hidden + 15) // 16 * 16
-
-    @pl.jit.incore
-    def project(context: pl.Tensor, weight: pl.Tensor, dot: pl.Out[pl.Tensor]):
-        a = pl.load(context, [0, 0], [physical_rows, physical_hidden],
-                    valid_shape=[rows, hidden], target_memory=pl.Mem.Mat)
-        b = pl.load(weight, [0, 0], [physical_hidden, physical_hidden],
-                    valid_shape=[hidden, hidden], target_memory=pl.Mem.Mat)
-        left = pl.move(a, target_memory=pl.Mem.Left)
-        right = pl.move(pl.tile.transpose_view(b), target_memory=pl.Mem.Right)
-        result = pl.set_validshape(pl.matmul(left, right), rows, hidden)
-        dot = pl.store(result, [0, 0], dot)
-        return dot
-
-    return project
-
-
-@lru_cache(maxsize=64)
-def vision_attention(rows: int, hidden: int, heads: int, boundaries: tuple[int, ...]):
-    head_dim, half = hidden // heads, hidden // heads // 2
-    attend = attention_segments(boundaries, rows, head_dim)
-    project_output = attention_output_projection(rows, hidden)
 
     @pl.jit
     def kernel(x: pl.Tensor, qkv_weight: pl.Tensor, qkv_bias: pl.Tensor,
                proj_weight: pl.Tensor, proj_bias: pl.Tensor, cos: pl.Tensor, sin: pl.Tensor,
-               out: pl.Out[pl.Tensor]):
+               segments: pl.Tensor, out: pl.Out[pl.Tensor]):
         context = pl.create_tensor([rows, hidden], dtype=pl.BF16)
         qkv_buffer = pl.create_tensor([rows, 3 * hidden], dtype=pl.BF16)
         with pl.at(level=pl.Level.CORE_GROUP):
-            # OP-09：BF16 输入投影；各 head 共用同一 QKV 投影结果。
+            # 1. QKV = BF16(FP32_accumulate(x @ W_qkv.T) + FP32(bias))。
             projected = pl.matmul(x, qkv_weight, out_dtype=pl.FP32, b_trans=True)
             qkv_buffer[:] = pl.cast(pl.col_expand_add(projected, pl.cast(qkv_bias, pl.FP32)), pl.BF16)
         for head in pl.unroll(heads):
+            # 每个head独立存储，避免前一head的消费者尚未完成就复用缓冲。
             q_buffer = pl.create_tensor([rows, head_dim], dtype=pl.BF16)
             k_buffer = pl.create_tensor([rows, head_dim], dtype=pl.BF16)
             v_buffer = pl.create_tensor([rows, head_dim], dtype=pl.BF16)
             head_context = pl.create_tensor([rows, head_dim], dtype=pl.BF16)
             with pl.at(level=pl.Level.CORE_GROUP):
+                # 2. half-split RoPE：[a,b] -> [-b,a]；FP32旋转后舍入BF16。
                 begin_q = head * head_dim
                 begin_k = hidden + begin_q
                 begin_v = 2 * hidden + begin_q
                 q32 = pl.cast(qkv_buffer[:, begin_q:begin_q + head_dim], pl.FP32)
                 k32 = pl.cast(qkv_buffer[:, begin_k:begin_k + head_dim], pl.FP32)
-                # half-split RoPE：[a,b] -> [-b,a]，FP32 旋转后舍入 BF16。
                 q_half = pl.concat(pl.mul(q32[:, half:], -1.0), q32[:, :half])
                 k_half = pl.concat(pl.mul(k32[:, half:], -1.0), k32[:, :half])
                 q_buffer[:] = pl.cast(pl.add(pl.mul(q32, cos), pl.mul(q_half, sin)), pl.BF16)
                 k_buffer[:] = pl.cast(pl.add(pl.mul(k32, cos), pl.mul(k_half, sin)), pl.BF16)
                 v_buffer[:] = qkv_buffer[:, begin_v:begin_v + head_dim]
             with pl.at(level=pl.Level.CORE_GROUP):
-                # 每个片段独立完成 QK、FP32 Softmax 和 PV。
-                head_context = attend(q_buffer, k_buffer, v_buffer, head_context)
+                # 3. 每个图像/时间片段独立做QK、Softmax、PV，不跨片段混合Token。
+                for segment in pl.range(segment_count):
+                    begin = pl.read(segments, [0, segment])
+                    end = pl.read(segments, [0, segment + 1])
+                    length = pl.cast(end - begin, pl.INDEX)
+                    q_mat = pl.load(q_buffer, [begin, 0], [token_tile, feature_tile], valid_shape=[length, head_dim],
+                        target_memory=pl.Mem.Mat, clamp=True)
+                    k_mat = pl.load(k_buffer, [begin, 0], [token_tile, feature_tile], valid_shape=[length, head_dim],
+                        target_memory=pl.Mem.Mat, clamp=True)
+                    q_left = pl.move(q_mat, target_memory=pl.Mem.Left)
+                    k_right = pl.move(pl.tile.transpose_view(k_mat), target_memory=pl.Mem.Right)
+                    score_acc = pl.set_validshape(pl.matmul(q_left, k_right), length, length)
+                    scores = pl.cast(score_acc, pl.BF16)
+                    # QK点积与1/sqrt(K)缩放各自保留BF16边界，再进行FP32 Softmax。
+                    scaled = pl.mul(pl.cast(scores, pl.FP32), head_dim ** -0.5)
+                    scores32 = pl.cast(pl.cast(scaled, pl.BF16), pl.FP32)
+                    reduce_tmp = pl.create_tile([token_tile, token_tile], dtype=pl.FP32, target_memory=pl.Mem.Vec)
+                    maximum = pl.row_max(scores32, reduce_tmp)
+                    exponent = pl.exp(pl.row_expand_sub(scores32, maximum))
+                    denominator = pl.row_sum(exponent, reduce_tmp)
+                    probabilities = pl.cast(pl.row_expand_div(exponent, denominator), pl.BF16)
+                    probabilities = pl.set_validshape(pl.fillpad(probabilities, pad_value=pl.PadValue.zero), length, length)
+                    p_left = pl.move(pl.move(probabilities, target_memory=pl.Mem.Mat), target_memory=pl.Mem.Left)
+                    v_mat = pl.load(v_buffer, [begin, 0], [token_tile, feature_tile], valid_shape=[length, head_dim],
+                        target_memory=pl.Mem.Mat, clamp=True)
+                    v_right = pl.move(v_mat, target_memory=pl.Mem.Right)
+                    attended = pl.set_validshape(pl.matmul(p_left, v_right), length, head_dim)
+                    head_context = pl.store(pl.cast(attended, pl.BF16), [begin, 0], head_context)
             with pl.at(level=pl.Level.CORE_GROUP):
+                # 4. 将各head的context写入对应特征段。
                 head_tile = pl.load(head_context, [0, 0], [rows, head_dim])
                 context = pl.store(head_tile, [0, head * head_dim], context)
         projected_out = pl.create_tensor([rows, hidden], dtype=pl.FP32)
-        projected_out = project_output(context, proj_weight, projected_out)
+        with pl.at(level=pl.Level.CORE_GROUP):
+            # 5. 输出投影：FP32累加，独立bias阶段后回转BF16。
+            output_lhs = pl.load(context, [0, 0], [physical_rows, physical_hidden], valid_shape=[rows, hidden], target_memory=pl.Mem.Mat)
+            output_rhs = pl.load(proj_weight, [0, 0], [physical_hidden, physical_hidden], valid_shape=[hidden, hidden], target_memory=pl.Mem.Mat)
+            output_left = pl.move(output_lhs, target_memory=pl.Mem.Left)
+            output_right = pl.move(pl.tile.transpose_view(output_rhs), target_memory=pl.Mem.Right)
+            output_acc = pl.set_validshape(pl.matmul(output_left, output_right), rows, hidden)
+            projected_out = pl.store(output_acc, [0, 0], projected_out)
         with pl.at(level=pl.Level.CORE_GROUP):
             dot = pl.load(projected_out, [0, 0], [rows, hidden])
             bias = pl.cast(pl.load(proj_bias, [0, 0], [1, hidden]), pl.FP32)

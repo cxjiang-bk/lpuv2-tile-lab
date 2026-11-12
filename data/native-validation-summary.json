@@ -11,20 +11,20 @@
   "numerical_profile": "pto-functional-v0",
   "numerical_thresholds_changed": false,
   "test_run": {
-    "command": "source scripts/hw-env.sh; python -m pytest tests/framework tests/operators tests/kernels -q --basetemp=artifacts/hw-migration-final",
-    "log": "artifacts/hw-migration-final.log",
-    "passed": 151,
+    "command": "source scripts/hw-env.sh; source /mnt/data/jiangcx/notes/lpuv2_pypto_env_20261110/pypto/.claude/skills/testing/load-env.sh; python -m pytest tests/framework tests/operators tests/kernels -q --basetemp=artifacts/kernel-refactor-final",
+    "log": "artifacts/kernel-refactor-final.log",
+    "passed": 155,
     "failed": 0,
     "reference_and_framework": 116,
-    "native_kernel_tests": 35,
-    "duration_seconds": 270.12
+    "native_kernel_tests": 39,
+    "duration_seconds": 291.36
   },
   "source_sha256": {
     "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-    "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-    "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-    "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
-    "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+    "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+    "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+    "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+    "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
   },
   "operators": [
     {
@@ -33,7 +33,7 @@
       "kernel_id": "K-03",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu0/a-native-op03-small/20261112T025942_f87f941f7b88",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu0/a-native-op03-small/20261112T042341_45bf6b74929d",
       "parameters": {
         "eps": 1e-06,
         "input_shapes": {
@@ -112,17 +112,17 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "02a29dc44a1b59be8ea81f804096c8041eb37ae1bd1cb6c253c49cee96c18d86",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 2.197539486020105,
+        "elapsed_seconds": 2.195591613999568,
         "generated_pto_count": 1,
         "binary_sha256": {
           "kernels/aiv/kernel_incore_0_50d2b6c154c51755b467fc47.so": "bafcc57df87811f57c009af718a9e146911f18273e4a8bbf7c29321c4e8082b1",
-          "orchestration/kernel.so": "03377495506bee7f81346a16531326bb24abc61002538de81a88c21cb6cb6ead"
+          "orchestration/kernel.so": "c96ea3649aec72ae7294302a62eb9943bdcfe14893c25d7e0baf46fa16c383c0"
         }
       }
     },
@@ -132,7 +132,7 @@
       "kernel_id": "K-04",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu1/a-native-op04-small/20261112T025946_65aa8b9c4bf5",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu1/a-native-op04-small/20261112T042344_b4ee6e5c9f6c",
       "parameters": {
         "input_shapes": {
           "x": [
@@ -208,17 +208,17 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "ff46dd003696657ae8db84148c193f3213b5be8f7a0c7f192b45464499873585",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 2.2542214679997414,
+        "elapsed_seconds": 2.418797968974104,
         "generated_pto_count": 1,
         "binary_sha256": {
           "kernels/aiv/kernel_incore_0_b179b604c91d309b67f544f7.so": "6f5635b7660918b6b3c2cdeca4b2e87850ef45fc8a278f5d90d9b570e703e734",
-          "orchestration/kernel.so": "60ac9f25b7075a5e94e381e7b9d2bdfa4683300e26055a4d9b635e0322d350b0"
+          "orchestration/kernel.so": "9375dd4643bd83d5cc08174e14687986a24559b7a332f4c78fd2e9c7ffdeaac3"
         }
       }
     },
@@ -228,7 +228,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu2/a-native-op06-small/20261112T025949_e03c5d794e37",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu2/a-native-op06-small/20261112T042348_0ada04774dfd",
       "parameters": {
         "qk_heads": 1,
         "value_heads": 2,
@@ -465,39 +465,41 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "kernel_source_sha256": "c5a1ce2c346ffb48c14b50dca2bf94b930b367519838c2fef0ceadea1b125c8d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "gdn_path": "recurrent",
         "chunk_size": null,
         "native_fp8_cube_validated": false,
         "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
-        "elapsed_seconds": 4.988332041015383,
-        "generated_pto_count": 15,
+        "elapsed_seconds": 5.474869155994384,
+        "generated_pto_count": 17,
         "binary_sha256": {
-          "kernels/aic/ab_projection_aic_91d72e6d54aa455a577d7e97.so": "7e16ddece10e54e6004a7ac2f674d8b2f6eef99783c45ad7c92e6d5fa06d7e0d",
-          "kernels/aic/k128_dot_646dff69bfeb0c1f7c41fa37.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
-          "kernels/aiv/ab_projection_aiv_6cf250b02ae60593d86b310f.so": "9c47cb87d8895ccb5f48db1e130b61658f2451c4fa9fe0d90233d2acca5ea9cf",
-          "kernels/aiv/accumulate_076a944942911450fe85cb69.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
-          "kernels/aiv/accumulate__2_52c25f690eb49cb2ef63243d.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
-          "kernels/aiv/assemble_head_f498432883b48a289e198b16.so": "0cebb5783c70c7bbbba3f881e09fe324a6777ee001c6d84cb810f6eba39273df",
-          "kernels/aiv/causal_conv_8476ed9506491a7985c2e27c.so": "d0b49ec940e9eaca3ede86dadfebc4b3050ffff07fd7aea1b4069a1225222e3a",
+          "kernels/aic/kernel_incore_1_dc875c1f70baffe9ed022dbb.so": "1f9d0a2def1b6e54796606a1ebf0d79dfec690d77b9be06bfe49ffd271530163",
+          "kernels/aic/kernel_incore_5_aic_a9683b03388d231ce32d0655.so": "7f48c56d016715d421518ef92944e49fc2cfc9d75b639e5bc0f985aaf16ea8a0",
           "kernels/aiv/core_ec579704fdc2e3c8f981ab4a.so": "e1a36bb063e52c557aa3bbc8e8f01901ade045b42e8085d213b792dff48d909d",
           "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
-          "kernels/aiv/extract_head_671834009c59ca700789ee09.so": "2916abc1ed5d14e562f0c51eb34c319812c13ffc33bd104a25195ce6eeacf165",
-          "kernels/aiv/gated_norm_2d594e9866a1bd3f78449a7f.so": "38f5bc7444299e4ba39a678609481c5f964cb7ed724a6530fb670427ec83fb91",
-          "kernels/aiv/gates_054b0e261ac185a2c64916ba.so": "6da3176f7fa8779a4b4be76f74deccae39d9ce9cd5f001ed225be979f2d70ec9",
-          "kernels/aiv/input_mask_af6124305f8c7125c72c053b.so": "6b8c8aa7c07470b15558658e5a8d89ecfdaac79cf6f99f1405bbc2b8ba50d50e",
-          "kernels/aiv/kernel_incore_0_4afbbdff777db9578f13c049.so": "6ea177d91359c6e21fee4d90510daad6d3bf80bd8cb351ff529f6af188371323",
+          "kernels/aiv/kernel_incore_0_c536cf9a8d7b19d1d800c08e.so": "017d64ca327df1cf74a8e4fc4f702bbac6170accb1c454918b45afe94e1e5bd8",
+          "kernels/aiv/kernel_incore_10_dfb08fefe7bb6bc383b088e6.so": "e60ce4fd5d6cca5b0f4d16aa807db40f6595efab460f7af895e4606dcc395533",
+          "kernels/aiv/kernel_incore_11_5f5238a9574b72a4e30d53cf.so": "640c6506dadde039b05aa2d851c95e6d3a4a73743c54bdf09d142017b33a772a",
+          "kernels/aiv/kernel_incore_12_047a36f3ea29a54beddb4d7d.so": "37aba5ed5a209129f1d3f8bbed0f30150af80b54234c6a475f965af5d889bfbf",
+          "kernels/aiv/kernel_incore_14_53d22d077668d9177a914170.so": "4136a8f0ed1e2e7703798daee8e4f50e08df49d5a14324d329f094ba2cb2b62d",
+          "kernels/aiv/kernel_incore_15_91bf4bc2e8b060f31ae48d6a.so": "758cf51e45e075feba876056b54aa3e2b65b8a912919ba760d0c88aac318bfb7",
+          "kernels/aiv/kernel_incore_4_40bfc2404fc0d2baa745b887.so": "00de2282a5f49c10c6de014f55c40102fcebc6869596c5beb1323073056095c9",
+          "kernels/aiv/kernel_incore_5_aiv_e808765e182aad06cd610aab.so": "c8726cfd3bd33c9c52c5c275f42a155ad8dc1241cd6294d62131cadf7d50c0fe",
+          "kernels/aiv/kernel_incore_6_2e37fa968cc57479cecbe2a6.so": "3318795b00a94744a18f8a600b58b35f71d0ede4c8779d41b86cb31022fbaec2",
+          "kernels/aiv/kernel_incore_7_340e1efd75cdbec142ddc291.so": "cf44819d85ae578634d5b51090072d3cd3ab9a1382db268501730760de6734f0",
+          "kernels/aiv/kernel_incore_8_856454c6af133c4deb673529.so": "b9efe7364ffb3e082c2fc8cd91750dae687be3ab0aa6eb738414c54f6f3b8ed5",
+          "kernels/aiv/kernel_incore_9_bb94da6f7c4bb7c6af68a35e.so": "11fd4a985fcc9c50b54c1ff532faad105e2b2995b08a8b10f62a23f55ecaa084",
           "kernels/aiv/quantize_e4m3_bf16_851c240d71faab2ecade2592.so": "fc316ead465e72a28cd92728f2aa8630b4669161ebc973fe9b82b2fc32bd57a4",
           "kernels/aiv/quantize_e4m3_bf16__2_c154d87e9a7d68d307056286.so": "129224e5aaa9a5398a7f2a8d4c2e4ede70eba188a99f324dbb63c47aa73c6691",
-          "orchestration/kernel.so": "a6b108448947936263873b89ac8fed2d8fc861df1d3f68e8cb602a04051d98e6"
+          "orchestration/kernel.so": "7d1234105cefa8d500bc385bea8debb84652ebd110c4e2f4e7bdc9b4bc7f14d1"
         }
       }
     },
@@ -507,7 +509,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu3/a-native-op08-small/20261112T025955_94f0fe68d6b2",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu3/a-native-op08-small/20261112T042355_c0222bc3c998",
       "parameters": {
         "input_shapes": {
           "weight": [
@@ -628,13 +630,13 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "72c68e9f864882cfba017d34f7d4c75f842994a70d0b449bf687dd79ebf85a70",
+        "kernel_source_sha256": "3b9c90b8faab837807f8c7b09e941d1cb6d09847fa776f2f889f4ae55739de14",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "pixel_input_layout": "B,C,T,H,W",
         "pixel_input_dtype": "torch.float32",
@@ -657,15 +659,15 @@
         "host_patchify": false,
         "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
         "spatial_merge_size": 2,
-        "elapsed_seconds": 3.087753455998609,
+        "elapsed_seconds": 3.2696671310113743,
         "generated_pto_count": 4,
         "binary_sha256": {
-          "kernels/aic/project_aic_da7214c7b052bdb1fe326014.so": "59690f9535c2f5e51e1c258a5001c0d18ea01bd3f8e2bbecde8322048b8e1b98",
-          "kernels/aiv/extract_4139f58bd97a21a4e120ec45.so": "874a0f26dc65747022f94bbac5a834cfc8d39c3f1fc099bb6f35feba4d71440d",
-          "kernels/aiv/project_aiv_d7b8f8ca5f45b3acb905a32f.so": "7afdbc71d1ab9138bba5900b95efe39f5fd51ebb003054641564f669027da46d",
-          "kernels/aiv/reorder_c5ec1a2b86c3e84d861586f3.so": "4d8c805ff7778d29782fbefedae7220105d3adfb85b1af7d45735caab44095cb",
-          "kernels/aiv/widen_5effd4a77de25a9e2a0aa681.so": "be793106f98bb846054ed73568e818c6c47c4873fd909416075c719549468846",
-          "orchestration/kernel.so": "23474763a287eb425b6a77c0e9ec88189807995e4f3a2f12137206582649cdb4"
+          "kernels/aic/kernel_incore_2_aic_778a31bb75e265bfde04ace5.so": "c705205e79166beb764bba7623b5bb1ea0c54bd7e68d8f4c447b786be0332873",
+          "kernels/aiv/kernel_incore_0_6198e2c971e63d8c9e35940f.so": "7d95a92156031b70269d946b89d2125a4e62c51aff280e52998b6d020428c8f6",
+          "kernels/aiv/kernel_incore_1_fefdbac38ded408274cbe7ff.so": "847b23fbda950e110afb8ea0193d2abcee0b63ce6ea53bb95b40e6a36823f9a3",
+          "kernels/aiv/kernel_incore_2_aiv_5b9aff980091061ca7856e32.so": "aea768a3a592025f90edc333840a7d49cc20e564505f7b220bbb249423ce5972",
+          "kernels/aiv/kernel_incore_3_16498135764dcb33813079bf.so": "8e2900170d3a5a5979b00882e2008b540d0198a3ec8097a5f25a8c4ed2ec7cd4",
+          "orchestration/kernel.so": "ac2a43abdd544290a05720dd4951199c456870859fe0ef3596ecde0a66bb643a"
         }
       }
     },
@@ -675,7 +677,7 @@
       "kernel_id": "K-09",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu4/a-native-op09-small/20261112T030000_2769c5389274",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu4/a-native-op09-small/20261112T042400_3b647f67376f",
       "parameters": {
         "num_heads": 2,
         "input_shapes": {
@@ -771,28 +773,28 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "3fb93a283289a6e08cf7e789e75be216f1f84a75efb5c03c59b8e1e47c6ec13e",
+        "kernel_source_sha256": "9f62bf42259ed9a8746e154f3066bc12ea37b6f15d088dcc95e9aa22331dee7f",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 6.243402509018779,
+        "elapsed_seconds": 4.816023485996993,
         "generated_pto_count": 8,
         "binary_sha256": {
           "kernels/aic/kernel_incore_0_aic_cba546d52674d8998c830612.so": "922285332cf72fafbbc73a426201c4fee11792600c04ae6800d5f8f423f8cbaf",
-          "kernels/aic/kernel_incore_2_aic_eba192655d0ad02f72e3c271.so": "5cf04f7cc03b97a9a8fca5798111d99d537265723048e34523e4317856e03419",
-          "kernels/aic/project_6f0c12ada08ceff3d2d7a79f.so": "cddec818107aa9017d6bf42a0e33177c7b704d0db52904ccf3445c6700770454",
+          "kernels/aic/kernel_incore_2_aic_ee53ce37f5ae5faa534140a0.so": "940c396402ace848b82f1affbdc67eccc7f147ebf18c6023f5d89977b6ab6196",
+          "kernels/aic/kernel_incore_7_a215b9498464bdda028ddfa6.so": "76eb813c299129eb32bd9e590121e89e26d819789f69cfe256beee15dd4ec44a",
           "kernels/aiv/kernel_incore_0_aiv_5519e9309c5712f91329ddc8.so": "5e473dabab6c9aafa5caa45fd9eadb7d06117ff07ee6d466834a0e14b1314af7",
           "kernels/aiv/kernel_incore_1_ecb9cf7f9cb30b6752d2c357.so": "9ec68bc8c8614d505ded3c9a7cf07d0d27040adb286ed129f4e30b815df9668d",
-          "kernels/aiv/kernel_incore_2_aiv_e868ef0dbff593e06bac067f.so": "8de5e0f15f23fa08a42c3d1ffb4493b0dcac84cdb9b28e47aeaabf095ee011ab",
-          "kernels/aiv/kernel_incore_3_adaae2acd3bc23c1cf399599.so": "65f754b9715d25966bd8b1ce268762e1dbec0b0c91706ba03a4d53fc5746cdf9",
+          "kernels/aiv/kernel_incore_2_aiv_7d1c7d3d8f957e74fddc1192.so": "08291fd41f5769bb5560c1f2730eec4778ea3fe8ec2a875f089e1e4c95d67969",
+          "kernels/aiv/kernel_incore_3_f78a1c49d526086443440363.so": "65f754b9715d25966bd8b1ce268762e1dbec0b0c91706ba03a4d53fc5746cdf9",
           "kernels/aiv/kernel_incore_4_09f3558b4b657397eed199c4.so": "114a7d12f7e303af15460376f6bc3f322c9fcfb51ae1c32a8030d1113266ecba",
-          "kernels/aiv/kernel_incore_6_195a276f9eb7fefff8c0b075.so": "f973563c46f68929e0f881c09c1d622965fb7d9302852a19793be5c44e8369c7",
-          "kernels/aiv/kernel_incore_7_562ed0151ea0fecc17f05d26.so": "4735851eccf967e88f96fdd129e38bcaf469093f691602eaf018acf9acf7add4",
-          "orchestration/kernel.so": "b4a1a1edef88c4090fd140c332619e2af1eadc53f3b1fd098806dc7711a61f11"
+          "kernels/aiv/kernel_incore_6_a2f6ef8bad2c584db958cec7.so": "f973563c46f68929e0f881c09c1d622965fb7d9302852a19793be5c44e8369c7",
+          "kernels/aiv/kernel_incore_8_ca174ae38a2736fbe8b29365.so": "85c6db1ce19d7b742fcb9f375bddab3b6a218d6e6165f76493591ef308d0e04a",
+          "orchestration/kernel.so": "4f799dcec69d5af3634384b796cbc4b7a2971ca94e2fe436244f42e9c9d70f98"
         }
       }
     },
@@ -802,7 +804,7 @@
       "kernel_id": "K-10",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu5/a-native-op10-small/20261112T030007_f915c5422f22",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu5/a-native-op10-small/20261112T042406_ec052b46a006",
       "parameters": {
         "input_shapes": {
           "x": [
@@ -888,18 +890,18 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "058333c712e7c1f5cebf32770831a4d6d36c4a370973d4e64d5e1d6ac57c6273",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 4.034013030002825,
+        "elapsed_seconds": 4.526740129018435,
         "generated_pto_count": 1,
         "binary_sha256": {
           "kernels/aic/kernel_incore_0_aic_c34e9a37685de50605e5525a.so": "d42170ca9ce3a7ed78478b38a05613654a78998f71b98bc32397ed5d04261507",
           "kernels/aiv/kernel_incore_0_aiv_095d501b854e2495f83f30b9.so": "dc1b2a3b5e159fd7172627ca34a523ad9b5c9bd6317251012952c58696acdd35",
-          "orchestration/kernel.so": "b68c5c146b8b15dc3321577bd36bc647304f441a8f51da97bfee2b40e7cdbcc4"
+          "orchestration/kernel.so": "597cf64703447556719935e7226b25ec65bea740899adbe243886ef332d927db"
         }
       }
     },
@@ -909,7 +911,7 @@
       "kernel_id": "K-11",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu6/a-native-op11-small/20261112T030012_c31aedb2b5c7",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu6/a-native-op11-small/20261112T042412_d3b985f674b2",
       "parameters": {
         "input_shapes": {
           "grid_thw": [
@@ -1068,19 +1070,19 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "5aa2edeeb44a1087ae0b2477f4f3a35e36e2298866e67fd89340a5b0e16d1ed4",
+        "kernel_source_sha256": "69e8d5cb3855359cda1369761616fafa923e3fd3f3cb73515e748294c8c5b526",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 10.369660311989719,
+        "elapsed_seconds": 6.54520586898434,
         "generated_pto_count": 1,
         "binary_sha256": {
-          "kernels/aiv/kernel_incore_0_3214ef5015882ba0347ea032.so": "2cbf746cb96504506abe1a26b61ab4a603f15fa46dedce78214141a7e2952251",
-          "orchestration/kernel.so": "7fbf5169a6d0af4b711e34a6385df9b18a114a73fc50f90cc26e936ffb4a8f70"
+          "kernels/aiv/kernel_incore_0_36d9be6035e603db3e22473d.so": "c5cc6e2a6297677940950b74df11d4e937e87ba97be872d57bbc1b1dc25c4a3d",
+          "orchestration/kernel.so": "77c8520a0d88ff6703e4404e0f32fcc3665067727478924a8c526c932b03f3a6"
         }
       }
     },
@@ -1090,7 +1092,7 @@
       "kernel_id": "K-12",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu7/a-native-op12-small/20261112T030024_739297e46b1f",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu7/a-native-op12-small/20261112T042420_6b195dfb33b8",
       "parameters": {
         "spatial_merge_size": 2,
         "input_shapes": {
@@ -1183,13 +1185,13 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "e0cb300ec9daf623a71c5dd9a5504eb0db937b4a39ff8f3adf1377988371847d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 3.031495420000283,
+        "elapsed_seconds": 3.1189645979902707,
         "generated_pto_count": 4,
         "binary_sha256": {
           "kernels/aic/kernel_incore_1_aic_dae38081823759f02793c210.so": "c6b38cf6805aef1b816d78189ac86ce5c25320020e11c9a8257f80de49a3fe9c",
@@ -1198,7 +1200,7 @@
           "kernels/aiv/kernel_incore_1_aiv_b21d5948e16c96929d89abc4.so": "13bdaa7414ebfe7b0e411689259d1c2286e7bbb63d1e859d6633f10f6f0e474e",
           "kernels/aiv/kernel_incore_2_543016c48b5759ac3281e4c5.so": "05f2b80a031af99b7a834cbe42cd026162f307712c8597de3549e112c816a4aa",
           "kernels/aiv/kernel_incore_3_aiv_4306c5d919d1790eb8978e26.so": "64d25dd587bf205a230b1903a9f67d4c5b731d6a5b9c88594b828b560d9654a8",
-          "orchestration/kernel.so": "a77c19fcf88dda7faa6e8646e7587e6e65883850f543a1543c7d1085da2c0a38"
+          "orchestration/kernel.so": "8bae0896b277288820b7058588c59f86ab50dc6eee771daf8eef596fcbd6cc7d"
         }
       }
     },
@@ -1208,7 +1210,7 @@
       "kernel_id": "K-13",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu8/a-native-op13-small/20261112T030028_24892b613f39",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_operator_and_execu8/a-native-op13-small/20261112T042424_caa8f4fc4d4f",
       "parameters": {
         "input_shapes": {
           "text_embedding": [
@@ -1293,17 +1295,17 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "300a760d7c77904b3e9a0de6ba4600e25f1c029d752dfd9792b610952ec0c326",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
-        "elapsed_seconds": 2.018739425984677,
+        "elapsed_seconds": 1.98849628699827,
         "generated_pto_count": 1,
         "binary_sha256": {
           "kernels/aiv/kernel_incore_0_d41a9283c57d050d80a1106f.so": "4d143218e98b94ec71adb3c8501d60014db61a870107cb83189ef94c444c06fa",
-          "orchestration/kernel.so": "cb0fb441add28c10b08e227eeb7d213af4e308fca2ae0c621ca42ec5925dc305"
+          "orchestration/kernel.so": "25fed6cee1e429a3a83703785ed96deba80fbcc554ec9b29d1bf6a8536bfec83"
         }
       }
     }
@@ -1315,7 +1317,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_fp8_value_semantic0/a-native-fp8-quantize/20261112T030031_a1128d690428",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_fp8_value_semantic0/a-native-fp8-quantize/20261112T042427_466608bb6a2a",
       "parameters": {
         "rows": 4,
         "width": 129,
@@ -1465,20 +1467,20 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "bca6fc2799ce465f256564060649cd4f80cf0c22e945c76988d06e90eaea756e",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "native_fp8_cube_validated": false,
         "validation_scope": "K-06 numerical primitive; not a complete GDN operator",
-        "elapsed_seconds": 3.6433891040214803,
+        "elapsed_seconds": 3.854185280011734,
         "generated_pto_count": 1,
         "binary_sha256": {
           "kernels/aiv/quantize_e4m3_bf16_5bcd2312a4a83484e5e27796.so": "a947ca61c72e7e6010d61969c01cc3d809d2c30c1914e2c776c6e167df5dda80",
-          "orchestration/kernel.so": "b1d03191e7eb3125ce82b610078989054dc5d48da84183e4b5847642d039bf2a"
+          "orchestration/kernel.so": "4dc5d911d70ee4eaa4245d0d016a2298a9e2a497193e2c7a666559ecc1a41bfc"
         }
       }
     },
@@ -1488,7 +1490,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_fp8_value_semantic1/a-native-fp8-linear/20261112T030036_01504f3faec9",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_fp8_value_semantic1/a-native-fp8-linear/20261112T042433_1a466d6960ac",
       "parameters": {
         "rows": 4,
         "width": 129,
@@ -1557,23 +1559,23 @@
         "native_simulation": "completed",
         "kernel_source_sha256": "18f41a98eaa7a32f3aeb5ca3e3dfd4a68cf29af045cc5b8a134cf9408dffbace",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "native_fp8_cube_validated": false,
         "validation_scope": "K-06 numerical primitive; not a complete GDN operator",
-        "elapsed_seconds": 3.8430646619817708,
+        "elapsed_seconds": 4.191576567012817,
         "generated_pto_count": 4,
         "binary_sha256": {
-          "kernels/aic/k128_dot_dca2efcf598fc5a1a70c378c.so": "366b8c2a7f1f7dfab711004158245d5360660a45c58ebaaa442c844ffbabf916",
-          "kernels/aiv/accumulate_35794641318c6c6e04cde392.so": "b8f57edd380be97a486bc88de5e718c27093dfb8ca433cdbec1ec82488ed3e21",
+          "kernels/aic/kernel_incore_0_d55b09eb39a76e01e37d7187.so": "23828aa24846aeb69a0e78f7e81bc022d359863b0fa10d43eedb106dcbf06e9b",
           "kernels/aiv/decode_e4m3_bf16_a5c988e925136ca64076e5cc.so": "cc333175acb215e18357354568086231d97225d593f0223cc15ae4c14e92e0f9",
+          "kernels/aiv/kernel_incore_1_3ad78cc46868c1c9dffe285d.so": "2aed375ce4b065dd1a6c97bb89c834449c6ccc32ca6614b297fb910744fcdf04",
           "kernels/aiv/quantize_e4m3_bf16_5bcd2312a4a83484e5e27796.so": "a947ca61c72e7e6010d61969c01cc3d809d2c30c1914e2c776c6e167df5dda80",
-          "orchestration/kernel.so": "d6fa5cdb1d62cf50c34c8e54669d6deec1f3e74cfd22806e229dd66b0fd33bac"
+          "orchestration/kernel.so": "f5dad02787bbcc18ba8ef1690b843e9905d3b513ad475dc63a6545f5afcaba20"
         }
       }
     },
@@ -1583,7 +1585,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_complete0/a-native-op06-chunk-b2-s5-c3/20261112T030134_d9b66c901734",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_gdn_chunk_complete0/a-native-op06-chunk-b2-s5-c3/20261112T042537_ea2bb18b5a88",
       "parameters": {
         "qk_heads": 1,
         "value_heads": 2,
@@ -1826,40 +1828,47 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "kernel_source_sha256": "c5a1ce2c346ffb48c14b50dca2bf94b930b367519838c2fef0ceadea1b125c8d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "gdn_path": "chunk",
         "chunk_size": 3,
         "native_fp8_cube_validated": false,
         "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
-        "elapsed_seconds": 8.785439973988105,
-        "generated_pto_count": 16,
+        "elapsed_seconds": 10.055166592006572,
+        "generated_pto_count": 23,
         "binary_sha256": {
-          "kernels/aic/ab_projection_aic_cecbdc758ef1980119933442.so": "db3025543d0feeb3ea637e8810113f25d91d75136172d928be6ea61fe669b2b4",
-          "kernels/aic/k128_dot_d52184c4adee9c3bc26503b8.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
-          "kernels/aiv/ab_projection_aiv_84c13d14df037a32f56640e6.so": "64d9d6998069b3d766d95ef7d40196d9746a2a4dc769fac93820bc29bf3ee24b",
-          "kernels/aiv/accumulate_621e76efd53213543cb49c35.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
-          "kernels/aiv/accumulate__2_41ede7fff12d2b3e33484d04.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
-          "kernels/aiv/assemble_head_0a19e9be6afa146f2169b9ed.so": "645e53236291eb4a5f4f465f18420047bc365161a488150fba0b9fe8bde9bd31",
-          "kernels/aiv/block_5cf593db37920d2bc0c53ebc.so": "ee7fb87945cf5780caa7c72c568333b51cb91458d0000993d4df807384b430af",
-          "kernels/aiv/block__2_1ee2fea42043929f2cec5d42.so": "51b13a15bc88d80025b8fda62ea6d550d56f033c46eae0cf2b4e5f71bd75549f",
-          "kernels/aiv/causal_conv_61476ca4a788808e930d494e.so": "85e772bb5d3a29f9fbfcff898dba8e078e3714e4a056794cd81befe4f536e3c9",
+          "kernels/aic/kernel_incore_1_8cefc15fd9feba9f4b032ae5.so": "1f9d0a2def1b6e54796606a1ebf0d79dfec690d77b9be06bfe49ffd271530163",
+          "kernels/aic/kernel_incore_5_aic_b6f7cd0e97d200d9dac211cb.so": "fce5b228b8d807943a4ba01b77d9b1ed87ac7c020436296a230f2129c494d71f",
+          "kernels/aiv/block__2_dcde21268cb052746a5a6eaa.so": "7fc09d6bffb87a1c6c7a5d10cdecc8216439f371f8fa540cac7282cdbe7a0312",
+          "kernels/aiv/block_e78bd2a5ba5c70e775132cb3.so": "bbda205818aabe814c8f22faef61cfd1ce8f7d8c2e79eb1ea104527a5ad18990",
           "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
-          "kernels/aiv/extract_head_213a141a40efe76e1cbc3a0e.so": "3ffc9604f291ca7aa5fb4a50085fb17267a6bfe4e29a8d586a492f7703c6aa68",
-          "kernels/aiv/gated_norm_8f3d7949a3f3f898968c48f3.so": "1ac5587cc4f4eab850dead5f700e72c645cafc46e34caa4ee1e68dc9e0243480",
-          "kernels/aiv/gates_a7c0ac2be6e5acd97357cbaa.so": "c14d237e903750d37c70b9547e1a220255bb155de222a4c210016f4cd1155d1d",
-          "kernels/aiv/input_mask_e88ecaf912fe8628b84da4ad.so": "e0ba83ed25f716653b966799a83e2b80c433d88691855216cf661a7917a173f4",
-          "kernels/aiv/kernel_incore_0_3eb4ffc3e7a8bc82855cf800.so": "e36d1015b67cfada02dd2ea6f727860060cd6b93e9e41372dbf7cdd211f921ca",
+          "kernels/aiv/kernel_incore_0_8a46f2e1ea00083dac554770.so": "9ab315c61e3852ddb2d1c08c1f096780ab675e00dd7c61efd2d88a4b5a3c338b",
+          "kernels/aiv/kernel_incore_10_ac485dfef3c9dac72daf4756.so": "a8237638089efd8a9ba042c42330ff3a65b3a9e640f4079af740523cf1604b70",
+          "kernels/aiv/kernel_incore_11_b46d5b885aeee0b2a0ccce4a.so": "508d8dd818d363df622e7f2850d84f395f0d4f6fa65c5386c0eeee6f5dc804ad",
+          "kernels/aiv/kernel_incore_12_58503549daca030cfd0f3950.so": "2f8cebcd1d122bf944d886e671623c304a2ac3ac5eb65ce9a33c524cf0979f08",
+          "kernels/aiv/kernel_incore_13_cb941015a23fc78fcffa793f.so": "c15b83361ed9d36ddbe3a25b82bb8b7dfd88327e5732d43852e80c259ed88f83",
+          "kernels/aiv/kernel_incore_14_61eef1074006a05054e72729.so": "994c22c0abda9c547d839f39de739801fdd88ef5b190fd605e4411c5faccfffc",
+          "kernels/aiv/kernel_incore_16_4b93258c4177c5aebc0a011e.so": "5026069768f10f83e14355580a401f98e97527594e78ced0b61242c63cb16b20",
+          "kernels/aiv/kernel_incore_17_b9459a530d20da380bf1e31c.so": "1e704a482717b7fd95742dde4ae7cdaac24e182e7f124378f43ebc8d4bf225ff",
+          "kernels/aiv/kernel_incore_19_10e6685d29b704e26c97128c.so": "5ede68d695be53bcbd4fd6161d2df09e5c0c7a22381bac6334433a88ba9f46a8",
+          "kernels/aiv/kernel_incore_20_3eb72600ac3a8f147b3a3a4f.so": "6e896e18c6e9f1d645c07ab0c02c7f5180e27becefd4b7c3be39d0f5c64fdf49",
+          "kernels/aiv/kernel_incore_23_69efab25242748a9c5ca7522.so": "7ff510b24f5a2b26edbfbf21abdd93d11e015e76b47ab703d5e23a13f432ecdb",
+          "kernels/aiv/kernel_incore_2_24e9d016c82b2b2da4b821df.so": "c2dfebd3591740600f6bae56edbfe900cc0f7119f753d669aeb9e3140493e7bd",
+          "kernels/aiv/kernel_incore_4_6ce66f1ea9396fba3acbbfb6.so": "00de2282a5f49c10c6de014f55c40102fcebc6869596c5beb1323073056095c9",
+          "kernels/aiv/kernel_incore_5_aiv_41b6fda497d6914bb838bc4d.so": "6c2178049b1250de8690112b6dbc307d54bc540eaa2f37f377f4401ace75dcb8",
+          "kernels/aiv/kernel_incore_6_fcf1b2be0430d1829e3c5e51.so": "8420b321021173a856810e7926adbca361a950a38928d5e5175b4ed0b985ff54",
+          "kernels/aiv/kernel_incore_7_72fc92e23b5bda6922a852c9.so": "8eb9d273de74be58edc97fd1174fd79dc26eb2c0280448835bf3b552353522f6",
+          "kernels/aiv/kernel_incore_8_b915e0c6d71e881c27e40702.so": "9464808199531976d0f1147d06e478a9ffa6d0c90702692ba852fdafda8b8d98",
           "kernels/aiv/quantize_e4m3_bf16__2_aff35d8db19265f3aa378280.so": "02fbc08b72c9d2d3e3ed8f8f4cb6d9a651361f8e53c6729f08bfbba0d8812ae8",
           "kernels/aiv/quantize_e4m3_bf16_e5311c482446b71f24b536f2.so": "52e1736b2ca2ca5b5f529b38db6009f8dcda8369a7c6b920941039e813c38a26",
-          "orchestration/kernel.so": "ac61424d229a3af23018e37118284f3ebbf46b08587d9923ae7846c19d6cfccd"
+          "orchestration/kernel.so": "bcca711fcd4a48769e291d62bb8f174a49d8f9af3903ea00da26835a55a954c0"
         }
       }
     },
@@ -1869,7 +1878,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_complete1/a-native-op06-chunk-b1-s4-c64/20261112T030144_25c49bba36b5",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_gdn_chunk_complete1/a-native-op06-chunk-b1-s4-c64/20261112T042548_06cfd2ff6590",
       "parameters": {
         "qk_heads": 1,
         "value_heads": 2,
@@ -2108,39 +2117,42 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "kernel_source_sha256": "c5a1ce2c346ffb48c14b50dca2bf94b930b367519838c2fef0ceadea1b125c8d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "gdn_path": "chunk",
         "chunk_size": 64,
         "native_fp8_cube_validated": false,
         "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
-        "elapsed_seconds": 9.129479323979467,
-        "generated_pto_count": 15,
+        "elapsed_seconds": 10.419704859988997,
+        "generated_pto_count": 18,
         "binary_sha256": {
-          "kernels/aic/ab_projection_aic_f7357f5cdbb2dd2f52dd58f3.so": "cfe58591b40345b6b2dfc6990f1ce9acb13b2c7946e26e994183500200d8b6d0",
-          "kernels/aic/k128_dot_2d7639f2e3183d8b1b7b6a64.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
-          "kernels/aiv/ab_projection_aiv_07711a07b2db4c4ec0cfd143.so": "65755f36cc5f0ed14bdd5a6d36c9db6bfe39ed06f47a17197e89f24f168a234d",
-          "kernels/aiv/accumulate__2_c3429fe85838d40334bb430f.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
-          "kernels/aiv/accumulate_bfa06488cf743a925fda74bd.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
-          "kernels/aiv/assemble_head_f690e5873a1c3dc3ad379855.so": "ddb7fdeb91c00e7c5fbbc372582aace972e7020e4e024a6555765b36f2ce8031",
+          "kernels/aic/kernel_incore_1_544b4d4767474170aed7434a.so": "1f9d0a2def1b6e54796606a1ebf0d79dfec690d77b9be06bfe49ffd271530163",
+          "kernels/aic/kernel_incore_5_aic_eaf53acd0b22919345838a10.so": "c32dc8a751867d0adbf5381b45a161e9a4fdc6ff17fa0ee38cff33071ba26233",
           "kernels/aiv/block_aa068575ad856318e0079b89.so": "96a8f761c95d86952256c305ebddb5c5f7bb74a8fe4509f5ff269942961ab24d",
-          "kernels/aiv/causal_conv_b2084a60e8eba05574b271c6.so": "47d0b075187956dc7916091c4adaaef661514a02d577426be2253b1b25498733",
           "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
-          "kernels/aiv/extract_head_4592c97f5650895cffcbdb1e.so": "392634298601c748207b07061d2a57c417435bd27822d927c6a73f5b62a0af67",
-          "kernels/aiv/gated_norm_5c0ab6f72910b90ac9043e4a.so": "abd47ae5e06d6efffd71045d83281ba58b1f28569cd7b859c74fcb5d49846778",
-          "kernels/aiv/gates_2379dad2fe9838dad3429f6f.so": "0d0d5dcd4a657978c2f6b8da772007b4e924e49ea79f45e00b50bbc7976d01ce",
-          "kernels/aiv/input_mask_a8c4b353a89baeefa915aed0.so": "b0c64c18fd4c77def9c9aafbdd902e2d7ce70f986de36cd2fd18b54862c922ec",
-          "kernels/aiv/kernel_incore_0_ffb3a78ea97f21af0c03b03d.so": "abc149072973d0cabc2d9d5ad5b5b75d13563e5e1df2cabd04705f33940ee3b5",
+          "kernels/aiv/kernel_incore_0_1f63bf8f387425ba9fb967f1.so": "2e48e32096e43d747eab09f9223464c30479174ef71bc534779211c9d84006e9",
+          "kernels/aiv/kernel_incore_10_093210b541f3d771b0b38783.so": "768a5cd70a0a3298490df8ac41900bf3f4ecad17c8978ee9b7f6cc5f7c71700c",
+          "kernels/aiv/kernel_incore_11_0521c151dce7c33aa6792d6b.so": "d611737573469db0647c33a3d0c855e22c395710c813af1bedcdb257f0900c6f",
+          "kernels/aiv/kernel_incore_12_d575be4ee251a374d57a4aac.so": "2f8cebcd1d122bf944d886e671623c304a2ac3ac5eb65ce9a33c524cf0979f08",
+          "kernels/aiv/kernel_incore_13_81afe496e19b986ee32ef967.so": "eaafc0475bcc3868b34553f1ebdfed12345065071ebc9d9cc7a3cdc542a7a306",
+          "kernels/aiv/kernel_incore_14_e0faf298477d7f7d16f42eb7.so": "ba553b888bdc264463fc677f11e5750d9c95c42df77ea6b78ed263dd7766209b",
+          "kernels/aiv/kernel_incore_16_3808b967b21ee627eb9f61e7.so": "f315f045ffa605b70a0e633e55e6fbcb827dd1984486f0e9688e42a28bf5f207",
+          "kernels/aiv/kernel_incore_17_67a353ff7a3a480614c28ab7.so": "f5e82ddfcd2c61ba7c43f5c140de6268147cf0a00db3c53132251a73f8e70373",
+          "kernels/aiv/kernel_incore_4_67fab378305ed04d432f8712.so": "00de2282a5f49c10c6de014f55c40102fcebc6869596c5beb1323073056095c9",
+          "kernels/aiv/kernel_incore_5_aiv_dbc064f7878cd4fa7253359a.so": "767c97a0f3b182758741b25a8ff622e34808212cd6ccc50aac896c3daa0b0706",
+          "kernels/aiv/kernel_incore_6_23a36bf7ffe7425c2fefca09.so": "0c359b08931f2742f0073bf1f608553639ab93c7757c4f8139a27f6eb60671d8",
+          "kernels/aiv/kernel_incore_7_567d930cb7e010629ade126b.so": "45fe244c93a6182f23c4d37d6074f697df3fee37bf10a8e3db25bf2d9c00d5a2",
+          "kernels/aiv/kernel_incore_8_92e2fba2995ea41948e8393b.so": "37c96a9210dd94bfce6622f2247a3f2f349666ba55373452c6b0df088d35f687",
           "kernels/aiv/quantize_e4m3_bf16__2_9c8df44821badc384b922f88.so": "f10e1bd01665cb678e5b0d491f3e2eef14cdd49fba88f18722bae30ca765bf97",
           "kernels/aiv/quantize_e4m3_bf16_b68b35986139c5b264f1b9d5.so": "218fdd4c4446f4ccb24719683bb12170fabbed539561f81cac06c53dcb47aff8",
-          "orchestration/kernel.so": "9681414ff341da84cebbb0f44456c45749424f18644c7b6aba3d48c5edc52352"
+          "orchestration/kernel.so": "ea5c90fdf97a57e13316d6142d5e152de5123ee132b2898f862c5b6c20a32656"
         }
       }
     },
@@ -2150,7 +2162,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_prefill_0/a-native-op06-chunk-prefill-decode/20261112T030154_dbed67efc234",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_gdn_chunk_prefill_0/a-native-op06-chunk-prefill-decode/20261112T042600_601a0bae821f",
       "parameters": {
         "qk_heads": 1,
         "value_heads": 2,
@@ -2428,40 +2440,43 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "kernel_source_sha256": "c5a1ce2c346ffb48c14b50dca2bf94b930b367519838c2fef0ceadea1b125c8d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "gdn_path": "chunk",
         "chunk_size": 3,
         "native_fp8_cube_validated": false,
         "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
-        "elapsed_seconds": 8.308146133000264,
-        "generated_pto_count": 16,
+        "elapsed_seconds": 8.600380285992287,
+        "generated_pto_count": 19,
         "binary_sha256": {
-          "kernels/aic/ab_projection_aic_f7357f5cdbb2dd2f52dd58f3.so": "cfe58591b40345b6b2dfc6990f1ce9acb13b2c7946e26e994183500200d8b6d0",
-          "kernels/aic/k128_dot_2d7639f2e3183d8b1b7b6a64.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
-          "kernels/aiv/ab_projection_aiv_07711a07b2db4c4ec0cfd143.so": "65755f36cc5f0ed14bdd5a6d36c9db6bfe39ed06f47a17197e89f24f168a234d",
-          "kernels/aiv/accumulate__2_c3429fe85838d40334bb430f.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
-          "kernels/aiv/accumulate_bfa06488cf743a925fda74bd.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
-          "kernels/aiv/assemble_head_f690e5873a1c3dc3ad379855.so": "ddb7fdeb91c00e7c5fbbc372582aace972e7020e4e024a6555765b36f2ce8031",
-          "kernels/aiv/block_5cf593db37920d2bc0c53ebc.so": "ee7fb87945cf5780caa7c72c568333b51cb91458d0000993d4df807384b430af",
-          "kernels/aiv/block__2_3f3e5383b2d833084d92bcd3.so": "a5b8939a3cdf0b10c5ed8b3a0faa3fc4d22b11440a6c16f06bfc4472c8ab865d",
-          "kernels/aiv/causal_conv_b2084a60e8eba05574b271c6.so": "47d0b075187956dc7916091c4adaaef661514a02d577426be2253b1b25498733",
+          "kernels/aic/kernel_incore_1_544b4d4767474170aed7434a.so": "1f9d0a2def1b6e54796606a1ebf0d79dfec690d77b9be06bfe49ffd271530163",
+          "kernels/aic/kernel_incore_5_aic_eaf53acd0b22919345838a10.so": "c32dc8a751867d0adbf5381b45a161e9a4fdc6ff17fa0ee38cff33071ba26233",
+          "kernels/aiv/block_15c9fbc7c65c8a44720fe4a6.so": "bd52cf031e5bee3a91b2007580bd97d97c27380d966a45ba7ea7772f1f8e7a4f",
+          "kernels/aiv/block__2_dcde21268cb052746a5a6eaa.so": "7fc09d6bffb87a1c6c7a5d10cdecc8216439f371f8fa540cac7282cdbe7a0312",
           "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
-          "kernels/aiv/extract_head_4592c97f5650895cffcbdb1e.so": "392634298601c748207b07061d2a57c417435bd27822d927c6a73f5b62a0af67",
-          "kernels/aiv/gated_norm_5c0ab6f72910b90ac9043e4a.so": "abd47ae5e06d6efffd71045d83281ba58b1f28569cd7b859c74fcb5d49846778",
-          "kernels/aiv/gates_2379dad2fe9838dad3429f6f.so": "0d0d5dcd4a657978c2f6b8da772007b4e924e49ea79f45e00b50bbc7976d01ce",
-          "kernels/aiv/input_mask_a8c4b353a89baeefa915aed0.so": "b0c64c18fd4c77def9c9aafbdd902e2d7ce70f986de36cd2fd18b54862c922ec",
-          "kernels/aiv/kernel_incore_0_ffb3a78ea97f21af0c03b03d.so": "abc149072973d0cabc2d9d5ad5b5b75d13563e5e1df2cabd04705f33940ee3b5",
+          "kernels/aiv/kernel_incore_0_1f63bf8f387425ba9fb967f1.so": "2e48e32096e43d747eab09f9223464c30479174ef71bc534779211c9d84006e9",
+          "kernels/aiv/kernel_incore_10_093210b541f3d771b0b38783.so": "768a5cd70a0a3298490df8ac41900bf3f4ecad17c8978ee9b7f6cc5f7c71700c",
+          "kernels/aiv/kernel_incore_11_0521c151dce7c33aa6792d6b.so": "d611737573469db0647c33a3d0c855e22c395710c813af1bedcdb257f0900c6f",
+          "kernels/aiv/kernel_incore_12_58503549daca030cfd0f3950.so": "2f8cebcd1d122bf944d886e671623c304a2ac3ac5eb65ce9a33c524cf0979f08",
+          "kernels/aiv/kernel_incore_13_81afe496e19b986ee32ef967.so": "eaafc0475bcc3868b34553f1ebdfed12345065071ebc9d9cc7a3cdc542a7a306",
+          "kernels/aiv/kernel_incore_14_e0faf298477d7f7d16f42eb7.so": "ba553b888bdc264463fc677f11e5750d9c95c42df77ea6b78ed263dd7766209b",
+          "kernels/aiv/kernel_incore_16_d35db25326f012a5a8cebd5d.so": "f315f045ffa605b70a0e633e55e6fbcb827dd1984486f0e9688e42a28bf5f207",
+          "kernels/aiv/kernel_incore_17_67a353ff7a3a480614c28ab7.so": "f5e82ddfcd2c61ba7c43f5c140de6268147cf0a00db3c53132251a73f8e70373",
+          "kernels/aiv/kernel_incore_4_67fab378305ed04d432f8712.so": "00de2282a5f49c10c6de014f55c40102fcebc6869596c5beb1323073056095c9",
+          "kernels/aiv/kernel_incore_5_aiv_dbc064f7878cd4fa7253359a.so": "767c97a0f3b182758741b25a8ff622e34808212cd6ccc50aac896c3daa0b0706",
+          "kernels/aiv/kernel_incore_6_23a36bf7ffe7425c2fefca09.so": "0c359b08931f2742f0073bf1f608553639ab93c7757c4f8139a27f6eb60671d8",
+          "kernels/aiv/kernel_incore_7_567d930cb7e010629ade126b.so": "45fe244c93a6182f23c4d37d6074f697df3fee37bf10a8e3db25bf2d9c00d5a2",
+          "kernels/aiv/kernel_incore_8_92e2fba2995ea41948e8393b.so": "37c96a9210dd94bfce6622f2247a3f2f349666ba55373452c6b0df088d35f687",
           "kernels/aiv/quantize_e4m3_bf16__2_9c8df44821badc384b922f88.so": "f10e1bd01665cb678e5b0d491f3e2eef14cdd49fba88f18722bae30ca765bf97",
           "kernels/aiv/quantize_e4m3_bf16_b68b35986139c5b264f1b9d5.so": "218fdd4c4446f4ccb24719683bb12170fabbed539561f81cac06c53dcb47aff8",
-          "orchestration/kernel.so": "5bcc1704804665887dfcfcae2d741c5fa15d7c3c6ac3b2650e2ac8bf7b65c945"
+          "orchestration/kernel.so": "b0b6db130234a105f99277788d6cffc4be1ed6a0997748b2f0913b39acb4fb0d"
         },
         "execution_scenario": "chunk_prefill_recurrent_decode",
         "invocations": [
@@ -2476,7 +2491,7 @@
       "kernel_id": "K-06",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_continuous_dec0/a-native-op06-decode-continuity/20261112T030041_2f170063307e",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_gdn_continuous_dec0/a-native-op06-decode-continuity/20261112T042438_872840836535",
       "parameters": {
         "qk_heads": 1,
         "value_heads": 2,
@@ -2754,39 +2769,41 @@
         "hardware_precision_validated": false,
         "native_compilation": "completed",
         "native_simulation": "completed",
-        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "kernel_source_sha256": "c5a1ce2c346ffb48c14b50dca2bf94b930b367519838c2fef0ceadea1b125c8d",
         "source_files_sha256": {
-          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
-          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
           "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
-          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
-          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
         },
         "fp8_execution": "bf16_carrier",
         "gdn_path": "recurrent",
         "chunk_size": null,
         "native_fp8_cube_validated": false,
         "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
-        "elapsed_seconds": 4.797946154023521,
-        "generated_pto_count": 15,
+        "elapsed_seconds": 5.290878972009523,
+        "generated_pto_count": 17,
         "binary_sha256": {
-          "kernels/aic/ab_projection_aic_474b573492435f9d7b93535a.so": "d91e348be29919e7dc2286b8c1493a56714f4b681df6deb0295a7b640b72b5f1",
-          "kernels/aic/k128_dot_bcf8e879b1e4ee9824f1ec91.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
-          "kernels/aiv/ab_projection_aiv_09369daa3ab35cf6f9deee83.so": "69ceb222e4eb4aba007abe0cc8057c0c13d76aba7ad19050ba40a6b63bbeeb3f",
-          "kernels/aiv/accumulate_68f0f99de92c70fad76b9b99.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
-          "kernels/aiv/accumulate__2_32f8b976854f4cfb5870c6ff.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
-          "kernels/aiv/assemble_head_fa361637afc081aa1fe4bd66.so": "cff6c7e7a4adc17cfb2ca4c61038b4ea5901d1d623861e85800b8c8d17868664",
-          "kernels/aiv/causal_conv_5909046b6e6baebe44333a2f.so": "885956768761f2950929a732131e2faf5266213e3998e86f99b59515cb484c8c",
+          "kernels/aic/kernel_incore_1_60efd1a0918b62e8dea6f94b.so": "ba103ff1c996d0f0ef8f71bfeb50a84eb350b0a01812cca02ea652f93197e2e2",
+          "kernels/aic/kernel_incore_5_aic_c05a4cddf19165fed0131bf1.so": "132d6d2d3681590dbc3c74e8a589cba3ba534dcdb0c5258bec0411fad30e1375",
           "kernels/aiv/core_b923c186d2b898d9dbdf627b.so": "0466de7ea054d56376bb7ad0deb22f7d6b36acbb1f056bb627e39b376e5abf8a",
           "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
-          "kernels/aiv/extract_head_b1cbed5c85aa060bf0e8ff65.so": "e9ccc1840de9877a9e5848cdbd59dc9d9c18201b5bff9a942d6b0766a5706b05",
-          "kernels/aiv/gated_norm_8b8615d103e572385843d28a.so": "f08b924fb03a1f865de963247db9fac13eba177adf674983f5891aad7da2149e",
-          "kernels/aiv/gates_1175e9eb31d14e1bd0c38046.so": "8a839df7e4c9c1b5a6c8e221dc14f9a95b384cb117dd40a46d3e7c2e0d03be01",
-          "kernels/aiv/input_mask_3fcbdb9e1bd942fab8895a9f.so": "942b327b0f6d6f7f255df205dc9994ed3a280a2e23041a9a472fcf64707f1b16",
-          "kernels/aiv/kernel_incore_0_9a9ad41ea6cf100813b12ea4.so": "5937b8044f37bce3b6482a955fa48d8b99796bb8c866dd1510258a51e3b4be32",
+          "kernels/aiv/kernel_incore_0_142ce138c183fb860b3baa58.so": "733523604755ff85eae2e4ba36fb2de6c0c66b5ed7c8702f3af76fc9409ea8e2",
+          "kernels/aiv/kernel_incore_10_9a5281887691ea66830044ca.so": "7c1b7cfab698ed133a8ab13cafc2265586c6a58d26ffa0b8a24e992c35ae9aac",
+          "kernels/aiv/kernel_incore_11_393acad157b8ed8fddf6c9aa.so": "fb53fb2690eca9c6ec9c8d4a3ddbfc490395d785be94609b60476fc7df8adb65",
+          "kernels/aiv/kernel_incore_12_e18cb6730e5cf7a418d295ae.so": "f2550c0036c6aaff51bdf9e6d27cd5905dad888a798924dd708df8caba064110",
+          "kernels/aiv/kernel_incore_14_187d9e2f987cc1eff908cbfe.so": "0b7d3245e4daa5188b94d7018292f5370bd660369ee76ce0b80412fd412d6262",
+          "kernels/aiv/kernel_incore_15_8e80cb343086691419309cd1.so": "211d8ad8bed1da84c8f5eb54c807b536c3370c3da3548fcc991aed35c3ce3bd4",
+          "kernels/aiv/kernel_incore_4_7ec13efde0f3ac711bd8d753.so": "7c8f3b150e62b1c59d56eb2b335363fd4d809e476178d3568754474323ef5b83",
+          "kernels/aiv/kernel_incore_5_aiv_c9b35fc8a4672d807f5c9adc.so": "1affcb2c52d841916e1620e3f9ed24e5badcbc41843ed25283db4c15ba54ae71",
+          "kernels/aiv/kernel_incore_6_5cce9e3580297ca22fc70abf.so": "b3d8fb0c00b8069f09e90e4e076260a7a07486b32b13d33073042e27fdac1793",
+          "kernels/aiv/kernel_incore_7_ac5d07d4818f67743337f93e.so": "387fc89e05d91b9b40fb426ff3916b50ba6afe10bcd1e32e403219142fa7b6cd",
+          "kernels/aiv/kernel_incore_8_9ac731e2a431ef60aa672ab1.so": "3badad9eb42a1825aa731d7add1cb05b27fbfa3d9db3497524e664403dd40c54",
+          "kernels/aiv/kernel_incore_9_1e07925a2c16a8725b63ff1e.so": "d43e614c063583183c28aa8f421487385e28200fa1b18b3115c3097f702662e4",
           "kernels/aiv/quantize_e4m3_bf16__2_2f65aef6e836cebd73de0c68.so": "744085dcf170579695985d208670177ddb21011b189cff2199f12ea520fad90d",
           "kernels/aiv/quantize_e4m3_bf16_ccf6e9ac9133910a39f62b17.so": "45fdb13e4f0a49d289c816738f213d64a6b7e306e1b0751d127de2f3d5ed491c",
-          "orchestration/kernel.so": "2a8f875a574b6148397ed5a619ea45f0a69202ae30b4cbea0e6c051bf9e4b104"
+          "orchestration/kernel.so": "d32a0a5a21bf387bf1802b3c2f11794ef965021f1e5995293fba6290639027c3"
         },
         "execution_scenario": "continuous_decode",
         "invocations": [
@@ -2801,7 +2818,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_im2col_windows_mod0/a-native-op08-im2col-model/20261112T030346_9a9351c7f08c",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_im2col_windows_mod0/a-native-op08-im2col-model/20261112T042734_176921798b23",
       "parameters": {
         "stage": "im2col",
         "input_shape": [
@@ -2880,9 +2897,25 @@
         "execution_layer": "PTO C++ functional simulation",
         "platform": "a2a3sim",
         "hardware_precision_validated": false,
-        "native_compilation": "deferred",
-        "native_simulation": "deferred"
-      }
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "2ab12a199ff7573084e2f62b9e364e9359a1915f902884ac4ee17e09b22451c9",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+        },
+        "elapsed_seconds": 2.7627530330209993,
+        "generated_pto_count": 2,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_3b622994f956f511118762fa.so": "8eb9b2cfec21b33a1b3b9602b8e0c9b6b2869dcc3bcbe5f3d0ee5b1ac3eadb52",
+          "kernels/aiv/kernel_incore_1_0b5c84aab4d25170afcdc49a.so": "f6809ec677ff5033061344c668710c4a89d1d1dcded7e9fcf61de4e5a26baffd",
+          "orchestration/kernel.so": "75fe64f75744cc6ee080839624898e716c04b29cb678f052c34f523df3af6e4c"
+        }
+      },
+      "backend_details_evidence": "artifacts/kernel-refactor-final/test_native_im2col_windows_mod0/program/program.json"
     },
     {
       "case_id": "a-native-op08-im2col-overlap",
@@ -2890,7 +2923,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_im2col_windows_ove0/a-native-op08-im2col-overlap/20261112T030342_8e3beaba813d",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_im2col_windows_ove0/a-native-op08-im2col-overlap/20261112T042730_5b477355b7bf",
       "parameters": {
         "stage": "im2col",
         "input_shape": [
@@ -2969,9 +3002,25 @@
         "execution_layer": "PTO C++ functional simulation",
         "platform": "a2a3sim",
         "hardware_precision_validated": false,
-        "native_compilation": "deferred",
-        "native_simulation": "deferred"
-      }
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "2ab12a199ff7573084e2f62b9e364e9359a1915f902884ac4ee17e09b22451c9",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+        },
+        "elapsed_seconds": 2.679421965003712,
+        "generated_pto_count": 2,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_b8ad758bd4f8d25e3ed17505.so": "3c10b10efdc03dc64433a358e45c80acd785ebeadce06a183d67f8dc62c49d10",
+          "kernels/aiv/kernel_incore_1_1cc1efe8c1371b1d438aa3cf.so": "98ea8703c23ca61f3950ee63eacac00aa80186a0bceaf7b137ffdbe365b12a4c",
+          "orchestration/kernel.so": "c535274a84e276a13846993d6a873bad17f6aa4e96a12c71920a43588526a8b4"
+        }
+      },
+      "backend_details_evidence": "artifacts/kernel-refactor-final/test_native_im2col_windows_ove0/program/program.json"
     },
     {
       "case_id": "a-native-op08-model",
@@ -2979,7 +3028,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_model0/a-native-op08-model/20261112T030334_c59cad0f81dd",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_model0/a-native-op08-model/20261112T042721_3e061d125b07",
       "parameters": {
         "input_shapes": {
           "pixels": [
@@ -3103,9 +3152,49 @@
         "execution_layer": "PTO C++ functional simulation",
         "platform": "a2a3sim",
         "hardware_precision_validated": false,
-        "native_compilation": "deferred",
-        "native_simulation": "deferred"
-      }
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "3b9c90b8faab837807f8c7b09e941d1cb6d09847fa776f2f889f4ae55739de14",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+        },
+        "pixel_input_layout": "B,C,T,H,W",
+        "pixel_input_dtype": "torch.float32",
+        "conv3d_kernel": [
+          2,
+          16,
+          16
+        ],
+        "conv3d_stride": [
+          2,
+          16,
+          16
+        ],
+        "conv3d_padding": 0,
+        "conv3d_dilation": 1,
+        "conv3d_groups": 1,
+        "window_extraction": "im2col3d_composed_gather",
+        "dedicated_im2col_instruction": false,
+        "convolution_lowering": "im2col -> pl.matmul -> FP32 bias -> BF16",
+        "host_patchify": false,
+        "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
+        "spatial_merge_size": 2,
+        "elapsed_seconds": 3.3578401780105196,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_2_aic_f07a61a7c9ec5ea04c395c82.so": "f6b4978cd98e05a1d1393f0de22a288f6aa264f7a30bcdb751ae1a3518cda5ab",
+          "kernels/aiv/kernel_incore_0_3b622994f956f511118762fa.so": "8eb9b2cfec21b33a1b3b9602b8e0c9b6b2869dcc3bcbe5f3d0ee5b1ac3eadb52",
+          "kernels/aiv/kernel_incore_1_0b5c84aab4d25170afcdc49a.so": "f6809ec677ff5033061344c668710c4a89d1d1dcded7e9fcf61de4e5a26baffd",
+          "kernels/aiv/kernel_incore_2_aiv_0ec0bc682366c6f7cb180590.so": "6052c3b4d587fc1631f49713a249471b2a0528205d90b069f48f6278a765defa",
+          "kernels/aiv/kernel_incore_3_2506783a829aba21e04f4608.so": "ebc5254a844d37c2826e2fa0a76f8d69398389520a52f7acd7b7649f46811b72",
+          "orchestration/kernel.so": "3b20126760bf1fb87847b90eaebdd7568da3e3d7bd45db500ff808c9acb64ade"
+        }
+      },
+      "backend_details_evidence": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_model0/program/program.json"
     },
     {
       "case_id": "a-native-op08-overlap",
@@ -3113,7 +3202,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_overl0/a-native-op08-overlap/20261112T030329_d11e5692da6c",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_overl0/a-native-op08-overlap/20261112T042716_de4fc602d4a2",
       "parameters": {
         "input_shapes": {
           "pixels": [
@@ -3237,9 +3326,49 @@
         "execution_layer": "PTO C++ functional simulation",
         "platform": "a2a3sim",
         "hardware_precision_validated": false,
-        "native_compilation": "deferred",
-        "native_simulation": "deferred"
-      }
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "3b9c90b8faab837807f8c7b09e941d1cb6d09847fa776f2f889f4ae55739de14",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+        },
+        "pixel_input_layout": "B,C,T,H,W",
+        "pixel_input_dtype": "torch.bfloat16",
+        "conv3d_kernel": [
+          2,
+          3,
+          2
+        ],
+        "conv3d_stride": [
+          1,
+          2,
+          3
+        ],
+        "conv3d_padding": 0,
+        "conv3d_dilation": 1,
+        "conv3d_groups": 1,
+        "window_extraction": "im2col3d_composed_gather",
+        "dedicated_im2col_instruction": false,
+        "convolution_lowering": "im2col -> pl.matmul -> FP32 bias -> BF16",
+        "host_patchify": false,
+        "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
+        "spatial_merge_size": 1,
+        "elapsed_seconds": 3.196296887996141,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_2_aic_31dc1ae08a49a0ccf985b14a.so": "764dc8bfdb904b2c6f878efa3641f6a9b0f98250efacb8f2a7b657909873fee5",
+          "kernels/aiv/kernel_incore_0_70700598eb75cb433baa0781.so": "8e413d6fdfc9bba5aabad48eae9958ee4edc3bf5b5857a7ec0f59c1c45499923",
+          "kernels/aiv/kernel_incore_1_d80877cb2e530c405ee7059d.so": "98ea8703c23ca61f3950ee63eacac00aa80186a0bceaf7b137ffdbe365b12a4c",
+          "kernels/aiv/kernel_incore_2_aiv_626de24b62ede80f70e9e6d3.so": "5cc0bf557e0486c9ca5355e94daad2432348a84c9a0c768af0e4db33227948a2",
+          "kernels/aiv/kernel_incore_3_e5e6354adf455ee18b8027c4.so": "6e3fa5958379d0e6b40944f7705932ab9cabbe72514af184881d709352a9b027",
+          "orchestration/kernel.so": "8e3ed9cd008a47f15158eaaddc33abeeb70e0076d19608b8e355bc8a8d02ca06"
+        }
+      },
+      "backend_details_evidence": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_overl0/program/program.json"
     },
     {
       "case_id": "a-native-op08-tail",
@@ -3247,7 +3376,7 @@
       "kernel_id": "K-08",
       "passed": true,
       "backend": "hw_pto_cpp_sim",
-      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_tail_0/a-native-op08-tail/20261112T030338_26a3c2ae9d5c",
+      "artifact_directory": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_tail_0/a-native-op08-tail/20261112T042726_8e8f5e3a13d1",
       "parameters": {
         "input_shapes": {
           "pixels": [
@@ -3371,14 +3500,54 @@
         "execution_layer": "PTO C++ functional simulation",
         "platform": "a2a3sim",
         "hardware_precision_validated": false,
-        "native_compilation": "deferred",
-        "native_simulation": "deferred"
-      }
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "3b9c90b8faab837807f8c7b09e941d1cb6d09847fa776f2f889f4ae55739de14",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+          "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+          "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe"
+        },
+        "pixel_input_layout": "B,C,T,H,W",
+        "pixel_input_dtype": "torch.bfloat16",
+        "conv3d_kernel": [
+          2,
+          2,
+          3
+        ],
+        "conv3d_stride": [
+          2,
+          2,
+          3
+        ],
+        "conv3d_padding": 0,
+        "conv3d_dilation": 1,
+        "conv3d_groups": 1,
+        "window_extraction": "im2col3d_composed_gather",
+        "dedicated_im2col_instruction": false,
+        "convolution_lowering": "im2col -> pl.matmul -> FP32 bias -> BF16",
+        "host_patchify": false,
+        "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
+        "spatial_merge_size": 2,
+        "elapsed_seconds": 3.240546273009386,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_2_aic_e0732ef87b944505c6714e14.so": "3a6d4875140b68313287e2bc758dc5dd7c5feeebfea5ebd464138f3427c2ebb7",
+          "kernels/aiv/kernel_incore_0_7553af1be87e53b98b99dc71.so": "1c601e93e7be6047ade712ee57c9aea5f3107e4e81fa6020825a7187d3c0bfc7",
+          "kernels/aiv/kernel_incore_1_f6b671715a7a2f9acf88340a.so": "fb31899e29103dad0e7a96b42c0f98a25e97da822dec28414c6f6d43cd340f72",
+          "kernels/aiv/kernel_incore_2_aiv_bcdfa56d5e5bdac92bc1b6f4.so": "7bef8d40a829d705f713bfb1d41bfe8db7ee1348e4c836c4488f075310c06429",
+          "kernels/aiv/kernel_incore_3_faf405c3e7d2e6779357b227.so": "f432dc61d3b1f153a82a493867e3dbad3cb5b69f5ac0092982d4fe2a588bea75",
+          "orchestration/kernel.so": "899c0e9012709a3f9977ecc3bd734ba8380899ed8f402f717a4bfbf4486b25bc"
+        }
+      },
+      "backend_details_evidence": "artifacts/kernel-refactor-final/test_native_pixel_conv3d_tail_0/program/program.json"
     }
   ],
   "gdn_core_paths": [
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu0",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_chu0",
       "passed": true,
       "outputs": {
         "out": {
@@ -3390,7 +3559,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu1",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_chu1",
       "passed": true,
       "outputs": {
         "out": {
@@ -3402,7 +3571,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu2",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_chu2",
       "passed": true,
       "outputs": {
         "out": {
@@ -3414,7 +3583,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu3",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_chu3",
       "passed": true,
       "outputs": {
         "out": {
@@ -3426,7 +3595,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec0",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_rec0",
       "passed": true,
       "outputs": {
         "out": {
@@ -3438,7 +3607,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec1",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_rec1",
       "passed": true,
       "outputs": {
         "out": {
@@ -3450,7 +3619,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec2",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_rec2",
       "passed": true,
       "outputs": {
         "out": {
@@ -3462,7 +3631,7 @@
       }
     },
     {
-      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec3",
+      "case_directory": "artifacts/kernel-refactor-final/test_native_gdn_core_paths_rec3",
       "passed": true,
       "outputs": {
         "out": {
@@ -3489,6 +3658,11 @@
       "tests": "tests/kernels/test_pypto_a.py::test_native_repeated_attention_and_fp8",
       "passed": 1,
       "scope": "6 Attention invocations across unequal/singleton segments; 8 FP8 Linear invocations reusing a compiled program; native PTO/C++/ELF saved"
+    },
+    {
+      "tests": "tests/kernels/test_vision_metadata.py",
+      "passed": 4,
+      "scope": "Runtime mixed/single-axis grids and a one-entry position table: exact indices/weights; packed Attention boundaries [0,2,19,20] crossing a physical Tile boundary; input immutability"
     }
   ],
   "scope": {
@@ -3498,5 +3672,104 @@
     "direct_fp8_hardware_instructions": "not_validated; exact FP8 values carried in BF16",
     "GDN_model_dimensions_and_full_64_token_chunk": "not_validated",
     "real_checkpoint_full_model_performance": "not_validated"
-  }
+  },
+  "previous_validation": {
+    "commit": "ebd32cd",
+    "passed": 151,
+    "native_kernel_tests": 35,
+    "artifact_root": "artifacts/hw-migration-final",
+    "log": "artifacts/hw-migration-final.log",
+    "source_sha256": {
+      "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+      "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+      "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+      "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+      "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+    }
+  },
+  "vision_metadata_cases": [
+    {
+      "case_directory": "artifacts/kernel-refactor-final/test_native_attention_unequal_0",
+      "passed": true,
+      "boundaries": [
+        0,
+        2,
+        19,
+        20
+      ],
+      "out_max_abs_error": 0.0,
+      "inputs_unchanged": true
+    },
+    {
+      "case_directory": "artifacts/kernel-refactor-final/test_native_position_runtime_g0",
+      "passed": true,
+      "grids": [
+        [
+          1,
+          2,
+          2
+        ],
+        [
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4
+        ]
+      ],
+      "merge_size": 2,
+      "table_side": 48,
+      "out_max_abs_error": 0.0,
+      "indices_exact": true,
+      "weights_exact": true,
+      "inputs_unchanged": true
+    },
+    {
+      "case_directory": "artifacts/kernel-refactor-final/test_native_position_runtime_g1",
+      "passed": true,
+      "grids": [
+        [
+          2,
+          1,
+          5
+        ],
+        [
+          1,
+          3,
+          1
+        ]
+      ],
+      "merge_size": 1,
+      "table_side": 48,
+      "out_max_abs_error": 0.0,
+      "indices_exact": true,
+      "weights_exact": true,
+      "inputs_unchanged": true
+    },
+    {
+      "case_directory": "artifacts/kernel-refactor-final/test_native_position_runtime_g2",
+      "passed": true,
+      "grids": [
+        [
+          1,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2
+        ]
+      ],
+      "merge_size": 2,
+      "table_side": 1,
+      "out_max_abs_error": 0.0,
+      "indices_exact": true,
+      "weights_exact": true,
+      "inputs_unchanged": true
+    }
+  ]
 }
