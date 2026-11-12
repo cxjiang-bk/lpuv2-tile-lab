@@ -31,7 +31,9 @@ W_real[n,k] = float(W_fp8[n,k]) * float(weight_scale_inv[n//128,k//128])
 
 这里的 `weight_scale_inv` 实际作为乘数使用，保留发布值。完整不量化清单及 loader 的模块名匹配规则以 [config.json](../configs/models/qwen3_6_35b_a3b_fp8/config.json)和固定源码为准。
 
-MTP 权重中，输入 fc、两路前置 Norm 和输出 Norm 为 BF16，Attention / 专家投影含 FP8。固定 Transformers 主模型会忽略 `mtp.*` 权重，没有 MTP forward；MTP 的激活、Norm 解释及 draft 状态规则需另锁定支持 MTP 的执行 reference，当前只固定其权重元数据。
+MTP 权重中，输入 fc、两路前置 Norm 和输出 Norm 为 BF16，Attention / 专家投影含 FP8。固定 Transformers 主模型会忽略 `mtp.*` 权重，没有 MTP forward；MTP 的激活、Norm 解释及 draft 状态规则由独立的支持 MTP 的来源补充。
+
+本分支另以固定 SGLang 来源补充了 [最小 MTP 功能参考](golden-stage2-steps5-8.md)：两路普通 Norm、独立 fc、单层 Decoder、输出 Norm 与共享输出头，并明确 Token 移位、输出 Norm 后 hidden 和 draft KV 的传递。FP8 数值采用项目 v0，完整服务运行及接受/拒绝流程在集成阶段验证。
 
 ### 1.2 中间激活与跨 Token 状态
 

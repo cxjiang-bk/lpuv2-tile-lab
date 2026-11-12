@@ -42,7 +42,7 @@ python -m pip install -e '.[dev]'
 python -m pytest tests/framework -q
 ```
 
-当前主线框架测试覆盖比较器、用例配置、输入/状态隔离和复现产物。测试中的小型回调统一标记为 `framework_fixture`，模型OP与PTO kernel状态保持 `planned`。算子接入时增加独立reference、Tile实现及对应测试，按实际执行路径登记结果。
+当前主线框架测试覆盖比较器、用例配置、输入/状态隔离和复现产物。测试中的小型回调统一标记为 `framework_fixture`。B路线已接入独立reference、Python Tile实现及对应测试，登记为CPU功能验证；该状态不代表原生PTO/LPU后端或完整模型已经验证。
 
 ## 公共入口与原pymodel的对应关系
 

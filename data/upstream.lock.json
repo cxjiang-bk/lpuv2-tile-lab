@@ -5,6 +5,12 @@
     "commit": "90a3796597a5fabc2ce5066e73f785c2e85822f7",
     "path": "third_party/pto-isa"
   },
+  "pypto": {
+    "url": "https://github.com/hw-native-sys/pypto.git",
+    "commit": "7302cd7ffeb552b3bec7c0e5bd92f164ba9fbd4b",
+    "source_branch": "main",
+    "path": "artifacts/upstream/pypto"
+  },
   "model_reference": {
     "model_id": "Qwen/Qwen3.6-35B-A3B-FP8",
     "model_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",

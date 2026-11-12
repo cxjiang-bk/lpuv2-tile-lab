@@ -10,10 +10,10 @@
       "kernel_ids": [
         "K-01"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-08",
@@ -127,10 +127,10 @@
       "kernel_ids": [
         "K-02"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-06",
@@ -153,10 +153,10 @@
       "kernel_ids": [
         "K-05"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-07",
@@ -166,10 +166,10 @@
       "kernel_ids": [
         "K-07"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-14",
@@ -179,10 +179,10 @@
       "kernel_ids": [
         "K-14"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-15",
@@ -192,10 +192,10 @@
       "kernel_ids": [
         "K-15"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     },
     {
       "id": "OP-16",
@@ -205,10 +205,10 @@
       "kernel_ids": [
         "K-16"
       ],
-      "golden_status": "planned",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "golden_status": "available",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "python_cpu_functional",
+      "model_validation_status": "partial_mtp"
     }
   ],
   "kernel_organization": "one_logical_kernel_per_operator"

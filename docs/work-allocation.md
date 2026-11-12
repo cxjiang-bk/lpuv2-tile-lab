@@ -6,7 +6,7 @@ A由jcx认领，使用 `operator_dev_jcx` 分支；B的具体认领与分支记�
 
 | 主责 | OP | 算子 | 当前状态 |
 | --- | --- | --- | --- |
-| B | OP-01 | Token Embedding | planned |
+| B | OP-01 | Token Embedding | Python Tile已验证 |
 | A | OP-08 | Vision Patch Embedding | planned |
 | A | OP-11 | 视觉位置嵌入 | planned |
 | A | OP-03 | LayerNorm | planned |
@@ -15,13 +15,13 @@ A由jcx认领，使用 `operator_dev_jcx` 分支；B的具体认领与分支记�
 | A | OP-10 | Dense FFN（GELU MLP） | planned |
 | A | OP-12 | Spatial Merger / Projector | planned |
 | A | OP-13 | Visual Feature Scatter | planned |
-| B | OP-02 | RMSNorm | planned |
+| B | OP-02 | RMSNorm | Python Tile已验证 |
 | A | OP-06 | Gated DeltaNet 线性注意力 | planned |
-| B | OP-05 | Full Attention | planned |
-| B | OP-07 | MoE FFN | planned |
-| B | OP-14 | LM Head | planned |
-| B | OP-15 | Feature Concat | planned |
-| B | OP-16 | MTP 输入投影 | planned |
+| B | OP-05 | Full Attention | Python Tile已验证 |
+| B | OP-07 | MoE FFN | Python Tile已验证 |
+| B | OP-14 | LM Head | Python Tile已验证 |
+| B | OP-15 | Feature Concat | Python Tile已验证 |
+| B | OP-16 | MTP 输入投影 | Python Tile已验证 |
 
 ## 公共接口与集成
 

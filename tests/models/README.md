@@ -1,3 +1,3 @@
 # tests/models
 
-随子图与模型接入验证层输出、logits、cache及连续生成状态。
+`test_mtp_tile.py`验证最小MTP的Prefill与接续draft，比较logits、hidden、路由及draft KV；见[步骤8记录](../../docs/golden-stage3-step8-mtp.md)。后续随模型接入继续验证。

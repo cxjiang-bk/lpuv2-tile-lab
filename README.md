@@ -2,7 +2,7 @@
 
 面向 Qwen3.6-35B-A3B 的算子协作工程：建立独立 PyTorch golden，先在 Python/PyPTO 层实现 Tile kernel 并验证功能，整理 LPUv2 指令候选集，再结合架构完善 Tile ISA 与 programming model。
 
-**当前阶段：公共验证框架已建立，算子待实现。** 已登记16条模型OP与一一对应的16个逻辑kernel、A/B分工及固定版本PTO指令索引。可运行用例定义、逐输出比较和复现产物的框架检查；所有模型算子实现和数值验证状态仍为 `planned`。
+**当前阶段：B路线阶段3的7个Tile kernel已完成Python功能验证。** 已登记16条模型OP与一一对应的16个逻辑kernel、A/B分工及固定版本PTO指令索引；B路线实现与操作归并见[步骤9汇总](docs/golden-stage3-step9-summary.md)。原生PTO/LPU后端、A路线和完整模型验证仍按登记状态推进。
 
 ## 从这里开始
 
@@ -34,7 +34,7 @@ PTO固定在 `90a3796597a5fabc2ce5066e73f785c2e85822f7`，来源为公开 [hw-na
 
 ## 模型与数值基线
 
-模型固定为 **Qwen/Qwen3.6-35B-A3B-FP8**。共同基线放在 [configs/models/qwen3_6_35b_a3b_fp8/](configs/models/qwen3_6_35b_a3b_fp8/)，包含官方配置快照、模型/源码revision、checkpoint dtype元数据和数值规则。两人实现reference前阅读 [模型与数值基线](docs/model-numerical-baseline.md)。当前尚未实现golden或完成模型数值验证。
+模型固定为 **Qwen/Qwen3.6-35B-A3B-FP8**。共同基线放在 [configs/models/qwen3_6_35b_a3b_fp8/](configs/models/qwen3_6_35b_a3b_fp8/)，包含官方配置快照、模型/源码revision、checkpoint dtype元数据和数值规则。两人实现reference前阅读 [模型与数值基线](docs/model-numerical-baseline.md)。B路线的独立golden和Python Tile功能验证已按阶段记录；完整模型数值验证仍未完成。
 
 当前采用已确认的 [PTO功能验证标准v0](docs/functional-validation-v0.md)：动态激活量化、BF16/FP32误差阈值、TopK同分与MoE分桶。共同配置为 [functional-v0.json](configs/models/qwen3_6_35b_a3b_fp8/functional-v0.json)。
 
