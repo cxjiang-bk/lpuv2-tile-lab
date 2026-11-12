@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "framework",
+  "phase": "pypto_native_functional_validation",
   "organization": "one_logical_kernel_per_operator",
   "definition": "One complete logical kernel entry per OP; stages and prefill/decode or recurrent/chunk choices remain internal",
   "id_migration_file": "legacy-kernel-map.json",
@@ -24,7 +24,9 @@
       "scenarios": "文本Prefill / Decode；MTP复用",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-08",
@@ -33,19 +35,41 @@
         "OP-08"
       ],
       "owner": "A",
-      "scope": "processor Patch组织；Patch投影及bias；1152维输出",
+      "scope": "像素[B,C,T,H,W]；显式im2col；矩阵乘与FP32 bias；Merge Token及grid_thw",
       "internal_steps": [
-        "processor Patch组织",
-        "Patch投影及bias",
-        "1152维输出"
+        "BF16/FP32像素输入，在设备内转BF16",
+        "im2col：三维窗口坐标和Gather，得到[N,C*Kt*Kh*Kw]",
+        "显式pypto.matmul，FP32中间结果加bias后转BF16",
+        "Merge Token顺序与grid_thw"
       ],
       "implementation_paths": [
-        "patch_projection"
+        "pixel_im2col_matmul"
       ],
-      "scenarios": "3×2×16×16 Patch；BF16 Vision",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "scenarios": "BF16/FP32像素；模型kernel=stride=(2,16,16)；BF16 Vision",
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [
+        "tests/kernels/test_vision_conv3d.py",
+        "data/native-validation-summary.json"
+      ],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.patch_embedding",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op08-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "tests/kernels/test_vision_conv3d.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_validation_scope": "Raw pixel im2col + matmul: FP32/BF16, batch/time, overlap/valid tails, D130 output tail, C3/D1152/K(2,16,16); exact grid and independent window checks"
     },
     {
       "id": "K-11",
@@ -65,9 +89,25 @@
         "bilinear_position"
       ],
       "scenarios": "可变图像/视频网格与merge行顺序",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.position.position_embedding",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op11-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "K-03",
@@ -87,9 +127,25 @@
         "layernorm"
       ],
       "scenarios": "Vision block和相应调用点",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.common.tile.layer_norm",
+      "python_tile_program": "kernels/pypto/common.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op03-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "K-09",
@@ -109,9 +165,25 @@
         "packed_noncausal"
       ],
       "scenarios": "Vision有效片段；16 heads、head_dim=72",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.vision_attention",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op09-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "K-04",
@@ -130,9 +202,25 @@
         "residual_add"
       ],
       "scenarios": "文本 / Vision / MTP的相应调用点",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.common.tile.residual_add",
+      "python_tile_program": "kernels/pypto/common.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op04-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "K-10",
@@ -151,9 +239,25 @@
         "gelu_mlp"
       ],
       "scenarios": "Vision 1152→4304→1152",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.dense_ffn",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op10-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "K-12",
@@ -173,9 +277,25 @@
         "spatial_merger"
       ],
       "scenarios": "Vision 4608→4608→2048",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.spatial_merger",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op12-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "K-13",
@@ -194,9 +314,25 @@
         "visual_scatter"
       ],
       "scenarios": "多图 / 视频 / 多batch / 空视觉输入",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.visual_feature_scatter",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op13-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "K-02",
@@ -218,7 +354,9 @@
       "scenarios": "Decoder、Q/K、Final Norm和MTP的对应调用点",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-06",
@@ -240,9 +378,40 @@
         "chunk"
       ],
       "scenarios": "GDN Prefill / 连续Decode；FP32 State与Conv历史",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": []
+      "implementation_status": "implemented",
+      "validation_status": "passed",
+      "validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.gdn.kernel.gdn",
+      "python_tile_program": "kernels/pypto/gdn.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op06-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_execution_profile": "bf16_carrier",
+      "native_validation_scope": "synthetic small recurrent Prefill/continuous Decode, chunk core/Prefill/tails, and chunk Prefill -> recurrent Decode",
+      "native_fp8_cube_validation_status": "not_validated",
+      "native_path_status": {
+        "recurrent_prefill_small": "passed",
+        "recurrent_decode_continuity_small": "passed",
+        "chunk": "passed_small",
+        "model_dimensions": "not_validated",
+        "real_checkpoint": "not_validated",
+        "chunk_core_small": "passed",
+        "chunk_prefill_decode_handoff_small": "passed"
+      }
     },
     {
       "id": "K-05",
@@ -266,7 +435,9 @@
       "scenarios": "文本因果Full Attention；历史KV与GQA",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-07",
@@ -290,7 +461,9 @@
       "scenarios": "文本Prefill / Decode；空专家与动态Ne",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-14",
@@ -311,7 +484,9 @@
       "scenarios": "Prefill / Decode；MTP输出头复用",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-15",
@@ -332,7 +507,9 @@
       "scenarios": "MTP的两路已归一化特征",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "K-16",
@@ -353,7 +530,10 @@
       "scenarios": "MTP输入；两路Norm与Concat由对应OP组合",
       "implementation_status": "planned",
       "validation_status": "planned",
-      "validation_evidence": []
+      "validation_evidence": [],
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     }
-  ]
+  ],
+  "python_status_document": "docs/pypto-a1.md"
 }

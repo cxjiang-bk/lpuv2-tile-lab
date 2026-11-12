@@ -10,6 +10,9 @@ def layer_norm(x: torch.Tensor, weight: torch.Tensor, bias: torch.Tensor, eps: f
         raise ValueError("LayerNorm weight/bias must match the last input dimension")
     if eps <= 0:
         raise ValueError("eps must be positive")
+    # OP-03：每个 Token/Patch 独立沿最后的 D 维计算 LayerNorm。
+    # mu = mean_D(x)，var = mean_D((x-mu)^2)，这里使用总体方差。
+    # y = (x-mu) * rsqrt(var+eps) * weight + bias；保留 Torch LayerNorm 实现。
     return F.layer_norm(x, (x.shape[-1],), weight, bias, eps)
 
 
@@ -19,4 +22,5 @@ def residual_add(residual: torch.Tensor, branch: torch.Tensor) -> torch.Tensor:
         raise ValueError("Residual inputs must have the same shape")
     if residual.dtype != branch.dtype or residual.device != branch.device:
         raise ValueError("Residual inputs must have the same dtype and device")
+    # OP-04：y = residual + branch；两路同形逐元素相加，返回新张量。
     return residual + branch

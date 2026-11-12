@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op12-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    }
+  },
+  "parameters": {
+    "spatial_merge_size": 2,
+    "input_shapes": {
+      "x": [
+        8,
+        32
+      ],
+      "norm_weight": [
+        32
+      ],
+      "norm_bias": [
+        32
+      ],
+      "fc1_weight": [
+        64,
+        128
+      ],
+      "fc1_bias": [
+        64
+      ],
+      "fc2_weight": [
+        32,
+        64
+      ],
+      "fc2_bias": [
+        32
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-12",
+  "kernel_id": "K-12"
+}

@@ -1,0 +1,3502 @@
+{
+  "schema_version": 2,
+  "updated_on": "2026-11-12",
+  "status": "passed_recorded_scope",
+  "passed": true,
+  "backend": "hw_pto_cpp_sim",
+  "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ ELF shared libraries -> simpler a2a3sim",
+  "toolchain_lock": "data/upstream.lock.json",
+  "platform": "a2a3sim",
+  "hardware_precision_validated": false,
+  "numerical_profile": "pto-functional-v0",
+  "numerical_thresholds_changed": false,
+  "test_run": {
+    "command": "source scripts/hw-env.sh; python -m pytest tests/framework tests/operators tests/kernels -q --basetemp=artifacts/hw-migration-final",
+    "log": "artifacts/hw-migration-final.log",
+    "passed": 151,
+    "failed": 0,
+    "reference_and_framework": 116,
+    "native_kernel_tests": 35,
+    "duration_seconds": 270.12
+  },
+  "source_sha256": {
+    "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+    "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+    "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+    "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+    "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+  },
+  "operators": [
+    {
+      "case_id": "a-native-op03-small",
+      "op_id": "OP-03",
+      "kernel_id": "K-03",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu0/a-native-op03-small/20261112T025942_f87f941f7b88",
+      "parameters": {
+        "eps": 1e-06,
+        "input_shapes": {
+          "x": [
+            3,
+            32
+          ],
+          "weight": [
+            32
+          ],
+          "bias": [
+            32
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              3,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              3,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "02a29dc44a1b59be8ea81f804096c8041eb37ae1bd1cb6c253c49cee96c18d86",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 2.197539486020105,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_50d2b6c154c51755b467fc47.so": "bafcc57df87811f57c009af718a9e146911f18273e4a8bbf7c29321c4e8082b1",
+          "orchestration/kernel.so": "03377495506bee7f81346a16531326bb24abc61002538de81a88c21cb6cb6ead"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op04-small",
+      "op_id": "OP-04",
+      "kernel_id": "K-04",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu1/a-native-op04-small/20261112T025946_65aa8b9c4bf5",
+      "parameters": {
+        "input_shapes": {
+          "x": [
+            3,
+            129
+          ],
+          "residual": [
+            3,
+            129
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              3,
+              129
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              129,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              3,
+              129
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              129,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "ff46dd003696657ae8db84148c193f3213b5be8f7a0c7f192b45464499873585",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 2.2542214679997414,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_b179b604c91d309b67f544f7.so": "6f5635b7660918b6b3c2cdeca4b2e87850ef45fc8a278f5d90d9b570e703e734",
+          "orchestration/kernel.so": "60ac9f25b7075a5e94e381e7b9d2bdfa4683300e26055a4d9b635e0322d350b0"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op06-small",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu2/a-native-op06-small/20261112T025949_e03c5d794e37",
+      "parameters": {
+        "qk_heads": 1,
+        "value_heads": 2,
+        "key_head_dim": 32,
+        "value_head_dim": 32,
+        "input_shapes": {
+          "x": [
+            1,
+            2,
+            128
+          ],
+          "qkv_weight": [
+            128,
+            128
+          ],
+          "qkv_scale_inv": [
+            1,
+            1
+          ],
+          "z_weight": [
+            64,
+            128
+          ],
+          "z_scale_inv": [
+            1,
+            1
+          ],
+          "out_weight": [
+            128,
+            64
+          ],
+          "out_scale_inv": [
+            1,
+            1
+          ],
+          "a_weight": [
+            2,
+            128
+          ],
+          "b_weight": [
+            2,
+            128
+          ],
+          "conv_weight": [
+            128,
+            4
+          ],
+          "A_log": [
+            2
+          ],
+          "dt_bias": [
+            2
+          ],
+          "norm_weight": [
+            32
+          ],
+          "initial_state": [
+            1,
+            2,
+            32,
+            32
+          ],
+          "conv_history": [
+            1,
+            3,
+            128
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 1.3969838619232178e-09,
+          "max_rel_error": 0.00035577059911768894,
+          "worst_index": [
+            0,
+            0,
+            0,
+            22
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "conv_history_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "gdn_path": "recurrent",
+        "chunk_size": null,
+        "native_fp8_cube_validated": false,
+        "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
+        "elapsed_seconds": 4.988332041015383,
+        "generated_pto_count": 15,
+        "binary_sha256": {
+          "kernels/aic/ab_projection_aic_91d72e6d54aa455a577d7e97.so": "7e16ddece10e54e6004a7ac2f674d8b2f6eef99783c45ad7c92e6d5fa06d7e0d",
+          "kernels/aic/k128_dot_646dff69bfeb0c1f7c41fa37.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
+          "kernels/aiv/ab_projection_aiv_6cf250b02ae60593d86b310f.so": "9c47cb87d8895ccb5f48db1e130b61658f2451c4fa9fe0d90233d2acca5ea9cf",
+          "kernels/aiv/accumulate_076a944942911450fe85cb69.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
+          "kernels/aiv/accumulate__2_52c25f690eb49cb2ef63243d.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
+          "kernels/aiv/assemble_head_f498432883b48a289e198b16.so": "0cebb5783c70c7bbbba3f881e09fe324a6777ee001c6d84cb810f6eba39273df",
+          "kernels/aiv/causal_conv_8476ed9506491a7985c2e27c.so": "d0b49ec940e9eaca3ede86dadfebc4b3050ffff07fd7aea1b4069a1225222e3a",
+          "kernels/aiv/core_ec579704fdc2e3c8f981ab4a.so": "e1a36bb063e52c557aa3bbc8e8f01901ade045b42e8085d213b792dff48d909d",
+          "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
+          "kernels/aiv/extract_head_671834009c59ca700789ee09.so": "2916abc1ed5d14e562f0c51eb34c319812c13ffc33bd104a25195ce6eeacf165",
+          "kernels/aiv/gated_norm_2d594e9866a1bd3f78449a7f.so": "38f5bc7444299e4ba39a678609481c5f964cb7ed724a6530fb670427ec83fb91",
+          "kernels/aiv/gates_054b0e261ac185a2c64916ba.so": "6da3176f7fa8779a4b4be76f74deccae39d9ce9cd5f001ed225be979f2d70ec9",
+          "kernels/aiv/input_mask_af6124305f8c7125c72c053b.so": "6b8c8aa7c07470b15558658e5a8d89ecfdaac79cf6f99f1405bbc2b8ba50d50e",
+          "kernels/aiv/kernel_incore_0_4afbbdff777db9578f13c049.so": "6ea177d91359c6e21fee4d90510daad6d3bf80bd8cb351ff529f6af188371323",
+          "kernels/aiv/quantize_e4m3_bf16_851c240d71faab2ecade2592.so": "fc316ead465e72a28cd92728f2aa8630b4669161ebc973fe9b82b2fc32bd57a4",
+          "kernels/aiv/quantize_e4m3_bf16__2_c154d87e9a7d68d307056286.so": "129224e5aaa9a5398a7f2a8d4c2e4ede70eba188a99f324dbb63c47aa73c6691",
+          "orchestration/kernel.so": "a6b108448947936263873b89ac8fed2d8fc861df1d3f68e8cb602a04051d98e6"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op08-small",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu3/a-native-op08-small/20261112T025955_94f0fe68d6b2",
+      "parameters": {
+        "input_shapes": {
+          "weight": [
+            32,
+            2,
+            2,
+            2,
+            2
+          ],
+          "bias": [
+            32
+          ],
+          "pixels": [
+            2,
+            2,
+            4,
+            4,
+            8
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              32,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              32,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "grid_thw": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": true
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "72c68e9f864882cfba017d34f7d4c75f842994a70d0b449bf687dd79ebf85a70",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "pixel_input_layout": "B,C,T,H,W",
+        "pixel_input_dtype": "torch.float32",
+        "conv3d_kernel": [
+          2,
+          2,
+          2
+        ],
+        "conv3d_stride": [
+          2,
+          2,
+          2
+        ],
+        "conv3d_padding": 0,
+        "conv3d_dilation": 1,
+        "conv3d_groups": 1,
+        "window_extraction": "im2col3d_composed_gather",
+        "dedicated_im2col_instruction": false,
+        "convolution_lowering": "im2col -> pl.matmul -> FP32 bias -> BF16",
+        "host_patchify": false,
+        "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
+        "spatial_merge_size": 2,
+        "elapsed_seconds": 3.087753455998609,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/project_aic_da7214c7b052bdb1fe326014.so": "59690f9535c2f5e51e1c258a5001c0d18ea01bd3f8e2bbecde8322048b8e1b98",
+          "kernels/aiv/extract_4139f58bd97a21a4e120ec45.so": "874a0f26dc65747022f94bbac5a834cfc8d39c3f1fc099bb6f35feba4d71440d",
+          "kernels/aiv/project_aiv_d7b8f8ca5f45b3acb905a32f.so": "7afdbc71d1ab9138bba5900b95efe39f5fd51ebb003054641564f669027da46d",
+          "kernels/aiv/reorder_c5ec1a2b86c3e84d861586f3.so": "4d8c805ff7778d29782fbefedae7220105d3adfb85b1af7d45735caab44095cb",
+          "kernels/aiv/widen_5effd4a77de25a9e2a0aa681.so": "be793106f98bb846054ed73568e818c6c47c4873fd909416075c719549468846",
+          "orchestration/kernel.so": "23474763a287eb425b6a77c0e9ec88189807995e4f3a2f12137206582649cdb4"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op09-small",
+      "op_id": "OP-09",
+      "kernel_id": "K-09",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu4/a-native-op09-small/20261112T030000_2769c5389274",
+      "parameters": {
+        "num_heads": 2,
+        "input_shapes": {
+          "x": [
+            5,
+            32
+          ],
+          "qkv_weight": [
+            96,
+            32
+          ],
+          "qkv_bias": [
+            96
+          ],
+          "proj_weight": [
+            32,
+            32
+          ],
+          "proj_bias": [
+            32
+          ],
+          "cos": [
+            5,
+            16
+          ],
+          "sin": [
+            5,
+            16
+          ],
+          "cu_seqlens": [
+            3
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              5,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              5,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "3fb93a283289a6e08cf7e789e75be216f1f84a75efb5c03c59b8e1e47c6ec13e",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 6.243402509018779,
+        "generated_pto_count": 8,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_0_aic_cba546d52674d8998c830612.so": "922285332cf72fafbbc73a426201c4fee11792600c04ae6800d5f8f423f8cbaf",
+          "kernels/aic/kernel_incore_2_aic_eba192655d0ad02f72e3c271.so": "5cf04f7cc03b97a9a8fca5798111d99d537265723048e34523e4317856e03419",
+          "kernels/aic/project_6f0c12ada08ceff3d2d7a79f.so": "cddec818107aa9017d6bf42a0e33177c7b704d0db52904ccf3445c6700770454",
+          "kernels/aiv/kernel_incore_0_aiv_5519e9309c5712f91329ddc8.so": "5e473dabab6c9aafa5caa45fd9eadb7d06117ff07ee6d466834a0e14b1314af7",
+          "kernels/aiv/kernel_incore_1_ecb9cf7f9cb30b6752d2c357.so": "9ec68bc8c8614d505ded3c9a7cf07d0d27040adb286ed129f4e30b815df9668d",
+          "kernels/aiv/kernel_incore_2_aiv_e868ef0dbff593e06bac067f.so": "8de5e0f15f23fa08a42c3d1ffb4493b0dcac84cdb9b28e47aeaabf095ee011ab",
+          "kernels/aiv/kernel_incore_3_adaae2acd3bc23c1cf399599.so": "65f754b9715d25966bd8b1ce268762e1dbec0b0c91706ba03a4d53fc5746cdf9",
+          "kernels/aiv/kernel_incore_4_09f3558b4b657397eed199c4.so": "114a7d12f7e303af15460376f6bc3f322c9fcfb51ae1c32a8030d1113266ecba",
+          "kernels/aiv/kernel_incore_6_195a276f9eb7fefff8c0b075.so": "f973563c46f68929e0f881c09c1d622965fb7d9302852a19793be5c44e8369c7",
+          "kernels/aiv/kernel_incore_7_562ed0151ea0fecc17f05d26.so": "4735851eccf967e88f96fdd129e38bcaf469093f691602eaf018acf9acf7add4",
+          "orchestration/kernel.so": "b4a1a1edef88c4090fd140c332619e2af1eadc53f3b1fd098806dc7711a61f11"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op10-small",
+      "op_id": "OP-10",
+      "kernel_id": "K-10",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu5/a-native-op10-small/20261112T030007_f915c5422f22",
+      "parameters": {
+        "input_shapes": {
+          "x": [
+            3,
+            32
+          ],
+          "fc1_weight": [
+            64,
+            32
+          ],
+          "fc1_bias": [
+            64
+          ],
+          "fc2_weight": [
+            32,
+            64
+          ],
+          "fc2_bias": [
+            32
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              3,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              3,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "058333c712e7c1f5cebf32770831a4d6d36c4a370973d4e64d5e1d6ac57c6273",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 4.034013030002825,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_0_aic_c34e9a37685de50605e5525a.so": "d42170ca9ce3a7ed78478b38a05613654a78998f71b98bc32397ed5d04261507",
+          "kernels/aiv/kernel_incore_0_aiv_095d501b854e2495f83f30b9.so": "dc1b2a3b5e159fd7172627ca34a523ad9b5c9bd6317251012952c58696acdd35",
+          "orchestration/kernel.so": "b68c5c146b8b15dc3321577bd36bc647304f441a8f51da97bfee2b40e7cdbcc4"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op11-small",
+      "op_id": "OP-11",
+      "kernel_id": "K-11",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu6/a-native-op11-small/20261112T030012_c31aedb2b5c7",
+      "parameters": {
+        "input_shapes": {
+          "grid_thw": [
+            2,
+            3
+          ],
+          "x": [
+            24,
+            32
+          ],
+          "position_table": [
+            2304,
+            32
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              24,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              24,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "interp_indices": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              24,
+              4
+            ],
+            "dtype": "int64",
+            "stride": [
+              4,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              24,
+              4
+            ],
+            "dtype": "int64",
+            "stride": [
+              4,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": true
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "interp_weights": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              24,
+              4
+            ],
+            "dtype": "float32",
+            "stride": [
+              4,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              24,
+              4
+            ],
+            "dtype": "float32",
+            "stride": [
+              4,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "5aa2edeeb44a1087ae0b2477f4f3a35e36e2298866e67fd89340a5b0e16d1ed4",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 10.369660311989719,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_3214ef5015882ba0347ea032.so": "2cbf746cb96504506abe1a26b61ab4a603f15fa46dedce78214141a7e2952251",
+          "orchestration/kernel.so": "7fbf5169a6d0af4b711e34a6385df9b18a114a73fc50f90cc26e936ffb4a8f70"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op12-small",
+      "op_id": "OP-12",
+      "kernel_id": "K-12",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu7/a-native-op12-small/20261112T030024_739297e46b1f",
+      "parameters": {
+        "spatial_merge_size": 2,
+        "input_shapes": {
+          "x": [
+            8,
+            32
+          ],
+          "norm_weight": [
+            32
+          ],
+          "norm_bias": [
+            32
+          ],
+          "fc1_weight": [
+            64,
+            128
+          ],
+          "fc1_bias": [
+            64
+          ],
+          "fc2_weight": [
+            32,
+            64
+          ],
+          "fc2_bias": [
+            32
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "e0cb300ec9daf623a71c5dd9a5504eb0db937b4a39ff8f3adf1377988371847d",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 3.031495420000283,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/kernel_incore_1_aic_dae38081823759f02793c210.so": "c6b38cf6805aef1b816d78189ac86ce5c25320020e11c9a8257f80de49a3fe9c",
+          "kernels/aic/kernel_incore_3_aic_8ad4e342c08c74f16f44aad9.so": "e9c65d12ea4a2ae3dc1e285d785efa003fe2521298fe4a05e29ecc4441b9e9e6",
+          "kernels/aiv/kernel_incore_0_c7c1ab7d9dc475b010c43c3c.so": "99bd0b3fd5a3e9485f87af9fc5777e67d0b49ff2cd97e05f979b75f5a8926568",
+          "kernels/aiv/kernel_incore_1_aiv_b21d5948e16c96929d89abc4.so": "13bdaa7414ebfe7b0e411689259d1c2286e7bbb63d1e859d6633f10f6f0e474e",
+          "kernels/aiv/kernel_incore_2_543016c48b5759ac3281e4c5.so": "05f2b80a031af99b7a834cbe42cd026162f307712c8597de3549e112c816a4aa",
+          "kernels/aiv/kernel_incore_3_aiv_4306c5d919d1790eb8978e26.so": "64d25dd587bf205a230b1903a9f67d4c5b731d6a5b9c88594b828b560d9654a8",
+          "orchestration/kernel.so": "a77c19fcf88dda7faa6e8646e7587e6e65883850f543a1543c7d1085da2c0a38"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op13-small",
+      "op_id": "OP-13",
+      "kernel_id": "K-13",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_operator_and_execu8/a-native-op13-small/20261112T030028_24892b613f39",
+      "parameters": {
+        "input_shapes": {
+          "text_embedding": [
+            2,
+            4,
+            32
+          ],
+          "visual_features": [
+            3,
+            32
+          ],
+          "placeholder_rows": [
+            3
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              4,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              128,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              4,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              128,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "300a760d7c77904b3e9a0de6ba4600e25f1c029d752dfd9792b610952ec0c326",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "elapsed_seconds": 2.018739425984677,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aiv/kernel_incore_0_d41a9283c57d050d80a1106f.so": "4d143218e98b94ec71adb3c8501d60014db61a870107cb83189ef94c444c06fa",
+          "orchestration/kernel.so": "cb0fb441add28c10b08e227eeb7d213af4e308fca2ae0c621ca42ec5925dc305"
+        }
+      }
+    }
+  ],
+  "additional_cases": [
+    {
+      "case_id": "a-native-fp8-quantize",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_fp8_value_semantic0/a-native-fp8-quantize/20261112T030031_a1128d690428",
+      "parameters": {
+        "rows": 4,
+        "width": 129,
+        "output_width": 129,
+        "fp8_execution": "bf16_carrier"
+      },
+      "outputs": {
+        "codes": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              256
+            ],
+            "dtype": "int32",
+            "stride": [
+              256,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              256
+            ],
+            "dtype": "int32",
+            "stride": [
+              256,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "decoded": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              256
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              256
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "scales": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              2
+            ],
+            "dtype": "float32",
+            "stride": [
+              2,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              2
+            ],
+            "dtype": "float32",
+            "stride": [
+              2,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "bca6fc2799ce465f256564060649cd4f80cf0c22e945c76988d06e90eaea756e",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "native_fp8_cube_validated": false,
+        "validation_scope": "K-06 numerical primitive; not a complete GDN operator",
+        "elapsed_seconds": 3.6433891040214803,
+        "generated_pto_count": 1,
+        "binary_sha256": {
+          "kernels/aiv/quantize_e4m3_bf16_5bcd2312a4a83484e5e27796.so": "a947ca61c72e7e6010d61969c01cc3d809d2c30c1914e2c776c6e167df5dda80",
+          "orchestration/kernel.so": "b1d03191e7eb3125ce82b610078989054dc5d48da84183e4b5847642d039bf2a"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-fp8-linear",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_fp8_value_semantic1/a-native-fp8-linear/20261112T030036_01504f3faec9",
+      "parameters": {
+        "rows": 4,
+        "width": 129,
+        "output_width": 129,
+        "fp8_execution": "bf16_carrier"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              129
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              129,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              129
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              129,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "18f41a98eaa7a32f3aeb5ca3e3dfd4a68cf29af045cc5b8a134cf9408dffbace",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "native_fp8_cube_validated": false,
+        "validation_scope": "K-06 numerical primitive; not a complete GDN operator",
+        "elapsed_seconds": 3.8430646619817708,
+        "generated_pto_count": 4,
+        "binary_sha256": {
+          "kernels/aic/k128_dot_dca2efcf598fc5a1a70c378c.so": "366b8c2a7f1f7dfab711004158245d5360660a45c58ebaaa442c844ffbabf916",
+          "kernels/aiv/accumulate_35794641318c6c6e04cde392.so": "b8f57edd380be97a486bc88de5e718c27093dfb8ca433cdbec1ec82488ed3e21",
+          "kernels/aiv/decode_e4m3_bf16_a5c988e925136ca64076e5cc.so": "cc333175acb215e18357354568086231d97225d593f0223cc15ae4c14e92e0f9",
+          "kernels/aiv/quantize_e4m3_bf16_5bcd2312a4a83484e5e27796.so": "a947ca61c72e7e6010d61969c01cc3d809d2c30c1914e2c776c6e167df5dda80",
+          "orchestration/kernel.so": "d6fa5cdb1d62cf50c34c8e54669d6deec1f3e74cfd22806e229dd66b0fd33bac"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op06-chunk-b2-s5-c3",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_complete0/a-native-op06-chunk-b2-s5-c3/20261112T030134_d9b66c901734",
+      "parameters": {
+        "qk_heads": 1,
+        "value_heads": 2,
+        "key_head_dim": 32,
+        "value_head_dim": 32,
+        "path": "chunk",
+        "chunk_size": 3,
+        "input_shapes": {
+          "x": [
+            2,
+            5,
+            128
+          ],
+          "qkv_weight": [
+            128,
+            128
+          ],
+          "qkv_scale_inv": [
+            1,
+            1
+          ],
+          "z_weight": [
+            64,
+            128
+          ],
+          "z_scale_inv": [
+            1,
+            1
+          ],
+          "out_weight": [
+            128,
+            64
+          ],
+          "out_scale_inv": [
+            1,
+            1
+          ],
+          "a_weight": [
+            2,
+            128
+          ],
+          "b_weight": [
+            2,
+            128
+          ],
+          "conv_weight": [
+            128,
+            4
+          ],
+          "A_log": [
+            2
+          ],
+          "dt_bias": [
+            2
+          ],
+          "norm_weight": [
+            32
+          ],
+          "initial_state": [
+            2,
+            2,
+            32,
+            32
+          ],
+          "conv_history": [
+            2,
+            3,
+            128
+          ],
+          "attention_mask": [
+            2,
+            5
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              5,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              5,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 9.313225746154785e-10,
+          "max_rel_error": 0.00026417752729834446,
+          "worst_index": [
+            1,
+            0,
+            29,
+            9
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "conv_history_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "gdn_path": "chunk",
+        "chunk_size": 3,
+        "native_fp8_cube_validated": false,
+        "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
+        "elapsed_seconds": 8.785439973988105,
+        "generated_pto_count": 16,
+        "binary_sha256": {
+          "kernels/aic/ab_projection_aic_cecbdc758ef1980119933442.so": "db3025543d0feeb3ea637e8810113f25d91d75136172d928be6ea61fe669b2b4",
+          "kernels/aic/k128_dot_d52184c4adee9c3bc26503b8.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
+          "kernels/aiv/ab_projection_aiv_84c13d14df037a32f56640e6.so": "64d9d6998069b3d766d95ef7d40196d9746a2a4dc769fac93820bc29bf3ee24b",
+          "kernels/aiv/accumulate_621e76efd53213543cb49c35.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
+          "kernels/aiv/accumulate__2_41ede7fff12d2b3e33484d04.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
+          "kernels/aiv/assemble_head_0a19e9be6afa146f2169b9ed.so": "645e53236291eb4a5f4f465f18420047bc365161a488150fba0b9fe8bde9bd31",
+          "kernels/aiv/block_5cf593db37920d2bc0c53ebc.so": "ee7fb87945cf5780caa7c72c568333b51cb91458d0000993d4df807384b430af",
+          "kernels/aiv/block__2_1ee2fea42043929f2cec5d42.so": "51b13a15bc88d80025b8fda62ea6d550d56f033c46eae0cf2b4e5f71bd75549f",
+          "kernels/aiv/causal_conv_61476ca4a788808e930d494e.so": "85e772bb5d3a29f9fbfcff898dba8e078e3714e4a056794cd81befe4f536e3c9",
+          "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
+          "kernels/aiv/extract_head_213a141a40efe76e1cbc3a0e.so": "3ffc9604f291ca7aa5fb4a50085fb17267a6bfe4e29a8d586a492f7703c6aa68",
+          "kernels/aiv/gated_norm_8f3d7949a3f3f898968c48f3.so": "1ac5587cc4f4eab850dead5f700e72c645cafc46e34caa4ee1e68dc9e0243480",
+          "kernels/aiv/gates_a7c0ac2be6e5acd97357cbaa.so": "c14d237e903750d37c70b9547e1a220255bb155de222a4c210016f4cd1155d1d",
+          "kernels/aiv/input_mask_e88ecaf912fe8628b84da4ad.so": "e0ba83ed25f716653b966799a83e2b80c433d88691855216cf661a7917a173f4",
+          "kernels/aiv/kernel_incore_0_3eb4ffc3e7a8bc82855cf800.so": "e36d1015b67cfada02dd2ea6f727860060cd6b93e9e41372dbf7cdd211f921ca",
+          "kernels/aiv/quantize_e4m3_bf16__2_aff35d8db19265f3aa378280.so": "02fbc08b72c9d2d3e3ed8f8f4cb6d9a651361f8e53c6729f08bfbba0d8812ae8",
+          "kernels/aiv/quantize_e4m3_bf16_e5311c482446b71f24b536f2.so": "52e1736b2ca2ca5b5f529b38db6009f8dcda8369a7c6b920941039e813c38a26",
+          "orchestration/kernel.so": "ac61424d229a3af23018e37118284f3ebbf46b08587d9923ae7846c19d6cfccd"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op06-chunk-b1-s4-c64",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_complete1/a-native-op06-chunk-b1-s4-c64/20261112T030144_25c49bba36b5",
+      "parameters": {
+        "qk_heads": 1,
+        "value_heads": 2,
+        "key_head_dim": 32,
+        "value_head_dim": 32,
+        "path": "chunk",
+        "chunk_size": 64,
+        "input_shapes": {
+          "x": [
+            1,
+            4,
+            128
+          ],
+          "qkv_weight": [
+            128,
+            128
+          ],
+          "qkv_scale_inv": [
+            1,
+            1
+          ],
+          "z_weight": [
+            64,
+            128
+          ],
+          "z_scale_inv": [
+            1,
+            1
+          ],
+          "out_weight": [
+            128,
+            64
+          ],
+          "out_scale_inv": [
+            1,
+            1
+          ],
+          "a_weight": [
+            2,
+            128
+          ],
+          "b_weight": [
+            2,
+            128
+          ],
+          "conv_weight": [
+            128,
+            4
+          ],
+          "A_log": [
+            2
+          ],
+          "dt_bias": [
+            2
+          ],
+          "norm_weight": [
+            32
+          ],
+          "initial_state": [
+            1,
+            2,
+            32,
+            32
+          ],
+          "conv_history": [
+            1,
+            3,
+            128
+          ]
+        },
+        "validation_shape": "small"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              4,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              512,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              4,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              512,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 9.313225746154785e-10,
+          "max_rel_error": 0.0001296722533795831,
+          "worst_index": [
+            0,
+            1,
+            6,
+            5
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "conv_history_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              896,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "gdn_path": "chunk",
+        "chunk_size": 64,
+        "native_fp8_cube_validated": false,
+        "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
+        "elapsed_seconds": 9.129479323979467,
+        "generated_pto_count": 15,
+        "binary_sha256": {
+          "kernels/aic/ab_projection_aic_f7357f5cdbb2dd2f52dd58f3.so": "cfe58591b40345b6b2dfc6990f1ce9acb13b2c7946e26e994183500200d8b6d0",
+          "kernels/aic/k128_dot_2d7639f2e3183d8b1b7b6a64.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
+          "kernels/aiv/ab_projection_aiv_07711a07b2db4c4ec0cfd143.so": "65755f36cc5f0ed14bdd5a6d36c9db6bfe39ed06f47a17197e89f24f168a234d",
+          "kernels/aiv/accumulate__2_c3429fe85838d40334bb430f.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
+          "kernels/aiv/accumulate_bfa06488cf743a925fda74bd.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
+          "kernels/aiv/assemble_head_f690e5873a1c3dc3ad379855.so": "ddb7fdeb91c00e7c5fbbc372582aace972e7020e4e024a6555765b36f2ce8031",
+          "kernels/aiv/block_aa068575ad856318e0079b89.so": "96a8f761c95d86952256c305ebddb5c5f7bb74a8fe4509f5ff269942961ab24d",
+          "kernels/aiv/causal_conv_b2084a60e8eba05574b271c6.so": "47d0b075187956dc7916091c4adaaef661514a02d577426be2253b1b25498733",
+          "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
+          "kernels/aiv/extract_head_4592c97f5650895cffcbdb1e.so": "392634298601c748207b07061d2a57c417435bd27822d927c6a73f5b62a0af67",
+          "kernels/aiv/gated_norm_5c0ab6f72910b90ac9043e4a.so": "abd47ae5e06d6efffd71045d83281ba58b1f28569cd7b859c74fcb5d49846778",
+          "kernels/aiv/gates_2379dad2fe9838dad3429f6f.so": "0d0d5dcd4a657978c2f6b8da772007b4e924e49ea79f45e00b50bbc7976d01ce",
+          "kernels/aiv/input_mask_a8c4b353a89baeefa915aed0.so": "b0c64c18fd4c77def9c9aafbdd902e2d7ce70f986de36cd2fd18b54862c922ec",
+          "kernels/aiv/kernel_incore_0_ffb3a78ea97f21af0c03b03d.so": "abc149072973d0cabc2d9d5ad5b5b75d13563e5e1df2cabd04705f33940ee3b5",
+          "kernels/aiv/quantize_e4m3_bf16__2_9c8df44821badc384b922f88.so": "f10e1bd01665cb678e5b0d491f3e2eef14cdd49fba88f18722bae30ca765bf97",
+          "kernels/aiv/quantize_e4m3_bf16_b68b35986139c5b264f1b9d5.so": "218fdd4c4446f4ccb24719683bb12170fabbed539561f81cac06c53dcb47aff8",
+          "orchestration/kernel.so": "9681414ff341da84cebbb0f44456c45749424f18644c7b6aba3d48c5edc52352"
+        }
+      }
+    },
+    {
+      "case_id": "a-native-op06-chunk-prefill-decode",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_chunk_prefill_0/a-native-op06-chunk-prefill-decode/20261112T030154_dbed67efc234",
+      "parameters": {
+        "qk_heads": 1,
+        "value_heads": 2,
+        "key_head_dim": 32,
+        "value_head_dim": 32,
+        "path": "chunk",
+        "chunk_size": 3,
+        "scenario": "chunk_prefill_recurrent_decode",
+        "fp8_execution": "bf16_carrier"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              5,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              5,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 4.656612873077393e-10,
+          "max_rel_error": 1.414347137361394e-05,
+          "worst_index": [
+            0,
+            1,
+            7,
+            5
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "conv_history_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              1024,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_after_prefill": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 4.656612873077393e-10,
+          "max_rel_error": 0.0018028846153846155,
+          "worst_index": [
+            0,
+            1,
+            19,
+            5
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "history_after_prefill": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              896,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "gdn_path": "chunk",
+        "chunk_size": 3,
+        "native_fp8_cube_validated": false,
+        "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
+        "elapsed_seconds": 8.308146133000264,
+        "generated_pto_count": 16,
+        "binary_sha256": {
+          "kernels/aic/ab_projection_aic_f7357f5cdbb2dd2f52dd58f3.so": "cfe58591b40345b6b2dfc6990f1ce9acb13b2c7946e26e994183500200d8b6d0",
+          "kernels/aic/k128_dot_2d7639f2e3183d8b1b7b6a64.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
+          "kernels/aiv/ab_projection_aiv_07711a07b2db4c4ec0cfd143.so": "65755f36cc5f0ed14bdd5a6d36c9db6bfe39ed06f47a17197e89f24f168a234d",
+          "kernels/aiv/accumulate__2_c3429fe85838d40334bb430f.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
+          "kernels/aiv/accumulate_bfa06488cf743a925fda74bd.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
+          "kernels/aiv/assemble_head_f690e5873a1c3dc3ad379855.so": "ddb7fdeb91c00e7c5fbbc372582aace972e7020e4e024a6555765b36f2ce8031",
+          "kernels/aiv/block_5cf593db37920d2bc0c53ebc.so": "ee7fb87945cf5780caa7c72c568333b51cb91458d0000993d4df807384b430af",
+          "kernels/aiv/block__2_3f3e5383b2d833084d92bcd3.so": "a5b8939a3cdf0b10c5ed8b3a0faa3fc4d22b11440a6c16f06bfc4472c8ab865d",
+          "kernels/aiv/causal_conv_b2084a60e8eba05574b271c6.so": "47d0b075187956dc7916091c4adaaef661514a02d577426be2253b1b25498733",
+          "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
+          "kernels/aiv/extract_head_4592c97f5650895cffcbdb1e.so": "392634298601c748207b07061d2a57c417435bd27822d927c6a73f5b62a0af67",
+          "kernels/aiv/gated_norm_5c0ab6f72910b90ac9043e4a.so": "abd47ae5e06d6efffd71045d83281ba58b1f28569cd7b859c74fcb5d49846778",
+          "kernels/aiv/gates_2379dad2fe9838dad3429f6f.so": "0d0d5dcd4a657978c2f6b8da772007b4e924e49ea79f45e00b50bbc7976d01ce",
+          "kernels/aiv/input_mask_a8c4b353a89baeefa915aed0.so": "b0c64c18fd4c77def9c9aafbdd902e2d7ce70f986de36cd2fd18b54862c922ec",
+          "kernels/aiv/kernel_incore_0_ffb3a78ea97f21af0c03b03d.so": "abc149072973d0cabc2d9d5ad5b5b75d13563e5e1df2cabd04705f33940ee3b5",
+          "kernels/aiv/quantize_e4m3_bf16__2_9c8df44821badc384b922f88.so": "f10e1bd01665cb678e5b0d491f3e2eef14cdd49fba88f18722bae30ca765bf97",
+          "kernels/aiv/quantize_e4m3_bf16_b68b35986139c5b264f1b9d5.so": "218fdd4c4446f4ccb24719683bb12170fabbed539561f81cac06c53dcb47aff8",
+          "orchestration/kernel.so": "5bcc1704804665887dfcfcae2d741c5fa15d7c3c6ac3b2650e2ac8bf7b65c945"
+        },
+        "execution_scenario": "chunk_prefill_recurrent_decode",
+        "invocations": [
+          "token-000/program.json",
+          "token-001/program.json"
+        ]
+      }
+    },
+    {
+      "case_id": "a-native-op06-decode-continuity",
+      "op_id": "OP-06",
+      "kernel_id": "K-06",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_gdn_continuous_dec0/a-native-op06-decode-continuity/20261112T030041_2f170063307e",
+      "parameters": {
+        "qk_heads": 1,
+        "value_heads": 2,
+        "key_head_dim": 32,
+        "value_head_dim": 32,
+        "path": "recurrent",
+        "chunk_size": 64,
+        "scenario": "continuous_decode",
+        "fp8_execution": "bf16_carrier"
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              256,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 1.3969838619232178e-09,
+          "max_rel_error": 0.00035577059911768894,
+          "worst_index": [
+            0,
+            0,
+            0,
+            22
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "conv_history_out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              640,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "state_after_first_token": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              2,
+              32,
+              32
+            ],
+            "dtype": "float32",
+            "stride": [
+              2048,
+              1024,
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 1.862645149230957e-09,
+          "max_rel_error": 3.160918404842527e-05,
+          "worst_index": [
+            0,
+            0,
+            0,
+            2
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "history_after_first_token": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              384,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3,
+              128
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              512,
+              128,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "completed",
+        "native_simulation": "completed",
+        "kernel_source_sha256": "b4c9262fbcef31a2e01777df5a1d8b100a9393e89356848be900c10487c923aa",
+        "source_files_sha256": {
+          "kernels/pypto/fp8.py": "a0e417fbf1dad720a312c86068cf1a5605881b156e45c5c0e1b20eb6a42203d4",
+          "kernels/pypto/gdn.py": "920d81c980780a77f0e4c8e9c99114f9e86e2a15bb9829a6d4a2709d000d295a",
+          "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+          "kernels/pypto/common.py": "cb9e505b384f11735affd5d3121bce5e06e4f8bbe8f14fc0fb6c4c858241603b",
+          "kernels/pypto/vision_ops.py": "af96205fd834af0b1a64f474c8664e876ed92ec4a6d4d6cc2ef9c78d04fd6752"
+        },
+        "fp8_execution": "bf16_carrier",
+        "gdn_path": "recurrent",
+        "chunk_size": null,
+        "native_fp8_cube_validated": false,
+        "fp8_representation": "INT32-widened checkpoint bytes; E4M3FN quantization/decode in PTO C++; BF16 exact value carrier",
+        "elapsed_seconds": 4.797946154023521,
+        "generated_pto_count": 15,
+        "binary_sha256": {
+          "kernels/aic/ab_projection_aic_474b573492435f9d7b93535a.so": "d91e348be29919e7dc2286b8c1493a56714f4b681df6deb0295a7b640b72b5f1",
+          "kernels/aic/k128_dot_bcf8e879b1e4ee9824f1ec91.so": "b2913cdf0c6204f054e1b28939b79324d5ff2e15c065a87471845de6887cf2a8",
+          "kernels/aiv/ab_projection_aiv_09369daa3ab35cf6f9deee83.so": "69ceb222e4eb4aba007abe0cc8057c0c13d76aba7ad19050ba40a6b63bbeeb3f",
+          "kernels/aiv/accumulate_68f0f99de92c70fad76b9b99.so": "56a323dc7786cc3e669be6b120d6e6e18640625c9bfab77554d18640e652da16",
+          "kernels/aiv/accumulate__2_32f8b976854f4cfb5870c6ff.so": "713ce540c1aa4da8895df229ac9afaee1c3f0bceb1e72b705a993d57fd9193e0",
+          "kernels/aiv/assemble_head_fa361637afc081aa1fe4bd66.so": "cff6c7e7a4adc17cfb2ca4c61038b4ea5901d1d623861e85800b8c8d17868664",
+          "kernels/aiv/causal_conv_5909046b6e6baebe44333a2f.so": "885956768761f2950929a732131e2faf5266213e3998e86f99b59515cb484c8c",
+          "kernels/aiv/core_b923c186d2b898d9dbdf627b.so": "0466de7ea054d56376bb7ad0deb22f7d6b36acbb1f056bb627e39b376e5abf8a",
+          "kernels/aiv/decode_e4m3_bf16_dc7f52ceeb0e6276941557cd.so": "2683e99901e9c38636f4d086b9c43a451cbe781c00513d22ee57fe62da08246a",
+          "kernels/aiv/extract_head_b1cbed5c85aa060bf0e8ff65.so": "e9ccc1840de9877a9e5848cdbd59dc9d9c18201b5bff9a942d6b0766a5706b05",
+          "kernels/aiv/gated_norm_8b8615d103e572385843d28a.so": "f08b924fb03a1f865de963247db9fac13eba177adf674983f5891aad7da2149e",
+          "kernels/aiv/gates_1175e9eb31d14e1bd0c38046.so": "8a839df7e4c9c1b5a6c8e221dc14f9a95b384cb117dd40a46d3e7c2e0d03be01",
+          "kernels/aiv/input_mask_3fcbdb9e1bd942fab8895a9f.so": "942b327b0f6d6f7f255df205dc9994ed3a280a2e23041a9a472fcf64707f1b16",
+          "kernels/aiv/kernel_incore_0_9a9ad41ea6cf100813b12ea4.so": "5937b8044f37bce3b6482a955fa48d8b99796bb8c866dd1510258a51e3b4be32",
+          "kernels/aiv/quantize_e4m3_bf16__2_2f65aef6e836cebd73de0c68.so": "744085dcf170579695985d208670177ddb21011b189cff2199f12ea520fad90d",
+          "kernels/aiv/quantize_e4m3_bf16_ccf6e9ac9133910a39f62b17.so": "45fdb13e4f0a49d289c816738f213d64a6b7e306e1b0751d127de2f3d5ed491c",
+          "orchestration/kernel.so": "2a8f875a574b6148397ed5a619ea45f0a69202ae30b4cbea0e6c051bf9e4b104"
+        },
+        "execution_scenario": "continuous_decode",
+        "invocations": [
+          "token-000/program.json",
+          "token-001/program.json"
+        ]
+      }
+    },
+    {
+      "case_id": "a-native-op08-im2col-model",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_im2col_windows_mod0/a-native-op08-im2col-model/20261112T030346_9a9351c7f08c",
+      "parameters": {
+        "stage": "im2col",
+        "input_shape": [
+          1,
+          3,
+          2,
+          32,
+          32
+        ],
+        "kernel": [
+          2,
+          16,
+          16
+        ],
+        "stride": [
+          2,
+          16,
+          16
+        ]
+      },
+      "outputs": {
+        "columns": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              1536
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              1536,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              1536
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              1536,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "deferred",
+        "native_simulation": "deferred"
+      }
+    },
+    {
+      "case_id": "a-native-op08-im2col-overlap",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_im2col_windows_ove0/a-native-op08-im2col-overlap/20261112T030342_8e3beaba813d",
+      "parameters": {
+        "stage": "im2col",
+        "input_shape": [
+          2,
+          2,
+          4,
+          6,
+          8
+        ],
+        "kernel": [
+          2,
+          3,
+          2
+        ],
+        "stride": [
+          1,
+          2,
+          3
+        ]
+      },
+      "outputs": {
+        "columns": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              36,
+              24
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              24,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              36,
+              24
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              24,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0,
+            "rtol": 0,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "deferred",
+        "native_simulation": "deferred"
+      }
+    },
+    {
+      "case_id": "a-native-op08-model",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_model0/a-native-op08-model/20261112T030334_c59cad0f81dd",
+      "parameters": {
+        "input_shapes": {
+          "pixels": [
+            1,
+            3,
+            2,
+            32,
+            32
+          ],
+          "weight": [
+            1152,
+            3,
+            2,
+            16,
+            16
+          ],
+          "bias": [
+            1152
+          ]
+        },
+        "stride": [
+          2,
+          16,
+          16
+        ],
+        "spatial_merge_size": 2
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              1152
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              1152,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              1152
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              1152,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "grid_thw": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": true
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "deferred",
+        "native_simulation": "deferred"
+      }
+    },
+    {
+      "case_id": "a-native-op08-overlap",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_overl0/a-native-op08-overlap/20261112T030329_d11e5692da6c",
+      "parameters": {
+        "input_shapes": {
+          "pixels": [
+            2,
+            2,
+            4,
+            6,
+            8
+          ],
+          "weight": [
+            32,
+            2,
+            2,
+            3,
+            2
+          ],
+          "bias": [
+            32
+          ]
+        },
+        "stride": [
+          1,
+          2,
+          3
+        ],
+        "spatial_merge_size": 1
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              36,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              36,
+              32
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              32,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "grid_thw": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": true
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "deferred",
+        "native_simulation": "deferred"
+      }
+    },
+    {
+      "case_id": "a-native-op08-tail",
+      "op_id": "OP-08",
+      "kernel_id": "K-08",
+      "passed": true,
+      "backend": "hw_pto_cpp_sim",
+      "artifact_directory": "artifacts/hw-migration-final/test_native_pixel_conv3d_tail_0/a-native-op08-tail/20261112T030338_26a3c2ae9d5c",
+      "parameters": {
+        "input_shapes": {
+          "pixels": [
+            1,
+            2,
+            2,
+            4,
+            6
+          ],
+          "weight": [
+            130,
+            2,
+            2,
+            2,
+            3
+          ],
+          "bias": [
+            130
+          ]
+        },
+        "stride": [
+          2,
+          2,
+          3
+        ],
+        "spatial_merge_size": 2
+      },
+      "outputs": {
+        "out": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              4,
+              130
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              130,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              4,
+              130
+            ],
+            "dtype": "bfloat16",
+            "stride": [
+              130,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": 0.01,
+            "rtol": 0.01,
+            "logical_indices": false
+          },
+          "reasons": [],
+          "max_abs_error": 0.0,
+          "max_rel_error": 0.0,
+          "worst_index": [
+            0,
+            0
+          ],
+          "actual_nonfinite_count": 0,
+          "expected_nonfinite_count": 0,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        },
+        "grid_thw": {
+          "passed": true,
+          "actual": {
+            "shape": [
+              1,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "expected": {
+            "shape": [
+              1,
+              3
+            ],
+            "dtype": "int64",
+            "stride": [
+              3,
+              1
+            ],
+            "device": "cpu"
+          },
+          "rule": {
+            "atol": null,
+            "rtol": null,
+            "logical_indices": true
+          },
+          "reasons": [],
+          "max_abs_error": null,
+          "max_rel_error": null,
+          "worst_index": null,
+          "mismatch_count": 0,
+          "mismatch_fraction": 0.0
+        }
+      },
+      "backend_details": {
+        "backend": "hw_pto_cpp_sim",
+        "pypto_version": "0.1.0",
+        "pypto_source": "https://github.com/hw-native-sys/pypto.git",
+        "pypto_source_commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+        "runtime_version": "0.1.0",
+        "runtime_commit": "355ce3015e3e344d1fc3a61c206ee01823ce292c",
+        "ptoas_version": "ptoas 0.72",
+        "pto_isa_commit": "5487a6b0e8d9bd3653dbee8d7c874c667ee8db2f",
+        "execution": "HW PyPTO -> PTO IR -> PTOAS -> C++ shared libraries -> simpler a2a3sim",
+        "execution_layer": "PTO C++ functional simulation",
+        "platform": "a2a3sim",
+        "hardware_precision_validated": false,
+        "native_compilation": "deferred",
+        "native_simulation": "deferred"
+      }
+    }
+  ],
+  "gdn_core_paths": [
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu0",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 2.9802322387695312e-08
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu1",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 8.940696716308594e-08
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu2",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 8.940696716308594e-08
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_chu3",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 1.1920928955078125e-07
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec0",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 2.9802322387695312e-08
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec1",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 1.1920928955078125e-07
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec2",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 1.1920928955078125e-07
+        }
+      }
+    },
+    {
+      "case_directory": "artifacts/hw-migration-final/test_native_gdn_core_paths_rec3",
+      "passed": true,
+      "outputs": {
+        "out": {
+          "max_abs_error": 0.0
+        },
+        "state_out": {
+          "max_abs_error": 1.1920928955078125e-07
+        }
+      }
+    }
+  ],
+  "additional_checks": [
+    {
+      "tests": "tests/kernels/test_hw_common.py",
+      "passed": 6,
+      "scope": "Residual offsets/windows/tails with exact seed preservation; LayerNorm D7/D129/D1152, constant row and input immutability"
+    },
+    {
+      "tests": "tests/kernels/test_vision_conv3d.py",
+      "passed": 5,
+      "scope": "Raw BF16/FP32 pixels; overlapping windows; C3/K(2,16,16)/D1152; D130 output tail; exact im2col/metadata; Torch conv3d reference"
+    },
+    {
+      "tests": "tests/kernels/test_pypto_a.py::test_native_repeated_attention_and_fp8",
+      "passed": 1,
+      "scope": "6 Attention invocations across unequal/singleton segments; 8 FP8 Linear invocations reusing a compiled program; native PTO/C++/ELF saved"
+    }
+  ],
+  "scope": {
+    "inputs_and_weights": "synthetic, deterministically seeded",
+    "complete_ops": "A-owned OP-03/04/06/08/09/10/11/12/13",
+    "gdn": "small recurrent/chunk cores; complete recurrent/chunk; multiple chunks, tails, batch2 padding, continuous Decode and chunk Prefill -> recurrent Decode; FP32 State and exact raw history",
+    "direct_fp8_hardware_instructions": "not_validated; exact FP8 values carried in BF16",
+    "GDN_model_dimensions_and_full_64_token_chunk": "not_validated",
+    "real_checkpoint_full_model_performance": "not_validated"
+  }
+}

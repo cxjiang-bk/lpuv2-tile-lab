@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op09-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    }
+  },
+  "parameters": {
+    "num_heads": 2,
+    "input_shapes": {
+      "x": [
+        5,
+        32
+      ],
+      "qkv_weight": [
+        96,
+        32
+      ],
+      "qkv_bias": [
+        96
+      ],
+      "proj_weight": [
+        32,
+        32
+      ],
+      "proj_bias": [
+        32
+      ],
+      "cos": [
+        5,
+        16
+      ],
+      "sin": [
+        5,
+        16
+      ],
+      "cu_seqlens": [
+        3
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-09",
+  "kernel_id": "K-09"
+}

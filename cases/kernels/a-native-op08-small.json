@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op08-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    },
+    "grid_thw": {
+      "logical_indices": true
+    }
+  },
+  "parameters": {
+    "input_shapes": {
+      "weight": [
+        32,
+        2,
+        2,
+        2,
+        2
+      ],
+      "bias": [
+        32
+      ],
+      "pixels": [
+        2,
+        2,
+        4,
+        4,
+        8
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-08",
+  "kernel_id": "K-08"
+}

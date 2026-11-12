@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op04-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    }
+  },
+  "parameters": {
+    "input_shapes": {
+      "x": [
+        3,
+        129
+      ],
+      "residual": [
+        3,
+        129
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-04",
+  "kernel_id": "K-04"
+}

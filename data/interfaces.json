@@ -33,11 +33,29 @@
       "semantics": "按 get_rope_index 规则生成位置元数据，保证 Patch、视觉特征与文本位置匹配；执行归属在接口设计时确认",
       "status": "in_progress",
       "reference_entry_points": [
+        "pymodel.ref.vision.vision_patch_embedding",
         "pymodel.ref.vision.vision_position_interpolation"
       ],
-      "reference_scope": "位置表插值索引与FP32系数已实现；其余位置/片段/占位元数据分别接入",
+      "reference_scope": "像素 Conv3D、Merge Token顺序、位置表插值索引与FP32系数已实现；其余位置/片段/占位元数据分别接入",
       "planned_execution": {
-        "position_interpolation": "LPU"
+        "position_interpolation": "LPU",
+        "pixel_conv3d": "LPU"
+      },
+      "pixel_conv3d": {
+        "input": "pixels[B,C,T,H,W]:BF16/FP32; same-size batch",
+        "outputs": {
+          "out": "BF16[B*Ot*Oh*Ow,D]",
+          "grid_thw": "int64[B,3]"
+        },
+        "token_order": "B,Ot,block_h,block_w,intra_h,intra_w",
+        "model_kernel_and_stride": [
+          2,
+          16,
+          16
+        ],
+        "pixel_preprocessing": "defined separately; no implicit resize/normalize/temporal replication",
+        "input_mutation": "none",
+        "contract": "docs/vision-pixel-conv3d.md"
       }
     },
     {

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "case_id": "a-native-op10-small",
+  "seed": 43,
+  "numerical_profile": "pto-functional-v0",
+  "outputs": {
+    "out": {
+      "atol": 0.01,
+      "rtol": 0.01,
+      "logical_indices": false
+    }
+  },
+  "parameters": {
+    "input_shapes": {
+      "x": [
+        3,
+        32
+      ],
+      "fc1_weight": [
+        64,
+        32
+      ],
+      "fc1_bias": [
+        64
+      ],
+      "fc2_weight": [
+        32,
+        64
+      ],
+      "fc2_bias": [
+        32
+      ]
+    },
+    "validation_shape": "small"
+  },
+  "op_id": "OP-10",
+  "kernel_id": "K-10"
+}

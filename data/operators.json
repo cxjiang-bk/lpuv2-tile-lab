@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "framework",
+  "phase": "pypto_native_functional_validation",
   "operators": [
     {
       "id": "OP-01",
@@ -13,7 +13,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-08",
@@ -24,8 +26,8 @@
         "K-08"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -34,7 +36,25 @@
       "reference_tests": [
         "tests/operators/test_vision_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16/FP32 pixels[B,C,T,H,W] -> independent full F.conv3d + merge token order; pinned module comparison and window tests",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.patch_embedding",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op08-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "tests/kernels/test_vision_conv3d.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_validation_scope": "Raw pixel im2col + matmul: FP32/BF16, batch/time, overlap/valid tails, D130 output tail, C3/D1152/K(2,16,16); exact grid and independent window checks"
     },
     {
       "id": "OP-11",
@@ -45,8 +65,8 @@
         "K-11"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -57,7 +77,23 @@
         "tests/operators/test_vision_ref.py",
         "tests/operators/test_vision_position_ref.py"
       ],
-      "golden_scope": "BF16 position embedding plus int64/FP32 interpolation metadata generation; operator-level PyTorch checks"
+      "golden_scope": "BF16 position embedding plus int64/FP32 interpolation metadata generation; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.position.position_embedding",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op11-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "OP-03",
@@ -68,8 +104,8 @@
         "K-03"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -78,7 +114,23 @@
       "reference_tests": [
         "tests/operators/test_common_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.common.tile.layer_norm",
+      "python_tile_program": "kernels/pypto/common.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op03-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "OP-09",
@@ -89,8 +141,8 @@
         "K-09"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -99,7 +151,23 @@
       "reference_tests": [
         "tests/operators/test_vision_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.vision_attention",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op09-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "OP-04",
@@ -110,8 +178,8 @@
         "K-04"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -120,7 +188,23 @@
       "reference_tests": [
         "tests/operators/test_common_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.common.tile.residual_add",
+      "python_tile_program": "kernels/pypto/common.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op04-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ]
     },
     {
       "id": "OP-10",
@@ -131,8 +215,8 @@
         "K-10"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -141,7 +225,23 @@
       "reference_tests": [
         "tests/operators/test_vision_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.dense_ffn",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op10-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "OP-12",
@@ -152,8 +252,8 @@
         "K-12"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -162,7 +262,23 @@
       "reference_tests": [
         "tests/operators/test_vision_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.spatial_merger",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op12-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "OP-13",
@@ -173,8 +289,8 @@
         "K-13"
       ],
       "golden_status": "golden_ready",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -183,7 +299,23 @@
       "reference_tests": [
         "tests/operators/test_multimodal_ref.py"
       ],
-      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks"
+      "golden_scope": "BF16 reference with synthetic parameters; operator-level PyTorch checks",
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.vision.kernels.visual_feature_scatter",
+      "python_tile_program": "kernels/pypto/vision_ops.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op13-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ]
     },
     {
       "id": "OP-02",
@@ -196,7 +328,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-06",
@@ -206,9 +340,9 @@
       "kernel_ids": [
         "K-06"
       ],
-      "golden_status": "in_progress",
-      "pto_implementation_status": "planned",
-      "pto_validation_status": "planned",
+      "golden_status": "golden_ready",
+      "pto_implementation_status": "implemented",
+      "pto_validation_status": "passed",
       "model_validation_status": "planned",
       "owner_alias": "jcx",
       "reference_entry_points": [
@@ -216,15 +350,44 @@
         "pymodel.ref.gdn.gdn_conv",
         "pymodel.ref.gdn.gdn_recurrent",
         "pymodel.ref.gdn.gdn_chunk",
-        "pymodel.ref.gdn.gdn_gated_norm"
+        "pymodel.ref.gdn.gdn_gated_norm",
+        "pymodel.ref.fp8.activation_quantize",
+        "pymodel.ref.fp8.linear"
       ],
       "reference_tests": [
-        "tests/operators/test_gdn_ref.py"
+        "tests/operators/test_gdn_ref.py",
+        "tests/operators/test_fp8_reference.py"
       ],
-      "golden_scope": "FP32 recurrent/chunk core, Conv history and gated Norm verified; full graph checked with BF16 projection fixtures",
-      "pending_reference_work": [
-        "Connect the independent target FP8 projection reference for qkv/z/out and verify the target profile"
-      ]
+      "golden_scope": "Independent v0 FP8 activation quantization/block-scaled projection reference, complete GDN graph, Conv history, gates, FP32 recurrent/chunk core and gated Norm",
+      "pending_reference_work": [],
+      "python_implementation_status": "implemented",
+      "python_validation_status": "passed",
+      "python_entry_point": "pymodel.ops.gdn.kernel.gdn",
+      "python_tile_program": "kernels/pypto/gdn.py",
+      "python_backend": "hw_pto_cpp_sim",
+      "native_backend": "hw_pto_cpp_sim",
+      "native_validation_status": "passed",
+      "native_validation_evidence": [
+        "cases/kernels/a-native-op06-small.json",
+        "data/native-validation-summary.json",
+        "docs/pypto-a1.md"
+      ],
+      "python_validation_evidence": [
+        "tests/kernels/test_pypto_a.py",
+        "data/native-validation-summary.json"
+      ],
+      "native_execution_profile": "bf16_carrier",
+      "native_validation_scope": "synthetic small recurrent Prefill/continuous Decode, chunk core/Prefill/tails, and chunk Prefill -> recurrent Decode",
+      "native_fp8_cube_validation_status": "not_validated",
+      "native_path_status": {
+        "recurrent_prefill_small": "passed",
+        "recurrent_decode_continuity_small": "passed",
+        "chunk": "passed_small",
+        "model_dimensions": "not_validated",
+        "real_checkpoint": "not_validated",
+        "chunk_core_small": "passed",
+        "chunk_prefill_decode_handoff_small": "passed"
+      }
     },
     {
       "id": "OP-05",
@@ -237,7 +400,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-07",
@@ -250,7 +415,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-14",
@@ -263,7 +430,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-15",
@@ -276,7 +445,9 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     },
     {
       "id": "OP-16",
@@ -289,8 +460,11 @@
       "golden_status": "planned",
       "pto_implementation_status": "planned",
       "pto_validation_status": "planned",
-      "model_validation_status": "planned"
+      "model_validation_status": "planned",
+      "python_implementation_status": "planned",
+      "python_validation_status": "planned"
     }
   ],
-  "kernel_organization": "one_logical_kernel_per_operator"
+  "kernel_organization": "one_logical_kernel_per_operator",
+  "python_status_document": "docs/pypto-a1.md"
 }

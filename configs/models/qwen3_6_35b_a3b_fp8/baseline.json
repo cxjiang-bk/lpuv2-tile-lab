@@ -13,8 +13,9 @@
     "checkpoint_metadata": "checkpoint_metadata.json",
     "numerical_contract": "numerics.json",
     "weights_location": "external; not stored in this repository",
-    "input_boundary": "token IDs or processor-produced visual patches plus position/grid metadata",
-    "processor_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2"
+    "input_boundary": "token IDs or BF16/FP32 pixel tensors [B,C,T,H,W]; OP-08 performs Conv3D and merge token ordering; preprocessing rules defined separately",
+    "processor_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+    "upstream_input_boundary": "token IDs or processor-produced visual patches plus position/grid metadata"
   },
   "reference": {
     "repository": "https://github.com/huggingface/transformers",

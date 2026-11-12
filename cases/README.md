@@ -4,4 +4,4 @@
 
 [视觉位置插值元数据case](operators/vision-position-interpolation.json)验证OP-11前置阶段的`interp_indices`和`interp_weights`两个命名输出。
 
-输入tensor由各算子用例显式构造，随机数使用 `case.generator()`。有效区域、尾块、非零状态及路由等场景随对应算子加入。使用方法见[验证框架](../docs/validation.md)。
+[kernels/](kernels)保存 A 组 9 个算子的输入 shape 预设、随机种子、参数和逐输出比较规则。`python -m pymodel.task_gen.validate_a` 在独立进程读取这些 case，经 HW PyPTO/PTOAS/C++ 仿真 执行，保存源码、二进制与数值报告。具体通过范围见 [A 组说明](../docs/pypto-a1.md)。

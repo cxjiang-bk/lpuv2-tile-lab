@@ -27,13 +27,13 @@ Python Tile功能验证、实际PTO CPU/NPU及LPU功能模型验证分别登记�
 
 动态激活量化使用每Token、K轴128元素分组，FP32 scale为反量化乘数，非零组`scale=amax/448`；FP8格式为`float8_e4m3fn`，截断到`[-448,448]`后最近偶数舍入。全零组、尾组及异常输入规则见 [完整标准](functional-validation-v0.md)。
 
-## 当前阶段的Python Tile功能验证
+## 当前阶段的 PyPTO kernel 功能验证
 
-以官方PyPTO main为来源，在Python层编写Tile程序，与独立golden比较。Golden可以直接表达完整算子，Tile程序展开基础操作、分块、归约、类型转换和状态顺序；所需补充能力配套独立语义测试。采用相同的随机输入和权重，先检查小尺寸，再补充模型相关真实维度及边界；真实权重在集成阶段接入。
+当前使用hw-native-sys PyPTO language/Tile API，具体版本见 `data/upstream.lock.json`。Kernel用Tensor表达式描述基础计算、归约、转换和状态顺序，经 PTOAS 生成 C++ 并编译共享库，在 simpler a2a3sim 执行，与独立 golden 比较。采用相同的随机输入和权重，先检查小尺寸，再补充模型相关真实维度及边界；真实权重在集成阶段接入。Tile配置与逻辑窗口在本阶段记录，生成的 Tile 操作与临时存储按当前后端验证，LPU 架构约束在映射阶段定义，见 [A组执行说明](pypto-a1.md)。
 
 当前按 [一个OP对应一个逻辑kernel](kernel-organization.md) 组织16个实现入口。内部子阶段可导出中间结果和单独排错，完整kernel的完成依据是对应OP的全部输出与状态通过；Prefill/Decode、recurrent/chunk分别登记路径结果。子图和层由这些OP/kernel组合，跨OP融合在后续架构映射阶段评估。
 
-运行时保存实际PyPTO commit、Python/Torch版本、数值profile、随机种子、程序或IR，以及所有命名输出的结果。Python阶段通过后可据此整理LPUv2指令候选能力；实际PTO后端和LPU架构约束随相应程序接入验证。公共能力的主责、交付顺序及状态记录见 [两人分工与公共协作约束](work-allocation.md)。
+运行时保存实际PyPTO版本或commit、Python/Torch版本、数值profile、随机种子、程序或IR，以及所有命名输出的结果。相应算子通过后可据此整理LPUv2指令候选能力；实际PTO后端和LPU架构约束随相应程序接入验证。公共能力的主责、交付顺序及状态记录见 [两人分工与公共协作约束](work-allocation.md)。
 
 ## 先运行公共框架检查
 

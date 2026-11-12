@@ -10,21 +10,42 @@
   "source": {
     "document": "https://tju-opentpu.feishu.cn/wiki/EhbLwG01Yin5mqk2SfncHKlPnNz",
     "revision": 54,
-    "confirmed_items": ["P01", "P02", "P05", "P06", "P07"]
+    "confirmed_items": [
+      "P01",
+      "P02",
+      "P05",
+      "P06",
+      "P07"
+    ]
   },
   "execution": {
-    "phase": "python_tile_functional_validation",
-    "pypto_source": "official main; record the actual tested commit per run",
+    "phase": "hw_pypto_native_functional_validation",
+    "pypto_source": "hw-native-sys/pypto language Tensor/Tile API; locked compiler and runtime in data/upstream.lock.json",
     "operator_inputs_and_weights": "random; real checkpoint payloads are introduced during integration",
-    "coverage": ["logical shapes", "dtypes", "valid regions", "offsets", "indices", "state"],
-    "physical_buffer_capacity": "evaluated during later storage and architecture mapping"
+    "coverage": [
+      "logical shapes",
+      "dtypes",
+      "valid regions",
+      "offsets",
+      "indices",
+      "state"
+    ],
+    "physical_buffer_capacity": "evaluated during later storage and architecture mapping",
+    "backend": "hw_pto_cpp_sim"
   },
   "activation_quantization": {
     "scope": "BF16 activations consumed by FP8 GEMM only",
     "input_dtype": "bfloat16",
     "output_dtype": "float8_e4m3fn",
-    "finite_range": [-448.0, 448.0],
-    "grouping": {"per_token": true, "axis": "K", "group_size": 128},
+    "finite_range": [
+      -448.0,
+      448.0
+    ],
+    "grouping": {
+      "per_token": true,
+      "axis": "K",
+      "group_size": 128
+    },
     "scale_dtype": "float32",
     "scale_semantics": "dequantization_multiplier",
     "amax_dtype": "float32",
@@ -33,8 +54,14 @@
     "quantization_arithmetic_dtype": "float32",
     "quantization_formula": "FP8_RNE(clamp(x.float() / scale, -448, 448))",
     "rounding": "round_to_nearest_ties_to_even",
-    "zero_group": {"scale": 1.0, "payload": 0.0},
-    "tail_group": {"amax_uses_valid_elements_only": true, "padding_payload": 0.0},
+    "zero_group": {
+      "scale": 1.0,
+      "payload": 0.0
+    },
+    "tail_group": {
+      "amax_uses_valid_elements_only": true,
+      "padding_payload": 0.0
+    },
     "nonfinite_input": "fail on NaN or Inf",
     "dequantization_formula": "x_approx = float(x_fp8) * activation_scale",
     "data_scale_association": "preserve corresponding groups and rows through reorder, gather and dispatch"
@@ -50,16 +77,46 @@
     "shape_and_dtype": "must match the interface contract",
     "floating_formula": "abs(actual - reference) <= atol + rtol * abs(reference)",
     "defaults_by_output_dtype": {
-      "bfloat16": {"atol": 0.01, "rtol": 0.01},
-      "float32": {"atol": 0.00001, "rtol": 0.0001}
+      "bfloat16": {
+        "atol": 0.01,
+        "rtol": 0.01
+      },
+      "float32": {
+        "atol": 1e-05,
+        "rtol": 0.0001
+      }
     },
-    "float32_rule_applies_to": ["FP32 outputs", "FP32 reductions", "GDN State"],
-    "exact_outputs": ["pure movement", "reordering", "integer indices", "counts", "masks", "quantized FP8 payload", "activation scales"],
-    "exact_floating_check": {"atol": 0.0, "rtol": 0.0},
+    "float32_rule_applies_to": [
+      "FP32 outputs",
+      "FP32 reductions",
+      "GDN State"
+    ],
+    "exact_outputs": [
+      "pure movement",
+      "reordering",
+      "integer indices",
+      "counts",
+      "masks",
+      "quantized FP8 payload",
+      "activation scales"
+    ],
+    "exact_floating_check": {
+      "atol": 0.0,
+      "rtol": 0.0
+    },
     "acceptance": "every element must pass; average error does not determine acceptance",
     "nonfinite_outputs_or_states": "fail on NaN or Inf",
-    "separately_check": ["main outputs", "KV", "GDN State", "Conv history"],
-    "failure_report": ["output name", "mismatched position", "actual and reference difference"],
+    "separately_check": [
+      "main outputs",
+      "KV",
+      "GDN State",
+      "Conv history"
+    ],
+    "failure_report": [
+      "output name",
+      "mismatched position",
+      "actual and reference difference"
+    ],
     "quantization_error": "record separately from implementation error against the same-profile reference"
   },
   "topk": {
@@ -72,7 +129,11 @@
   "moe_dispatch": {
     "strategy": "group route records by expert",
     "routing_records": "8*T for the model Top-8 path",
-    "preserve": ["original Token ID", "route weight", "FP8 payload and scale association"],
+    "preserve": [
+      "original Token ID",
+      "route weight",
+      "FP8 payload and scale association"
+    ],
     "slot": "retain when needed to identify the original Top-K position",
     "empty_expert": "skip",
     "tail_rows": "respect each expert's valid count Ne",

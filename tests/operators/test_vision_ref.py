@@ -34,14 +34,67 @@ def run_attention(x, module, cos, sin, cu):
 
 
 @pytest.mark.parametrize("hidden", [8, 1152])
-def test_patch_embedding_matches_processor_layout_and_input_cast(upstream, hidden):
+def test_pixel_conv3d_matches_pinned_patch_projection(upstream, hidden):
     source = upstream("Qwen3_5MoeVisionPatchEmbed")
     config = SimpleNamespace(patch_size=16, temporal_patch_size=2, in_channels=3, hidden_size=hidden)
     module = frozen_module(source.Qwen3_5MoeVisionPatchEmbed, config)
-    patches = torch.randn(3, 1536, generator=torch.Generator().manual_seed(17))
-    actual = vision_patch_embedding(patches, module.proj.weight, module.proj.bias)
+    pixels = torch.randn(2, 3, 4, 32, 64, generator=torch.Generator().manual_seed(17))
+    actual = vision_patch_embedding(pixels, module.proj.weight, module.proj.bias)
+    # 仅测试侧按固定模型的输入排列分 Patch；被测 reference 直接调用完整像素 Conv3D。
+    # [B,C,Ot,Kt,block_h,m,Kh,block_w,m,Kw] -> merge 连续的 [N,C*Kt*Kh*Kw]。
+    patches = pixels.reshape(2, 3, 2, 2, 1, 2, 16, 2, 2, 16)
+    patches = patches.permute(0, 2, 4, 7, 5, 8, 1, 3, 6, 9).reshape(-1, 1536)
     torch.testing.assert_close(actual, module(patches), atol=0, rtol=0)
-    assert actual.shape == (3, hidden) and actual.dtype == torch.bfloat16
+    assert actual.shape == (32, hidden) and actual.dtype == torch.bfloat16
+
+
+@pytest.mark.parametrize("dtype", [torch.bfloat16, torch.float32])
+def test_pixel_conv3d_overlapping_windows_and_valid_tail(dtype):
+    rng = torch.Generator().manual_seed(31)
+    pixels = torch.randn(2, 2, 4, 6, 8, generator=rng).to(dtype)
+    weight = torch.randn(3, 2, 2, 3, 2, generator=rng).bfloat16()
+    bias = torch.randn(3, generator=rng).bfloat16()
+    out = vision_patch_embedding(pixels, weight, bias, stride=(1, 2, 3), spatial_merge_size=1)
+    # 用独立的显式窗口求和检查批次/时间/通道和非方形空间步长，尾部使用 valid 规则。
+    expected = []
+    for b in range(2):
+        for t in range(3):
+            for h in range(0, 4, 2):
+                for w in range(0, 7, 3):
+                    window = pixels[b, :, t:t+2, h:h+3, w:w+2].bfloat16().float()
+                    expected.append(((weight.float() * window).sum((1, 2, 3, 4)) + bias.float()).bfloat16())
+    torch.testing.assert_close(out, torch.stack(expected), atol=.01, rtol=.01)
+
+
+def test_pixel_conv3d_merge_order_preserves_batch_and_time():
+    # 单点卷积使输出直接显示空间位置。每四行构成一个 2x2 Merge 组。
+    pixels = torch.arange(2 * 2 * 4 * 6).reshape(2, 1, 2, 4, 6).bfloat16()
+    weight = torch.ones(1, 1, 1, 1, 1, dtype=torch.bfloat16)
+    out = vision_patch_embedding(pixels, weight, torch.zeros(1, dtype=torch.bfloat16))
+    order = [0, 1, 6, 7, 2, 3, 8, 9, 4, 5, 10, 11, 12, 13, 18, 19,
+             14, 15, 20, 21, 16, 17, 22, 23]
+    expected = torch.tensor([v + frame * 24 for frame in range(4) for v in order]).bfloat16()
+    torch.testing.assert_close(out[:, 0], expected, atol=0, rtol=0)
+
+
+@pytest.mark.parametrize("problem", ["packed", "integer", "short", "merge", "stride"])
+def test_pixel_conv3d_rejects_invalid_input(problem):
+    pixels = torch.zeros(1, 3, 2, 4, 4)
+    weight = torch.zeros(8, 3, 2, 2, 2, dtype=torch.bfloat16)
+    bias = torch.zeros(8, dtype=torch.bfloat16)
+    kwargs = {}
+    if problem == "packed":
+        pixels = pixels.reshape(4, -1)
+    elif problem == "integer":
+        pixels = pixels.int()
+    elif problem == "short":
+        pixels = pixels[:, :, :1]
+    elif problem == "merge":
+        pixels = pixels[:, :, :, :2]
+    else:
+        kwargs["stride"] = (1, 0, 2)
+    with pytest.raises((ValueError, TypeError)):
+        vision_patch_embedding(pixels, weight, bias, **kwargs)
 
 
 def test_position_interpolation_casts_before_the_bf16_add():

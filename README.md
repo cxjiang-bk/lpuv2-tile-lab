@@ -2,7 +2,7 @@
 
 面向 Qwen3.6-35B-A3B 的算子协作工程：建立独立 PyTorch golden，先在 Python/PyPTO 层实现 Tile kernel 并验证功能，整理 LPUv2 指令候选集，再结合架构完善 Tile ISA 与 programming model。
 
-**当前阶段：公共验证框架与A组首批PyTorch reference已接入。** 已登记16条模型OP与一一对应的16个逻辑kernel、A/B分工及固定版本PTO指令索引。A组8条BF16算子reference已通过检查；GDN核心与状态图已验证，目标FP8投影参考待接入。Tile kernel实现与验证状态保持 `planned`，按已确认的功能验证标准v0继续推进；模型验证分别登记。
+**当前阶段：A 组 kernel 统一使用 HW PyPTO，并进行原生 C++ 功能仿真验证。** 工程登记16条 OP 和一一对应的逻辑 kernel，使用独立 PyTorch golden。实际通过范围见 [原生验证汇总](data/native-validation-summary.json)，运行方式见 [A 组说明](docs/pypto-a1.md)。
 
 ## 从这里开始
 
@@ -12,6 +12,7 @@
 4. 查阅 [PTO参考入口](docs/pto-isa/README.md) 和 [机器可读指令目录](data/pto_isa_catalog.json)。
 5. 按 [验证框架使用方法](docs/validation.md) 接入reference、实际后端和命名输出。
 6. A组的接口、覆盖范围和依赖见 [reference说明](docs/reference-a.md)。
+7. A 组 kernel 的安装、调用与结果见 [实现说明](docs/pypto-a1.md)，功能需求见 [LPUv2 指令候选集](docs/lpuv2-a-instruction-candidates.md)。
 
 当前采用 [一个OP对应一个逻辑kernel](docs/kernel-organization.md)，编号为`OP-01↔K-01`至`OP-16↔K-16`。Conv、TopK、量化和状态更新等在相应kernel内部组织；Prefill/Decode与recurrent/chunk作为实现路径记录。
 
@@ -30,6 +31,17 @@ python -m pytest tests/framework tests/operators -q
 ```
 
 框架检查覆盖BF16/FP32、索引、状态隔离和错误报告。算子检查对照固定来源验证A组reference，包含实际Vision维度和GDN State维度。OP-04的[示例case](cases/examples/op04-residual-bf16.json)与[GDN核心case](cases/operators/gdn-recurrent-bf16.json)已接入reference检查；实际PTO后端随kernel实现接入。
+
+执行原生 Tile kernel 验证：
+
+```bash
+bash scripts/setup-hw-pypto.sh
+source scripts/hw-env.sh
+python -m pymodel.task_gen.validate_a --case 09
+python -m pymodel.task_gen.validate_a
+```
+
+kernel 采用 `hw-native-sys/pypto` 的 Tensor/Tile 接口，经 PTOAS 生成 C++，由 GCC 编译并在 simpler `a2a3sim` 中执行，后端标记 `hw_pto_cpp_sim`。GDN 保留 K128 量化与 BF16 精确承载 FP8 数值。未加载工具链环境时 kernel pytest 明确跳过；116项框架/reference检查可独立运行。
 
 PTO固定在 `90a3796597a5fabc2ce5066e73f785c2e85822f7`，来源为公开 [hw-native-sys/pto-isa](https://github.com/hw-native-sys/pto-isa)。当前PTO目录覆盖139个core参考条目（136个core公开API名）及12个通信接口。语义变体、兼容名和命名空间重名在目录中分别记录。
 
@@ -51,7 +63,8 @@ pymodel/             Python侧职责分层，参考pymodel的组织方式
   models/qwen36/     子图、Decoder layer和模型集成
   task_gen/          可复现case及实验产物组织
   utils/             输出、索引、状态比较等公共工具
-kernels/pto/         原生PTO Tile kernel
+kernels/pypto/       HW PyPTO Tensor/Tile程序；由 PTOAS/GCC 编译、C++ 功能仿真
+kernels/pto/         后续原生PTO Tile kernel
 tests/               指令、kernel、算子、子图和模型验证
 cases/               测试场景说明与小型case定义
 configs/             模型基线和后续运行配置
@@ -63,4 +76,4 @@ artifacts/           本地运行产物，默认不入库
 
 ## 后续闭环
 
-模型需求 → PyTorch golden → Python Tile功能验证 → LPUv2指令候选集 → 架构映射 → LPU程序与编程模型验证。公共比较和运行记录已可使用；实际PTO CPU/NPU后端及对应构建、CI随实现接入，执行环境和精度按具体kernel记录。
+模型需求 → PyTorch golden → PyPTO kernel 功能验证 → LPUv2指令候选集 → 架构映射 → LPU程序与编程模型验证。公共比较和运行记录已可使用；实际PTO CPU/NPU后端及对应构建、CI随实现接入，执行环境和精度按具体kernel记录。

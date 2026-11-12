@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-cann/
 .env
 .env.*
 !.env.example
@@ -17,3 +18,8 @@ artifacts/*
 *.safetensors
 *.pt
 *.pth
+/output/
+
+/build_output/
+
+/.tools/

@@ -8,13 +8,13 @@
 | --- | --- | --- |
 | OP-03 LayerNorm | `pymodel.ref.common.layer_norm` | 最后一维仿射LayerNorm；eps=1e-6；BF16与1152实际宽度 |
 | OP-04 Residual | `pymodel.ref.common.residual_add` | 同形同dtype相加；输入保留；通过公共run_case入口比较 |
-| OP-08 Patch Embedding | `pymodel.ref.vision.vision_patch_embedding` | processor的[N,1536] Patch顺序、BF16输入转换、Conv3D与1152输出宽度 |
+| OP-08 Patch Embedding | `pymodel.ref.vision.vision_patch_embedding` | BF16/FP32 像素[B,C,T,H,W]，完整 Conv3D、BF16输入转换及 Merge Token顺序；见[像素入口](vision-pixel-conv3d.md) |
 | OP-11 视觉位置嵌入 | `pymodel.ref.vision.vision_position_interpolation` → `vision_position_embedding` | 由Patch网格生成[N,4]索引和FP32系数，按2×2 merge顺序组织；位置结果先转BF16再加hidden |
 | OP-09 Vision Attention | `pymodel.ref.vision.vision_attention` | 16 heads、72维完整axial RoPE、分段非因果MHA、FP32 Softmax回转BF16 |
 | OP-10 Dense FFN | `pymodel.ref.vision.dense_ffn` | 含bias的Linear→GELU(tanh)→Linear；含1152→4304→1152尺寸 |
 | OP-12 Spatial Merger | `pymodel.ref.vision.spatial_merger` | 先做每Patch的LayerNorm，再按已排序的2×2行分组；GELU exact |
 | OP-13 Visual Scatter | `pymodel.ref.multimodal.visual_feature_scatter` | 跨batch占位行对应、特征转目标dtype、保留文本行、空视觉输入与非法索引 |
-| OP-06 GDN | `pymodel.ref.gdn.gdn_reference`及各阶段函数 | Conv历史、beta/g、L2Norm、recurrent/chunk、gated Norm和带状态计算图；目标FP8投影参考仍待接入 |
+| OP-06 GDN | `pymodel.ref.gdn.gdn_reference`及各阶段函数，`pymodel.ref.fp8` | Conv历史、beta/g、L2Norm、recurrent/chunk、gated Norm；完整图接入v0 FP8投影参考 |
 
 `golden_ready`表示对应BF16算子reference已通过当前PyTorch检查；完整模型权重、PTO后端、模型级结果分别登记。OP-06保持`in_progress`，已就绪部分与投影依赖分别记录。
 
@@ -46,13 +46,13 @@ state_out = result["state_out"]   # [B,H,K,V]，FP32
 
 `gdn_conv`接收qkv `[B,S,C]`，返回`out`与`conv_history_out`；逻辑历史为 `[B,K-1,C]`，按最旧到最新排列，保存SiLU之前的原始投影结果。模型中K=4、C=8192。输入history和FP32 State均不原地修改。
 
-完整图`gdn_reference`通过`GDNProjections`显式接收qkv、z、a、b与out五个独立参考投影。qkv/z/out的目标是FP8权重加动态激活量化，a/b为BF16。当前完整图对照用BF16 Linear fixture，验证head对应、Conv、门控、状态和Norm的连接；该用例描述为BF16投影功能路径，目标FP8 profile待公共投影参考接入。
+完整图`gdn_reference`通过`GDNProjections`显式接收qkv、z、a、b与out五个独立参考投影。`pymodel.ref.fp8`提供v0动态激活量化与分块Linear，qkv/z/out使用FP8权重及checkpoint scale，a/b使用BF16。原生GDN用例通过这些独立参考投影比较完整输出与状态；原有BF16 Linear fixture保留为计算图连接测试。
 
 图输出为`out`、`state_out`、`conv_history_out`。Prefill/Decode、分段执行、非零初始State、实际32×128×128 State，以及64 Token chunk的63/64/65/129长度边界已覆盖。
 
 ## IF-04输入约定
 
-Processor提供Patch序列和`grid_thw[M,3]`，其中每行为一个图像/视频的时间、高、宽方向Patch数量。`vision_position_interpolation`根据该网格生成位置插值所需的两个张量：
+OP-08 接收像素张量，返回按空间 Merge 组排列的 Token 和 `grid_thw[M,3]`，其中每行为一个图像/视频卷积输出的时间、高、宽方向 Patch 数量。不同尺寸媒体分别执行后，Token 和网格按同一媒体顺序拼接。`vision_position_interpolation`根据该网格生成位置插值所需的两个张量：
 
 ```python
 import torch
