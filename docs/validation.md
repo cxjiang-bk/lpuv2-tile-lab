@@ -42,7 +42,7 @@ python -m pip install -e '.[dev]'
 python -m pytest tests/framework -q
 ```
 
-当前框架测试覆盖比较器、用例配置、输入/状态隔离和复现产物；其中的小型回调统一标记为 `framework_fixture`。A组reference检查位于 `tests/operators/`，使用 `pytorch_reference_check` 等明确的PyTorch路径，覆盖范围见 [A组reference说明](reference-a.md)。PTO后端编译及结果比较随kernel实现接入。
+当前框架测试覆盖比较器、用例配置、输入/状态隔离和复现产物；其中的小型回调统一标记为 `framework_fixture`。A组reference检查位于 `tests/operators/`，使用 `pytorch_reference_check` 等明确的PyTorch路径，覆盖范围见 [A组reference说明](reference-a.md)。A 的实际 PTO C++ 编译/仿真证据见 [运行说明](pypto-a1.md)。B 的独立reference在 `tests/reference/`，Tile和最小MTP检查在 `tests/kernels/`、`tests/models/`，实际后端为 `pypto_torch_codegen` / `pypto_torch_codegen_adapted`，见[实现汇总](golden-stage3-step9-summary.md)。
 
 ## 公共入口与原pymodel的对应关系
 

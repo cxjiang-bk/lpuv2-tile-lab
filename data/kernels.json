@@ -22,11 +22,12 @@
         "gather"
       ],
       "scenarios": "文本Prefill / Decode；MTP复用",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_embedding_tile.py",
+        "docs/golden-stage3-step2-embedding.md"
+      ]
     },
     {
       "id": "K-08",
@@ -352,11 +353,12 @@
         "rmsnorm"
       ],
       "scenarios": "Decoder、Q/K、Final Norm和MTP的对应调用点",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_rmsnorm_tile.py",
+        "docs/golden-stage3-step3-rmsnorm.md"
+      ]
     },
     {
       "id": "K-06",
@@ -433,11 +435,12 @@
         "decode"
       ],
       "scenarios": "文本因果Full Attention；历史KV与GQA",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_attention_tile.py",
+        "docs/golden-stage3-step6-attention.md"
+      ]
     },
     {
       "id": "K-07",
@@ -459,11 +462,12 @@
         "expert_bucketed"
       ],
       "scenarios": "文本Prefill / Decode；空专家与动态Ne",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_moe_tile.py",
+        "docs/golden-stage3-step7-moe.md"
+      ]
     },
     {
       "id": "K-14",
@@ -482,11 +486,12 @@
         "selected_positions"
       ],
       "scenarios": "Prefill / Decode；MTP输出头复用",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_output_tile.py",
+        "docs/golden-stage3-step5-output-mtp.md"
+      ]
     },
     {
       "id": "K-15",
@@ -505,11 +510,12 @@
         "feature_concat"
       ],
       "scenarios": "MTP的两路已归一化特征",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_output_tile.py",
+        "docs/golden-stage3-step5-output-mtp.md"
+      ]
     },
     {
       "id": "K-16",
@@ -528,11 +534,12 @@
         "input_projection"
       ],
       "scenarios": "MTP输入；两路Norm与Concat由对应OP组合",
-      "implementation_status": "planned",
-      "validation_status": "planned",
-      "validation_evidence": [],
-      "python_implementation_status": "planned",
-      "python_validation_status": "planned"
+      "implementation_status": "implemented",
+      "validation_status": "python_cpu_functional",
+      "validation_evidence": [
+        "tests/kernels/test_output_tile.py",
+        "docs/golden-stage3-step5-output-mtp.md"
+      ]
     }
   ],
   "python_status_document": "docs/pypto-a1.md"

@@ -39,5 +39,15 @@
       "torch": "2.10.0"
     },
     "patches": []
+  },
+  "pypto_torch_codegen": {
+    "url": "https://github.com/hw-native-sys/pypto.git",
+    "commit": "1e1236c187b4d4b971a9f8a4e196aeae349e60df",
+    "source_branch": "integration-pinned",
+    "path": "external toolchain; see pypto",
+    "backend": "pypto_torch_codegen_adapted",
+    "scope": "B-route CPU Torch generation; independent of the native PTO C++ toolchain",
+    "original_b_route_commit": "7302cd7ffeb552b3bec7c0e5bd92f164ba9fbd4b",
+    "integration_status": "143 B-route reference/Tile/MTP tests passed with the native toolchain frontend commit"
   }
 }

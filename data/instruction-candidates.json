@@ -1,0 +1,477 @@
+{
+  "schema_version": 1,
+  "version": "v0.7",
+  "updated_on": "2026-11-12",
+  "status": "candidate",
+  "model": "Qwen3.6-35B-A3B-FP8",
+  "counts": {
+    "base_candidates": 31,
+    "fusion_specialized_candidates": 17,
+    "operators": 16,
+    "nvfp4_extension_candidates": 1
+  },
+  "evidence": {
+    "A": "hw_pto_cpp_sim; data/native-validation-summary.json",
+    "B": "pypto_torch_codegen/pypto_torch_codegen_adapted; docs/golden-stage3-step9-summary.md"
+  },
+  "groups": [
+    {
+      "id": "memory_layout",
+      "rows": [
+        {
+          "name": "LOAD",
+          "semantics": "MemRef, offset, valid → Tile；按shape/stride读取有效窗口，尾部填充值明确",
+          "constraints": "BF16、FP32、FP8 payload、INT32/INT64及Mask；支持Tile窗口和标量索引读取，明确stride、有效域与尾块填充值。",
+          "usage": "全部OP；Embedding ID、LM Head选行、KV位置、专家桶offset/Token/slot；TLOAD及标量读取组合。FP8字节读入与算术分别验收"
+        },
+        {
+          "name": "STORE",
+          "semantics": "Tile, MemRef, offset, valid → 更新窗口；有效区域外保留原值",
+          "constraints": "与LOAD对应；支持Tile窗口和标量元数据写回；只更新有效区域，其他行/列保持原值。",
+          "usage": "全部OP；主结果、KV、GDN/Conv状态及路由元数据；TSTORE及标量写入组合"
+        },
+        {
+          "name": "COPY",
+          "semantics": "src → dst；数值和dtype不变，结果有独立存储语义",
+          "constraints": "BF16/FP32及索引数据；要求精确复制",
+          "usage": "OP-05复制历史KV/位置，OP-06状态/Conv历史，OP-13保留文本行；LOAD/STORE组合"
+        },
+        {
+          "name": "EXTRACT",
+          "semantics": "src Tile, offset, shape/valid → dst Tile；复制源Tile中的指定子窗口",
+          "constraints": "保持dtype与元素位模式；源保持不变，目的具有独立存储语义；窗口受源有效域约束",
+          "usage": "OP-05/06/09的Q/K/V、head、Token片段；OP-07专家权重/scale窗口；OP-14指定hidden行；PTO TEXTRACT。逻辑view可由寻址消除复制"
+        },
+        {
+          "name": "INSERT",
+          "semantics": "dst Tile, src Tile, offset, valid → 更新后的dst；将源有效区域写入目标窗口",
+          "constraints": "同dtype精确写入，目标窗口外保持原值，源保持不变；窗口须落在目标允许写入的有效域内",
+          "usage": "OP-05追加KV及组装context，OP-06组装head/chunk，OP-15按列拼接；PTO TINSERT或偏移STORE组合"
+        },
+        {
+          "name": "FILL",
+          "semantics": "Scalar<T>, shape → Tile<T>；支持0及归约所需的填充值",
+          "constraints": "BF16/FP32/整数；支持0及模型指定mask填充值，包含BF16最小有限值或FP32 -inf；无效lane按归约规则填充。",
+          "usage": "Norm/Softmax/量化尾块、矩阵累加器、零状态、MoE合并结果；TEXPANDS/TFILLPAD组合"
+        },
+        {
+          "name": "TRANSPOSE",
+          "semantics": "Tile, axes/layout → Tile；保持逻辑元素映射",
+          "constraints": "BF16/FP32；Attention的head/sequence重排和矩阵操作数准备",
+          "usage": "OP-05/09的QK和PV、GQA/head/sequence布局及矩阵操作数准备；TTRANS。可用view/访问模式消除实际搬运"
+        }
+      ]
+    },
+    {
+      "id": "elementwise_reduction",
+      "rows": [
+        {
+          "name": "ADD",
+          "semantics": "dst = a + b",
+          "constraints": "BF16/FP32；Tile-Tile及Tile-Scalar形式，允许规定轴的广播",
+          "usage": "Residual、LayerNorm/RMSNorm、bias、RoPE、Conv、GDN State和MoE逐贡献合并；TADD/TADDS"
+        },
+        {
+          "name": "SUB",
+          "semantics": "dst = a - b",
+          "constraints": "FP32；支持Tile-Tile/Tile-Scalar；0-x表达取负。",
+          "usage": "中心化、Softmax、GDN delta、插值坐标；TSUB/TSUBS"
+        },
+        {
+          "name": "MUL",
+          "semantics": "dst = a * b",
+          "constraints": "BF16/FP32；支持标量、行/列向量广播；BF16边界保留",
+          "usage": "全部Norm、路由权重、门控、量化scale、RoPE/插值及GDN State；TMUL/TMULS"
+        },
+        {
+          "name": "DIV",
+          "semantics": "dst = a / b",
+          "constraints": "FP32为主；支持常量除法。reciprocal+mul实现按数值标准验收",
+          "usage": "Norm、Softmax、Top-8权重再归一化、Sigmoid/SiLU、K128 scale；TDIV/TDIVS"
+        },
+        {
+          "name": "ABS",
+          "semantics": "dst = abs(a)",
+          "constraints": "FP32；量化amax和插值距离",
+          "usage": "OP-05/06/07的量化amax，OP-11插值；TABS"
+        },
+        {
+          "name": "MIN/MAX",
+          "semantics": "逐元素/标量min/max",
+          "constraints": "FP32和索引整数；两个操作可用模式区分",
+          "usage": "Softmax跨Tile最大值、量化clamp、插值边界及动态尾块；TMIN/TMAX和标量形式"
+        },
+        {
+          "name": "CMP",
+          "semantics": "Mask = compare(a,b,relation)",
+          "constraints": "FP32分数及INT32/INT64索引/计数按调用点支持；至少==、<、>=、>；支持Tile/标量比较，整数比较保持精确。",
+          "usage": "MoE稳定Top-8、专家匹配与空桶分支；Attention位置mask；全零量化组、Softplus/GELU分支；TCMP/TCMPS或标量控制组合"
+        },
+        {
+          "name": "SELECT",
+          "semantics": "dst = where(mask,a,b)",
+          "constraints": "BF16/FP32；Mask广播；只选择结果不改变输入",
+          "usage": "Attention/padding mask、Top-K已选屏蔽、全零scale、Softplus/GELU；TSEL/TSELS或分支组合"
+        },
+        {
+          "name": "REDUCE_SUM",
+          "semantics": "沿指定逻辑轴求和",
+          "constraints": "FP32累加；行/列归约，保留或恢复轴；仅统计有效元素",
+          "usage": "LayerNorm/RMSNorm、Q/K L2Norm、Softmax、Top-8权重归一化、插值与State矩阵向量乘；TROWSUM/TCOLSUM"
+        },
+        {
+          "name": "REDUCE_MAX",
+          "semantics": "沿指定逻辑轴求最大值",
+          "constraints": "FP32；amax由ABS+REDUCE_MAX组合；无效元素不改变结果",
+          "usage": "OP-05/09 Softmax、OP-07 Router Softmax、所有FP8 Linear动态量化；TROWMAX等"
+        },
+        {
+          "name": "BROADCAST",
+          "semantics": "将标量、行/列向量沿指定轴复用",
+          "constraints": "保留源窗口offset及Token/head对应关系；不要求显式物化整块副本",
+          "usage": "Norm系数、bias、activation/weight scale、路由权重、beta/decay、cos/sin；TROWEXPAND*/TCOLEXPAND*或广播算术"
+        }
+      ]
+    },
+    {
+      "id": "matrix_conversion_nonlinear",
+      "rows": [
+        {
+          "name": "MMA_BF16",
+          "semantics": "A[M,K], B[K,N], acc32 → acc32 + A@B",
+          "constraints": "BF16矩阵操作数，FP32累加器及部分和；支持分K累加、M=1和有效尾块；结果转BF16时由CVT规定舍入。",
+          "usage": "Vision投影/Attention、GDN a/b，OP-05 QK/PV，MoE Router/shared门控，LM Head及MTP输入投影；TMATMUL/TMATMUL_ACC；M=1可用TGEMV"
+        },
+        {
+          "name": "MMA_FP8",
+          "semantics": "FP8 E4M3FN操作数的矩阵点积，产生FP32结果/部分和",
+          "constraints": "FP8 E4M3FN操作数、FP32累加；activation scale为FP32/K128，weight scale对应128×128 block、BF16存储后转FP32（也支持独立FP32 scale用例）；各K组先应用scale再合并。",
+          "usage": "OP-05 Q/gate、K、V、out；OP-06 qkv/z/out；OP-07 routed/shared专家Gate/Up/Down。A用BF16精确承载FP8，B用CPU生成路径；直接FP8硬件指令单独验收"
+        },
+        {
+          "name": "MMA_NVFP4",
+          "semantics": "A4[M,K], B4[K,N], sA, sB, gA, gB, acc32 → acc32 + Â@B̂；Â=A4×sA×gA，B̂=B4×sB×gB（scale按块广播）。",
+          "constraints": "4-bit E2M1 payload；采用1D分块：沿K每16个元素共享FP8 E4M3 block scale，每个操作数另有FP32 tensor scale；FP32累加；明确打包顺序、scale布局及K尾块补零。",
+          "usage": "低精度Linear/GEMM扩展；当前Qwen FP8基线无该算子验收。PTO TMATMUL_MX的FP4/E8M0路径可作参考，NVFP4 E4M3/K16及FP32全局scale需独立映射",
+          "format_reference": "https://docs.nvidia.com/deeplearning/transformer-engine/features/low_precision_training/nvfp4/nvfp4.html"
+        },
+        {
+          "name": "CVT",
+          "semantics": "同一逻辑元素的dtype转换",
+          "constraints": "BF16↔FP32、FP32→E4M3FN及INT32/INT64索引转换；明确舍入与饱和规则。FP8采用clamp到[-448,448]后RNE并保留负零；整数缩窄前检查范围。",
+          "usage": "全部投影/Norm/Softmax/门控的BF16↔FP32边界，K128量化、权重scale扩宽、索引位宽转换；TCVT"
+        },
+        {
+          "name": "EXP",
+          "semantics": "dst = exp(x)",
+          "constraints": "FP32输入/输出；允许负输入；明确精度以及溢出、下溢处理。",
+          "usage": "Softmax、Sigmoid/SiLU、GDN decay/Softplus、GELU近似及MRoPE频率生成；TEXP"
+        },
+        {
+          "name": "LOG",
+          "semantics": "dst = log(x)",
+          "constraints": "FP32输入/输出；有效输入x>0；明确精度及非法输入处理。",
+          "usage": "OP-06 Softplus；TLOG"
+        },
+        {
+          "name": "RSQRT",
+          "semantics": "dst = 1/sqrt(x)",
+          "constraints": "FP32输入/输出；有效输入x>0；eps由调用方显式相加；明确计算精度。",
+          "usage": "OP-02普通RMSNorm、OP-03 LayerNorm、OP-05 Q/K Norm、OP-06 L2Norm与gated RMSNorm；TRSQRT"
+        },
+        {
+          "name": "FLOOR",
+          "semantics": "dst = floor(x)",
+          "constraints": "FP32输入/输出；结果为向负无穷取整后的FP32数值，生成整数索引需接CVT；坐标输入要求非负。",
+          "usage": "OP-11插值坐标；该输入域下截断转换也可组成等价结果"
+        },
+        {
+          "name": "SIN/COS",
+          "semantics": "dst=sin(x)或cos(x)，输入角度单位为弧度",
+          "constraints": "FP32输入/输出；在模型要求的边界转BF16；定义范围缩减与计算精度。可用预计算表+Gather提供等价数据。",
+          "usage": "OP-05 Partial MRoPE；B使用pl.sin/pl.cos的CPU生成适配。固定PTO参考目录没有同名独立指令，需组合或扩展"
+        }
+      ]
+    },
+    {
+      "id": "index_indirect",
+      "rows": [
+        {
+          "name": "IOTA",
+          "semantics": "产生逻辑序号start + i*step",
+          "constraints": "INT32/INT64序号Tile；start、step、长度与合法范围明确；索引向量存入Tile/Buffer，消费者接收其引用。",
+          "usage": "OP-11位置/窗口坐标、OP-06因果mask、OP-05 MRoPE频率序号；PTO TCI。静态序列也可由host或编译器准备"
+        },
+        {
+          "name": "GATHER_ROW",
+          "semantics": "table[idx[r], :] → dst[r,:]",
+          "constraints": "idx是Tile/Buffer中的索引向量，由调用方准备或前序kernel生成；指令引用索引对象。BF16/FP32数据、INT32/INT64索引，0≤idx[r]<表行数；保持顺序和元素位模式。",
+          "usage": "OP-01 Embedding、OP-11位置表、OP-14选hidden行、OP-07专家桶收集；当前B用标量read+动态load组合；PTO MGATHER(Row)/TGATHER"
+        },
+        {
+          "name": "SCATTER_ROW",
+          "semantics": "dst[idx[r], :] = src[r,:]",
+          "constraints": "数据为BF16/FP32，索引为INT32/INT64；索引唯一且在合法行范围内；同dtype覆盖写入，未选中行保持原值；源行与索引逐项对应。",
+          "usage": "OP-13视觉特征覆盖写入、OP-05按唯一位置追加KV、OP-15按偏移组装；PTO MSCATTER(Row,None)/TSCATTER。重复Token累加见SCATTER_ADD_ROW"
+        },
+        {
+          "name": "GATHER_ELEM",
+          "semantics": "src_flat[idx[r,c]] → dst[r,c]；每个输出元素独立索引",
+          "constraints": "BF16/FP32数据、INT32/INT64索引Tile；0≤idx<源元素数；重复索引合法，保持元素位模式及输出顺序。",
+          "usage": "OP-08原始像素三维im2col窗口；当前A以FP32暂存和pl.tile.mgather(coalesce=\"elem\")实现；PTO MGATHER(Elem)"
+        }
+      ]
+    },
+    {
+      "id": "fusion_specialized",
+      "rows": [
+        {
+          "name": "DYN_QUANT_K128",
+          "semantics": "BF16 x[M,K] → E4M3FN payload[M,K]与FP32 scale[M,ceil(K/128)]",
+          "constraints": "每Token/K128组amax；scale=amax/448，全零组取1；clamp后RNE并保留负零；尾组只计有效元素，padding为0。",
+          "usage": "OP-05/06/07所有FP8 Linear；ABS+REDUCE_MAX+DIV+CVT组合"
+        },
+        {
+          "name": "SCALED_MMA_FP8",
+          "semantics": "FP8点积 → 两种scale乘法 → FP32跨K组累加",
+          "constraints": "activation scale为FP32/K128；weight scale按128×128 block读取并转FP32。每K组先乘两种scale，再FP32累加，最后按模型边界转BF16。",
+          "usage": "OP-05/06/07投影；MMA_FP8+广播MUL+ADD+CVT组合"
+        },
+        {
+          "name": "NORM",
+          "semantics": "LayerNorm、L2Norm和RMSNorm的归约、归一化与仿射",
+          "constraints": "FP32归约与归一化；明确eps、有效维数、gamma或1+weight解释；保留GDN gated Norm等路径的中间BF16转换。",
+          "usage": "OP-02/03/05/06/12及MTP；REDUCE_SUM/MUL/ADD/RSQRT/CVT组合"
+        },
+        {
+          "name": "SOFTMAX",
+          "semantics": "max → 减法 → exp → sum → 除法",
+          "constraints": "FP32计算，支持跨Tile合并max和sum；Router保留FP32概率，Attention按模型转BF16；片段/有效长度和mask填充值明确。",
+          "usage": "OP-05 Full Attention、OP-09 Vision Attention、OP-07 Router；REDUCE_MAX/SUB/EXP/REDUCE_SUM/DIV组合"
+        },
+        {
+          "name": "GELU",
+          "semantics": "GELU(tanh)或GELU(erf)",
+          "constraints": "两种数学定义分别保留，转换位置与模型一致",
+          "usage": "OP-10 Vision Dense FFN、OP-12 Merger；基础算术/EXP组合或专用近似"
+        },
+        {
+          "name": "IMG2COL_3D",
+          "semantics": "三维像素窗口 → [M,C*Kt*Kh*Kw]",
+          "constraints": "明确窗口、stride、时间/空间轴及输出顺序",
+          "usage": "OP-08 Patch Embedding；GATHER_ELEM+坐标/寻址组合；PTO TIMG2COL的布局和时间轴映射独立评估"
+        },
+        {
+          "name": "CAUSAL_DWCONV1D",
+          "semantics": "历史窗口逐tap乘加 → BF16 → SiLU",
+          "constraints": "FP32累加；历史保存卷积前数据并按Token顺序更新",
+          "usage": "OP-06 GDN causal Conv；LOAD/MUL/ADD/CVT及SiLU组合"
+        },
+        {
+          "name": "FP32_GEMV_OUTER",
+          "semantics": "Stateᵀ×key及key⊗delta",
+          "constraints": "矩阵向量乘与外积保持FP32",
+          "usage": "OP-06 GDN recurrent/chunk；FP32 MUL+REDUCE_SUM/广播组合"
+        },
+        {
+          "name": "DELTA_STATE_UPDATE",
+          "semantics": "衰减 → prediction → delta → 外积更新 → 读出",
+          "constraints": "State保持FP32，Token依赖顺序与状态提交边界明确",
+          "usage": "OP-06 GDN recurrent及状态交接；EXP/MUL/REDUCE_SUM/ADD组合"
+        },
+        {
+          "name": "PREFIX_SUM",
+          "semantics": "沿指定轴产生包含式前缀和，或以mode指定不含当前项的前缀偏移",
+          "constraints": "GDN为FP32且每chunk重新起算；专家计数/偏移为精确INT32/INT64，空桶允许，检查总数和位宽。",
+          "usage": "OP-06 chunk gate前缀和；OP-07桶offset可由计数+整数scan构造，当前B以有序扫描写offset"
+        },
+        {
+          "name": "TRIANGULAR_MASK",
+          "semantics": "按j≤i/j<i，或key_pos[j]≤query_pos[i]产生Mask",
+          "constraints": "INT32/INT64位置比较精确；明确对角线、历史KV偏移和padding有效域；Mask由SELECT写入模型规定填充值。",
+          "usage": "OP-06 chunk因果系数，OP-05 Full Attention含历史KV的因果mask；IOTA/CMP/SELECT或标量控制组合"
+        },
+        {
+          "name": "TRIANGULAR_SOLVE",
+          "semantics": "解(I+strict_lower(A))X=RHS",
+          "constraints": "FP32前代求解；单位对角线；忽略上三角",
+          "usage": "OP-06 GDN chunk；FP32前代MUL/REDUCE_SUM/SUB组合"
+        },
+        {
+          "name": "TOPK",
+          "semantics": "scores[M,E],k → values[M,k],expert_id[M,k]，按分数降序选择",
+          "constraints": "分数FP32；模型E=256、k=8；同分专家ID小者优先，ID不重复且在合法范围。values和ID分开输出；权重再归一化由REDUCE_SUM/DIV/CVT完成。",
+          "usage": "OP-07 MoE路由；B以严格比较+升序扫描+已选屏蔽实现；可评估PTO TSORT32/TMRGSORT组合或专用Top-K"
+        },
+        {
+          "name": "EXPERT_BUCKET",
+          "semantics": "expert_id[M,k] → offset[E+1],token_id[M*k],slot[M*k]，按expert分桶",
+          "constraints": "INT32/INT64元数据；offset单调、首项0、末项M*k；同专家内按Token再slot顺序，允许空桶；Token/slot/route weight及量化payload/scale关联保留。",
+          "usage": "OP-07 MoE Dispatch；B用标量比较/计数/写入，候选组合为计数+PREFIX_SUM+Gather/Scatter"
+        },
+        {
+          "name": "SCATTER_ADD_ROW",
+          "semantics": "按输入顺序执行dst[idx[r],:]+=src[r,:]，允许重复目标行",
+          "constraints": "BF16/FP32；保持每次加法的模型精度边界。当前MoE按专家/桶顺序串行读-加-写；并发实现需另定冲突顺序和原子语义。路由权重乘法先独立执行。",
+          "usage": "OP-07专家结果回到原Token；动态LOAD+ADD+STORE组合。当前结果不作为硬件atomic验收"
+        },
+        {
+          "name": "SIGMOID/SILU",
+          "semantics": "sigmoid(x)=1/(1+exp(-x))；silu(x)=x*sigmoid(x)",
+          "constraints": "FP32内部计算；输入/输出及中间BF16舍入位置按调用路径保留；GDN gate、MoE专家和shared标量门控分别定义。",
+          "usage": "OP-05输出gate、OP-06 beta/Conv/gated Norm、OP-07 SwiGLU/shared gate；EXP/ADD/DIV/MUL/CVT组合"
+        },
+        {
+          "name": "ROPE",
+          "semantics": "a′=a*cos-b*sin；b′=b*cos+a*sin；其余维度原样保留",
+          "constraints": "OP-05 Partial MRoPE固定256维head中前64维旋转、两半32维配对，THW交错频率及位置来源明确；BF16乘加边界保留。Vision使用自己的cos/sin和旋转范围。",
+          "usage": "OP-05 Partial MRoPE、OP-09 Vision RoPE；SIN/COS或查表+EXTRACT/MUL/ADD/INSERT组合"
+        }
+      ]
+    }
+  ],
+  "operator_coverage": {
+    "OP-01": [
+      "LOAD",
+      "STORE",
+      "GATHER_ROW"
+    ],
+    "OP-02": [
+      "NORM",
+      "REDUCE_SUM",
+      "RSQRT",
+      "BROADCAST",
+      "CVT"
+    ],
+    "OP-03": [
+      "NORM",
+      "SUB",
+      "REDUCE_SUM",
+      "RSQRT",
+      "CVT"
+    ],
+    "OP-04": [
+      "ADD",
+      "LOAD",
+      "STORE"
+    ],
+    "OP-05": [
+      "MMA_FP8",
+      "MMA_BF16",
+      "DYN_QUANT_K128",
+      "SCALED_MMA_FP8",
+      "NORM",
+      "ROPE",
+      "SIN/COS",
+      "SOFTMAX",
+      "TRIANGULAR_MASK",
+      "SIGMOID/SILU",
+      "COPY",
+      "INSERT"
+    ],
+    "OP-06": [
+      "MMA_FP8",
+      "DYN_QUANT_K128",
+      "SCALED_MMA_FP8",
+      "CAUSAL_DWCONV1D",
+      "DELTA_STATE_UPDATE",
+      "FP32_GEMV_OUTER",
+      "PREFIX_SUM",
+      "TRIANGULAR_MASK",
+      "TRIANGULAR_SOLVE",
+      "NORM"
+    ],
+    "OP-07": [
+      "MMA_BF16",
+      "MMA_FP8",
+      "DYN_QUANT_K128",
+      "SOFTMAX",
+      "TOPK",
+      "EXPERT_BUCKET",
+      "GATHER_ROW",
+      "SCATTER_ADD_ROW",
+      "SIGMOID/SILU"
+    ],
+    "OP-08": [
+      "IMG2COL_3D",
+      "GATHER_ELEM",
+      "IOTA",
+      "MMA_BF16",
+      "ADD",
+      "CVT"
+    ],
+    "OP-09": [
+      "MMA_BF16",
+      "ROPE",
+      "SOFTMAX",
+      "EXTRACT",
+      "INSERT",
+      "TRANSPOSE"
+    ],
+    "OP-10": [
+      "MMA_BF16",
+      "GELU",
+      "CVT"
+    ],
+    "OP-11": [
+      "IOTA",
+      "FLOOR",
+      "GATHER_ROW",
+      "BROADCAST",
+      "MUL",
+      "ADD",
+      "CVT"
+    ],
+    "OP-12": [
+      "NORM",
+      "MMA_BF16",
+      "GELU"
+    ],
+    "OP-13": [
+      "COPY",
+      "SCATTER_ROW"
+    ],
+    "OP-14": [
+      "GATHER_ROW",
+      "MMA_BF16",
+      "LOAD",
+      "STORE"
+    ],
+    "OP-15": [
+      "LOAD",
+      "STORE",
+      "INSERT"
+    ],
+    "OP-16": [
+      "MMA_BF16",
+      "CVT"
+    ]
+  },
+  "source_sha256": {
+    "kernels/pto/attention/full_attention.py": "b70d204c8591d2f0a9bc3df65e10949a63a49ae5fecbdf78c3d3efe49dae3143",
+    "kernels/pto/common/activations.py": "d6aab213e3bfdc4f71be911963fbde502f651edb2d52e0518498562544542485",
+    "kernels/pto/common/embedding.py": "91b518509521ada58e9f527262bc0eae48d151f6bed579c588f3c4c21ec11ec7",
+    "kernels/pto/common/linear.py": "cbcb61119c6ab2ef34751204b2d30823f18ffc83be86102c54d49b893b6981a2",
+    "kernels/pto/common/quantization.py": "e28e589a17fc3ce3d0df7020d0317210dfe54427b957831fdbced80c5e185472",
+    "kernels/pto/common/rmsnorm.py": "10ed04e98cde6423ac0cd845d3c39bf1513cadf6d03c77a585c1278773b9f648",
+    "kernels/pto/common/softmax.py": "6bc5e69ede35e8d22ec14550f9a3d5a67b58f5356fec61f60b30ef0e957fa1af",
+    "kernels/pto/common/tile_add.py": "43ec4300650efc0f53d9df477995d4e54632e3a4b050de7cea3da64bb57d18c9",
+    "kernels/pto/moe/moe.py": "c07c8ba4a7ba4c930dddaf4d75856fac3c906d8d928b05264f7561180d259c4a",
+    "kernels/pto/mtp/input.py": "22f548b10c02bb5170b7c4fe023299b568961f58d43a3fd8355182156ab6f193",
+    "kernels/pto/output/lm_head.py": "52b6595d388e33a2473af52a3e711313fd77ff9ccfb5a2ce512aa633dcb1b4da",
+    "kernels/pypto/__init__.py": "87bdf44b7c38dfd7bd597d74fff7357bab9736d3f8d8be83958de89dd4d84e82",
+    "kernels/pypto/common.py": "48d58bc5f815ef9954a314f7e72f6314aea39242a799a5191183895a831ff100",
+    "kernels/pypto/fp8.py": "3d66317d5c4acbcf4aa409a965732b1e78d994d1157516a34e0a5d55663b0301",
+    "kernels/pypto/gdn.py": "50c60e1e1c5777a9996f2a17687faef8d1f1ecc3664ba6af60746d6915bd31de",
+    "kernels/pypto/vision_ops.py": "d6655028a3b26b8f43cd7150a14a3bc9627f4ea3061d738ca112e8e10efbbcfe",
+    "pymodel/models/qwen36/mtp_tile.py": "bca4a13552bece71d3d4dde3905c610cd34467546cdbdacf2fa2b05ce0eca48b"
+  },
+  "excluded_candidates": [
+    {
+      "name": "INDEX_ALU",
+      "status": "struck_out_in_review",
+      "reason": "保留飞书原划除状态和评论；整数循环、比较及地址计算按控制/寻址能力定义，不单列向量指令。"
+    }
+  ],
+  "scope": "模型功能候选；操作数、Tile寄存器、Buffer、同步及编码在LPUv2架构映射时确定。MMA_NVFP4为扩展候选。"
+}

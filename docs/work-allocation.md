@@ -2,28 +2,28 @@
 
 A主责GDN与视觉分支，B主责Full Attention、MoE、输入输出及MTP。当前按一个OP对应一个逻辑kernel登记：A为9条OP/9个kernel，B为7条OP/7个kernel。工作量按复合算子的计算、状态与验证复杂度评估，编号数不直接代表工作量。
 
-A由jcx认领，使用 `operator_dev_jcx` 分支；B的具体认领与分支记录在任务或PR中。下表记录主线进度，分支上的实现通过相应检查、合入后再更新主线登记。
+A由jcx认领，使用 `operator_dev_jcx`；B由Starset-Zheng认领，使用 `operator_dev_zhengtk`。下表记录合入后的功能验证路径。
 
-A已由jcx认领，工作分支为 `operator_dev_jcx`。下表记录reference进度；PTO实现和模型验证独立登记。接口和验证范围见 [A组reference说明](reference-a.md)。
+A的接口见[reference说明](reference-a.md)，原生仿真范围见[实现说明](pypto-a1.md)；B的范围见[实现汇总](golden-stage3-step9-summary.md)。完整模型验证独立登记。
 
 | 主责 | OP | 算子 | 当前状态 |
 | --- | --- | --- | --- |
-| B | OP-01 | Token Embedding | planned |
-| A | OP-08 | Vision Patch Embedding | golden_ready |
-| A | OP-11 | 视觉位置嵌入 | golden_ready |
-| A | OP-03 | LayerNorm | golden_ready |
-| A | OP-09 | Vision Attention | golden_ready |
-| A | OP-04 | Residual Add | golden_ready |
-| A | OP-10 | Dense FFN（GELU MLP） | golden_ready |
-| A | OP-12 | Spatial Merger / Projector | golden_ready |
-| A | OP-13 | Visual Feature Scatter | golden_ready |
-| B | OP-02 | RMSNorm | planned |
-| A | OP-06 | Gated DeltaNet 线性注意力 | golden_ready：FP8投影reference、核心与状态已接通 |
-| B | OP-05 | Full Attention | planned |
-| B | OP-07 | MoE FFN | planned |
-| B | OP-14 | LM Head | planned |
-| B | OP-15 | Feature Concat | planned |
-| B | OP-16 | MTP 输入投影 | planned |
+| B | OP-01 | Token Embedding | Python Tile功能验证通过 |
+| A | OP-08 | Vision Patch Embedding | 原生PTO C++功能仿真通过 |
+| A | OP-11 | 视觉位置嵌入 | 原生PTO C++功能仿真通过 |
+| A | OP-03 | LayerNorm | 原生PTO C++功能仿真通过 |
+| A | OP-09 | Vision Attention | 原生PTO C++功能仿真通过 |
+| A | OP-04 | Residual Add | 原生PTO C++功能仿真通过 |
+| A | OP-10 | Dense FFN（GELU MLP） | 原生PTO C++功能仿真通过 |
+| A | OP-12 | Spatial Merger / Projector | 原生PTO C++功能仿真通过 |
+| A | OP-13 | Visual Feature Scatter | 原生PTO C++功能仿真通过 |
+| B | OP-02 | RMSNorm | Python Tile功能验证通过 |
+| A | OP-06 | Gated DeltaNet 线性注意力 | 原生PTO C++功能仿真通过 |
+| B | OP-05 | Full Attention | Python Tile功能验证通过 |
+| B | OP-07 | MoE FFN | Python Tile功能验证通过 |
+| B | OP-14 | LM Head | Python Tile功能验证通过 |
+| B | OP-15 | Feature Concat | Python Tile功能验证通过 |
+| B | OP-16 | MTP 输入投影 | Python Tile功能验证通过 |
 
 ## 公共接口与集成
 
