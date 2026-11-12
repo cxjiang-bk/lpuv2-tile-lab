@@ -14,4 +14,8 @@
 
 原生 PTO C++ 仿真 通过结果对应具体输入与数值规则，不表示 NPU、LPU 或完整模型通过。逐项记录见 [native-validation-summary.json](native-validation-summary.json)，候选需求见 [a-instruction-candidates.json](a-instruction-candidates.json)。
 
-指令候选清单使用schema v2：`candidates`保留16类需求索引，`basic_instruction_candidates`、`fusion_candidates`和`programming_model_requirements`分别登记29项基础功能、12项融合项（含三维窗口展开）和6项编程模型约定。`source_index`对应kernel文件与符号；`supporting_case_operator_ids`表示有相关算子用例，不能推导为候选指令的独立一致性测试已通过。`acceptance_to_add`记录后续指令模型需要补的定向验收，FP8直接指令与carrier数值路径分别标记。
+A组历史候选清单 `a-instruction-candidates.json` 使用schema v2：`candidates`保留16类需求索引，`basic_instruction_candidates`、`fusion_candidates`和`programming_model_requirements`分别登记29项基础功能、12项融合项（含三维窗口展开）和6项编程模型约定。`source_index`对应kernel文件与符号；`supporting_case_operator_ids`表示有相关算子用例，不能推导为候选指令的独立一致性测试已通过。`acceptance_to_add`记录后续指令模型需要补的定向验收，FP8直接指令与carrier数值路径分别标记。
+
+A/B合并后的完整清单为 [instruction-candidates.json](instruction-candidates.json)：31项基础候选、17项融合/专用候选及16条OP覆盖关系；`MMA_NVFP4`为扩展需求，`INDEX_ALU`保留划除评审状态。可读版本见[完整候选清单](../docs/lpuv2-instruction-candidates.md)。
+
+合并回归见 [integration-validation-summary.json](integration-validation-summary.json)：298项通过，A的原生PTO C++和B的CPU Torch生成结果分别记录。原A组逐输出报告继续保留在 `native-validation-summary.json`。

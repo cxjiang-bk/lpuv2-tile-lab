@@ -41,7 +41,7 @@ python -m pymodel.task_gen.validate_a --case 09
 python -m pymodel.task_gen.validate_a
 ```
 
-kernel 采用 `hw-native-sys/pypto` 的 Tensor/Tile 接口，经 PTOAS 生成 C++，由 GCC 编译并在 simpler `a2a3sim` 中执行，后端标记 `hw_pto_cpp_sim`。GDN 保留 K128 量化与 BF16 精确承载 FP8 数值。未加载工具链环境时 kernel pytest 明确跳过；116项框架/reference检查可独立运行。
+kernel 采用 `hw-native-sys/pypto` 的 Tensor/Tile 接口，经 PTOAS 生成 C++，由 GCC 编译并在 simpler `a2a3sim` 中执行，后端标记 `hw_pto_cpp_sim`。GDN 保留 K128 量化与 BF16 精确承载 FP8 数值。未加载工具链环境时 kernel pytest 明确跳过；226项框架/reference检查可独立运行。
 
 PTO固定在 `90a3796597a5fabc2ce5066e73f785c2e85822f7`，来源为公开 [hw-native-sys/pto-isa](https://github.com/hw-native-sys/pto-isa)。当前PTO目录覆盖139个core参考条目（136个core公开API名）及12个通信接口。语义变体、兼容名和命名空间重名在目录中分别记录。
 
